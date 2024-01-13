@@ -5,21 +5,21 @@ import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 export default function Navbar() {
     return (
-        <div className='navbar-container  w-10/12 flex items-center justify-between mx-auto'>
+        <div className='navbar-container w-full px-5 h-[80px]  flex items-center justify-between  bg-white'>
             <Link to='/'>
-                <div className='logo flex items-center cursor-pointer'>
+                <div className='logo flex items-center cursor-pointer h-fit'>
                     <img
                         src="https://static.vecteezy.com/system/resources/previews/017/128/657/non_2x/little-boy-kid-reading-book-logo-icon-in-flat-design-vector.jpg"
                         alt="logo"
-                        className='w-44 h-40' />
+                        className='w-40 h-32' />
                     <p className='text-4xl  text-[#f47830]'>BookRec</p>
                 </div>
             </Link>
             <ul className='nav-bar-items flex items-center gap-8 cursor-pointer'>
-                <li className='hover:text-[#f47830]'>Trang chủ</li>
+                <Link to='/' className='hover:text-[#f47830]'>Trang chủ</Link>
                 <li className='hover:text-[#f47830]'>Thể loại</li>
-                <li className='hover:text-[#f47830]'>Nhà sách</li>
-                <li className='hover:text-[#f47830]'>Tác giả</li>
+                <Link to='/collections' className='hover:text-[#f47830]'>Nhà sách</Link>
+                <li className='hover:text-[#f47830]'>Liên Hệ</li>
             </ul>
             <div className="flex items-center gap-8">
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer'>
@@ -28,7 +28,7 @@ export default function Navbar() {
                     </svg>
                     <input className="ml-2 outline-none bg-transparent font-" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
-                <p>Login</p>
+                <Link to='/login' className='hover:text-[#f47830]'>Login</Link>
                 <IconButton aria-label="cart">
                     <Badge badgeContent={4} color="warning">
                         <ShoppingCartOutlinedIcon fontSize='large'/>

@@ -3,6 +3,7 @@ import Navbar from '../../Components/NavBarComponent/Navbar'
 import Slider from '../../Components/SliderComponent/Slider'
 import Introduce from '../../Components/IntroduceComponent/Introduce'
 import Footer from '../../Components/FooterComponent/Footer'
+import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Slider/>
       <Introduce/>
       <Footer/>
+      <GoToTop/>
     </div>
   )
 }
