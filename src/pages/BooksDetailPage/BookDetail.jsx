@@ -9,15 +9,15 @@ export default function BookDetail() {
 
     const breadcrumbs = [
         {
-            path: '/',
+            link: '/',
             label: 'Trang chủ',
         },
         {
-            path: '/collections',
+            link: '/collections',
             label: 'Kệ sách'
         },
         {
-            path: '/collections/:id',
+            link: `/collections/${0}`,
             label: 'Lý thuyết trò chơi'
         }
     ]
@@ -56,7 +56,7 @@ export default function BookDetail() {
                         <p className='opacity-85 my-3'>Tác giả: Trần Phách Hàm</p>
                         <p className='flex items-center'>{RenderStar(5, 'yellow')} (Đánh giá 5 sao)</p>
                         <div className='my-10 gap-2 flex flex-col text-3xl'>
-                            <div className='flex gap-4 py-5'>
+                            <div className='flex gap-4 py-4'>
                                 <p>Loại sách: </p>
                                 <p className=' opacity-70'>Sách tư duy - Kỹ năng sống</p>
                             </div>
@@ -87,8 +87,8 @@ export default function BookDetail() {
                             </div>
                         </div>
                         <div className='flex gap-8 my-10'>
-                            <button className='py-5 border w-[200px] text-white bg-red-400 rounded-lg hover:opacity-80'>Mua ngay</button>
-                            <button className='py-5 border w-[200px] text-[#4e84e7] border-[#4e84e7] rounded-lg hover:opacity-80'>Thêm vào giỏ hàng</button>
+                            <button className='py-4 border w-[200px] text-white bg-red-400 rounded-lg hover:opacity-80'>Mua ngay</button>
+                            <button className='py-4 border w-[200px] text-[#4e84e7] border-[#4e84e7] rounded-lg hover:opacity-80'>Thêm vào giỏ hàng</button>
                         </div>
                     </div>
                     <section className='mx-auto  mt-4 border rounded-xl p-10 bg-[#ffff]'>

@@ -10,11 +10,11 @@ export default function BooksList() {
 
     const breadcrumbs = [
         {
-            path: '/',
+            link: '/',
             label: 'Trang chủ',
         },
         {
-            path: '/collections',
+            link: '/collections',
             label: 'Kệ sách'
         }
     ]
@@ -32,7 +32,7 @@ export default function BooksList() {
         <div className='bg-[#f5f5f5]'>
             <Navbar />
             <Breadcrumbs paths={breadcrumbs}/>
-            <div className='w-[1200px] grid grid-cols-4 m-auto my-5 py-5 '>
+            <div className='w-[1200px] grid grid-cols-4 m-auto my-2 py-5 '>
                 <div className='border col-span-1 px-8 pb-8 mx-4 bg-white h-fit'>
                     <section className=' pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Thể loại</h2>
