@@ -12,14 +12,14 @@ export default function Footer() {
                     <p className='slogan text-white max-w-[60%] '>"Chúng tôi không bán sách, chúng tôi bán kiến thức quản trị vượt trội của các tập đoàn hàng đầu."</p>
                 </div>
                 <div className='flex-1 text-white flex flex-col gap-5 py-5 min-h-[200px]'>
-                    <h2 className='text-4xl font-bold mb-5'>Chính Sách</h2>
-                    <ul className='flex flex-col justify-between gap-5 cursor-pointer'>
+                    <h2 className='text-4xl font-bold mb-4'>Chính Sách</h2>
+                    <ul className='flex flex-col justify-between gap-4 cursor-pointer'>
                         <li className=' hover:text-black'>Chính sách thanh toán</li>
                         <li className=' hover:text-black'>Chính sách bảo mật</li>
                         <li className=' hover:text-black'>Chính sách đổi trả hoàn tiền</li>
                     </ul>
                 </div>
-                <div className='flex-1 text-white flex flex-col gap-5 py-5 min-h-[200px] cursor-pointer'>
+                <div className='flex-1 text-white flex flex-col gap-4 py-4 min-h-[200px] cursor-pointer'>
                     <h2 className='text-4xl font-bold'>Liên Hệ</h2>
                     <p className='flex items-center gap-5 max-w-[60%] hover:text-black'><LocationOnOutlinedIcon fontSize='large'/> Khu II, Đ. 3 Tháng 2, Xuân Khánh, Ninh Kiều, Cần Thơ, Việt Nam</p>
                     <p className='flex items-center gap-5 hover:text-black'><MailOutlineOutlinedIcon fontSize='large'/> tranlamhuy5tn@gmail.com</p>
