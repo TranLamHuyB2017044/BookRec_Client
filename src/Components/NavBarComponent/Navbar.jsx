@@ -5,7 +5,7 @@ import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 export default function Navbar() {
     return (
-        <div className='navbar-container w-full px-5 h-[80px]  flex items-center justify-between  bg-white'>
+        <div className='navbar-container w-full  px-5 h-[80px]  flex items-center justify-around  bg-white'>
             <Link to='/'>
                 <div className='logo flex items-center cursor-pointer h-fit'>
                     <img

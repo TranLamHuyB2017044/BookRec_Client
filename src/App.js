@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFoundPage/NotFound";
 import Login from "./pages/AuthPages/Login";
 import Register from "./pages/AuthPages/Register";
 import BooksList from "./pages/BooksListPage/BooksList";
+import BookDetail from "./pages/BooksDetailPage/BookDetail";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/collections" element={<BooksList />} />
+        <Route path="/collections/:id" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

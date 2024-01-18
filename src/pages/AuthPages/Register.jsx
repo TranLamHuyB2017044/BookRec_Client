@@ -60,9 +60,9 @@ export default function Register() {
               <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" />
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
-            <div className='flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center cursor-pointer'>
-              <button className='font-bold text-white' type='submit' onKeyDown={onRegister}>ĐĂNG KÝ</button>
-            </div>
+
+            <button className='font-bold text-white flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center ' type='submit' onKeyDown={onRegister}>ĐĂNG KÝ</button>
+
           </form>
           <div className='flex items-center justify-center gap-6'>
             <div className='bg-[#ccc] w-40 h-[1px]'></div>

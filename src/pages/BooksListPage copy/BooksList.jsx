@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react'
-import Navbar from '../../Components/NavBarComponent/Navbar'
-import Footer from '../../Components/FooterComponent/Footer'
+import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
+import Footer from '../../Components/FooterComponent/Footer.jsx'
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import {books_data} from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
-import { Link } from 'react-router-dom';
 export default function BooksList() {
 
     const breadcrumbs = [
@@ -129,7 +128,7 @@ export default function BooksList() {
                 </div>
                 <div className=' col-span-3  grid grid-cols-4 grid-rows-4 bg-[#f5f5f5]'>
                   {books_data.map((book, index) => (
-                    <Link to={`/collections/${index}`} key={index} className='w-[200px] mx-2 border h-fit mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500'>
+                    <div key={index} className='w-[200px] mx-2 border h-fit mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500'>
                         <img src={book.url} alt="cover-book" />
                         <p className='text-2xl my-3 px-4'>{book.title}</p>
                         <div>
@@ -140,7 +139,7 @@ export default function BooksList() {
                             <p className='text-5xl'>{book.price}&#8363;</p>
                             <p>-{book.discount}%</p>
                         </div>
-                    </Link>
+                    </div>
                   ))}  
                 </div>
             </div>

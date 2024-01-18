@@ -9,10 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
 export default function Login() {
-  // const[userInfo, setUserInfo] = useState({
-  //   email: '',
-  //   password: ''
-  // })
+
   
   const schema = yup
   .object({
@@ -53,9 +50,9 @@ export default function Login() {
               <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {required:true})} type="password" />
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
-            <div className='flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center cursor-pointer'>
-              <button className='font-bold text-white' type='submit' onKeyDown={onLogin}>ĐĂNG NHẬP</button>
-            </div>
+
+            <button className='flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center cursor-pointer font-bold text-white' type='submit' onKeyDown={onLogin}>ĐĂNG NHẬP</button>
+
           </form>
           <div className='flex items-center justify-center gap-6'>
             <div className='bg-[#ccc] w-40 h-[1px]'></div>
