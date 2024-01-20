@@ -1,22 +1,26 @@
 import React from 'react'
 // import sliderImg from '../../assets/bookStore.jpg'
-import slider1 from '../../assets/slider_1.jpg'
-import slider2 from '../../assets/slider_2.jpg'
-import slider3 from '../../assets/slider_3.jpg'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import {Slide} from 'react-slideshow-image'
+import { books_data } from '../../data.jsx'
+import { Link } from 'react-router-dom';
 
-
-const slideImages = [slider1, slider2, slider3];
 
 export default function BestSeller() {
   return (
-    <div className='max-w-screen'>
-      <Slide duration={8000}>
-        {slideImages.map((slide, index) => (
-            <div key={index}>
-                <img className='flex items-center justify-center bg-cover h-[500px] rounded-xl w-full' src={slide} alt='slider-img'/>
-            </div>
-        ))}
+    <div className='max-w-screen mt-8 bg-[#fff8f2] py-5 h-[500px]'>
+      <h1 className='text-5xl font-bold text-center'>Sách dành cho bạn</h1>
+      <div className='flex items-center justify-center my-5'>
+        <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
+        <AutoStoriesIcon fontSize='large'/>
+        <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
+      </div>
+      <Slide slidesToShow={7} indicators={true}>
+        {books_data.map((slide, index) => (
+            <Link to={`/collections/${index}`} key={index} className='mt-16 '>
+                <img className='w-[200px]  border h-[250px] p-2 mb-4 rounded-md cursor-pointer shadow transform transition-transform duration-300 hover:scale-110 ' src={slide.url} alt='slider-img'/>
+            </Link>
+        )).slice(-12)}
       </Slide>
     </div>
   )

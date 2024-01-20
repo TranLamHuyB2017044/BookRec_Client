@@ -9,6 +9,7 @@ import Login from "./pages/AuthPages/Login";
 import Register from "./pages/AuthPages/Register";
 import BooksList from "./pages/BooksListPage/BooksList";
 import BookDetail from "./pages/BooksDetailPage/BookDetail";
+import Cart from "./pages/CartPage/Cart";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/collections" element={<BooksList />} />
         <Route path="/collections/:id" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />

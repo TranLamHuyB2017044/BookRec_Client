@@ -5,6 +5,7 @@ import Introduce from '../../Components/IntroduceComponent/Introduce'
 import Footer from '../../Components/FooterComponent/Footer'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import Quote from '../../Components/QuoteComponent/Quote.jsx'
+import BestSeller from '../../Components/BestSellerComponent/BestSeller.jsx'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Navbar/>
       <Slider/>
       <Introduce/>
+      <BestSeller/>
       <Quote/>
       <Footer/>
       <GoToTop/>

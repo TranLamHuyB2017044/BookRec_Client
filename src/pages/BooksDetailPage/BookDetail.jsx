@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-role */
 import React, { useCallback } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
@@ -140,8 +141,8 @@ export default function BookDetail() {
                         <div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-3xl'>{RenderStar(5, 'yellow')}</p>
-                                <div class="progress w-[150px] h-3 mt-[5px]">
-                                    <div class="progress-bar w-[80%]" role="progressbar" aria-valuenow="70"
+                                <div className="progress w-[150px] h-3 mt-[5px]">
+                                    <div className="progress-bar w-[80%]"  aria-valuenow="70"
                                         aria-valuemin="0" aria-valuemax="100" >
                                     </div>
                                 </div>
@@ -149,8 +150,8 @@ export default function BookDetail() {
                             </div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-3xl'>{RenderStar(4, 'yellow')}{RenderStar(1, 'gray')}</p>
-                                <div class="progress w-[150px] h-3 mt-[5px]">
-                                    <div class="progress-bar w-[8%]" role="progressbar" aria-valuenow="70"
+                                <div className="progress w-[150px] h-3 mt-[5px]">
+                                    <div className="progress-bar w-[8%]"  aria-valuenow="70"
                                         aria-valuemin="0" aria-valuemax="100" >
                                     </div>
                                 </div>
@@ -158,8 +159,8 @@ export default function BookDetail() {
                             </div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-3xl'>{RenderStar(3, 'yellow')}{RenderStar(2, 'gray')}</p>
-                                <div class="progress w-[150px] h-3 mt-[5px]">
-                                    <div class="progress-bar w-[2%]" role="progressbar" aria-valuenow="70"
+                                <div className="progress w-[150px] h-3 mt-[5px]">
+                                    <div className="progress-bar w-[2%]"  aria-valuenow="70"
                                         aria-valuemin="0" aria-valuemax="100" >
                                     </div>
                                 </div>
@@ -167,8 +168,8 @@ export default function BookDetail() {
                             </div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-3xl'>{RenderStar(2, 'yellow')}{RenderStar(3, 'gray')}</p>
-                                <div class="progress w-[150px] h-3 mt-[5px]">
-                                    <div class="progress-bar w-[0]" role="progressbar" aria-valuenow="70"
+                                <div className="progress w-[150px] h-3 mt-[5px]">
+                                    <div className="progress-bar w-[0]"  aria-valuenow="70"
                                         aria-valuemin="0" aria-valuemax="100" >
                                     </div>
                                 </div>
@@ -176,8 +177,8 @@ export default function BookDetail() {
                             </div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-3xl'>{RenderStar(1, 'yellow')}{RenderStar(4, 'gray')}</p>
-                                <div class="progress w-[150px] h-3 mt-[5px]">
-                                    <div class="progress-bar w-[1%]" role="progressbar" aria-valuenow="70"
+                                <div className="progress w-[150px] h-3 mt-[5px]">
+                                    <div className="progress-bar w-[1%]"  aria-valuenow="70"
                                         aria-valuemin="0" aria-valuemax="100" >
                                     </div>
                                 </div>
