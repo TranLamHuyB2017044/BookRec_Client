@@ -21,7 +21,7 @@ export default function Cart() {
 
     ]
 
-    const book_empty = []
+    // const book_empty = []
 
     return (
         <div className='bg-[#f5f5f5]'>
@@ -68,7 +68,7 @@ export default function Cart() {
                             <h1>Tổng tiền</h1>
                             <p className='text-4xl text-[#ff424e]'>450 &#8363;</p>
                         </div>
-                        <button className='py-3 px-32 mt-4 ml-8 rounded-xl bg-[#ff424e] text-white hover:bg-[#c56f75]'>Mua hàng</button>        
+                        <Link to='/checkout' className='py-3 px-32 mt-4 ml-8 rounded-xl bg-[#ff424e] text-white hover:bg-[#c56f75]'>Mua hàng</Link>        
                     </div>
                 </div>  
             ): (
