@@ -41,11 +41,13 @@ export default function Navbar() {
                     <input className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
                 <Link to='/login' className='hover:text-[#f47830]'>Login</Link>
-                <IconButton aria-label="cart">
-                    <Badge badgeContent={4} color="warning">
-                        <ShoppingCartOutlinedIcon fontSize='large' />
-                    </Badge>
-                </IconButton>
+                <Link to='/cart'>
+                    <IconButton aria-label="cart">
+                        <Badge badgeContent={4} color="warning">
+                            <ShoppingCartOutlinedIcon fontSize='large' />
+                        </Badge>
+                    </IconButton>
+                </Link>
             </div>
         </div>
     )

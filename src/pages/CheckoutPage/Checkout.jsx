@@ -1,12 +1,18 @@
 /* eslint-disable jsx-a11y/aria-role */
 import React from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
-import Footer from '../../Components/FooterComponent/Footer.jsx'
-import { books_data } from '../../data.jsx'
-import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
+// import Footer from '../../Components/FooterComponent/Footer.jsx'
+// import { books_data } from '../../data.jsx'
+// import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
+// import { Link } from 'react-router-dom';
+import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import Payment from '../../Components/CheckoutComponent/Payment.jsx';
+import Order from '../../Components/CheckoutComponent/Order.jsx';
+import FormCheckout from '../../Components/CheckoutComponent/FormCheckout.jsx';
 
-import { Link } from 'react-router-dom';
-import  Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 export default function Checkout() {
 
     const breadcrumbs = [
@@ -25,51 +31,43 @@ export default function Checkout() {
 
     ]
 
-    // const book_empty = []
+    const schema = yup
+        .object({
+            fullname: yup.string().required("Username is required").min(3),
+            email: yup
+                .string()
+                .required("Email is required")
+                .email("email must be mail@example.com"),
+            phone: yup.string().required('Phone number is required'),
+            address: yup.string().required(),
+            city: yup.string().required(),
+            district: yup.string().required(),
+            wards: yup.string().required(),
+        })
+        .required();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema),
+    })
+    const onSubmit = (data) => console.log(data)
 
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar />
-            <Breadcrumbs paths={breadcrumbs}/>
-            <div className='h-screen grid grid-cols-3 mt-5 w-[1300px] mx-auto'>
-                <div className='col-span-1 border'>
-
-                </div>
-                <div className='col-span-1 border'>
-                    <div className='mx-4 mt-4'>
-                        <h1 className='text-4xl mb-4'>Vận chuyển</h1>
-                        <div className='flex items-center justify-between border p-4 rounded-lg mb-5'>
-                            <div className='flex items-center gap-3'>
-                                <input className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
-                                <p>Thanh toán qua Zalo pay</p>
-                            </div>
-                            <p>28.000 &#8363;</p>
-                        </div>
+            <Breadcrumbs paths={breadcrumbs} />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className='grid grid-cols-3  w-[1300px] mx-auto my-5'>
+                    <div className='col-span-1'>
+                        <FormCheckout register={register} errors={errors}/>
                     </div>
-                    <div className=' mx-4 '>
-                        <h1 className='text-4xl mb-4'>Thanh toán</h1>
-                        <div className='border rounded-lg'>
-                            <div className='flex items-center justify-between p-4 mb-3 '>
-                                <div className='flex items-center gap-3'>
-                                    <input className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
-                                    <p>Thanh toán qua Zalo pay</p>
-                                </div>
-                                <img width='40px' height='40px' src="https://cdn.tgdd.vn/2020/04/GameApp/image-180x180.png" alt="zalopay" />
-                            </div>
-                            <div className='flex items-center justify-between p-4 border-t'>
-                                <div className='flex items-center gap-3'>
-                                    <input className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
-                                    <p>Thanh toán khi nhận hàng</p>
-                                </div>
-                                <img width='40px' height='40px' src="https://cdn-icons-png.flaticon.com/512/5578/5578525.png" alt="cashdelivery" />
-                            </div>
-                        </div>
+                    <div className='col-span-1'>
+                        <Payment/>
+                    </div>
+                    <div className='col-span-1 border'>
+                        <Order/>
                     </div>
                 </div>
-                <div className='col-span-1 border'></div>
-            </div>
-            <GoToTop />
-            <Footer />
+            </form>
         </div>
     )
 }

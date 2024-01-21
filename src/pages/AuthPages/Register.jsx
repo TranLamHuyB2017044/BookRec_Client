@@ -42,12 +42,12 @@ export default function Register() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="fullname " className='text-[#616161] font-bold'>Họ và tên</label>
-              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", {require:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", {require:true})} />
               <p className='text-red-600'>{errors.fullname?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="phone " className='text-[#616161] font-bold'>Số điện thoại</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", {require:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", {require:true})} />
               <p className='text-red-600'>{errors.phone?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
@@ -57,7 +57,7 @@ export default function Register() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="Password " className='text-[#616161] font-bold'>Mật Khẩu</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" />
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
 

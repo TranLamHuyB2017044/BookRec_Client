@@ -2,6 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Navigate, Outlet,
 } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import NotFound from "./pages/NotFoundPage/NotFound";
@@ -14,14 +15,32 @@ import Checkout from "./pages/CheckoutPage/Checkout";
 
 
 function App() {
+  const user = false
+  const ProtectedRoute = () => {
+    if (user) {
+      return <Navigate to='/' replace />;
+    }
+  
+    return <Outlet />;
+  };
+  const ProtectUser = () => {
+    if(!user){
+      return <Navigate to='/login' replace />;
+    }
+    return <Outlet />;
+  }
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+        <Route element={<ProtectUser/>}>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
         <Route path="/collections" element={<BooksList />} />
         <Route path="/collections/:id" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />
