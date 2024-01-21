@@ -12,10 +12,12 @@ import BooksList from "./pages/BooksListPage/BooksList";
 import BookDetail from "./pages/BooksDetailPage/BookDetail";
 import Cart from "./pages/CartPage/Cart";
 import Checkout from "./pages/CheckoutPage/Checkout";
-
+import Account from "./pages/ManagerAccountPage/Account";
+import YourOrder from "./pages/ManagerAccountPage/YourOrder";
+import ChangePassword from "./pages/ManagerAccountPage/ChangePassword";
 
 function App() {
-  const user = false
+  const user = true
   const ProtectedRoute = () => {
     if (user) {
       return <Navigate to='/' replace />;
@@ -40,6 +42,9 @@ function App() {
         <Route element={<ProtectUser/>}>
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/yourOrders" element={<YourOrder />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Route>
         <Route path="/collections" element={<BooksList />} />
         <Route path="/collections/:id" element={<BookDetail />} />
