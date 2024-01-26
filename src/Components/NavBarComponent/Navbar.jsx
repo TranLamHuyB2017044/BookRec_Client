@@ -1,10 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { OauthRequest } from '../../service/Request';
 export default function Navbar() {
     const [showSubNav, setShowSubNav] = useState(false)
+    const [user, setUser] = useState(null)
+    console.log(user)
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                const rs = await OauthRequest.get('/auth/google/success')
+                setUser(rs.data)
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+        getUser()
+    }, [])
+
+    const Logout = () => {
+        window.location.href = 'http://localhost:5000/auth/logout';
+    }
     return (
         <div className='navbar-container w-full  px-5 h-[80px]  flex items-center justify-around  bg-white'>
             <Link to='/'>
@@ -18,10 +36,10 @@ export default function Navbar() {
             </Link>
             <ul className='nav-bar-items flex items-center gap-8 cursor-pointer'>
                 <Link to='/' className='hover:text-[#f47830]'>Trang chủ</Link>
-                <div onMouseMove={() => setShowSubNav(true)} onMouseOut={() => setShowSubNav(false)} className='relative h-[80px] mt-[5.6rem]'>
+                <button onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] mt-[5.6rem]'>
                     <li className='hover:text-[#f47830]'>Thể loại</li>
                     {showSubNav &&
-                        <ul  className='absolute top-20 border-t border-[#f47830] -left-6 w-[250px] flex flex-col gap-6 bg-white z-50'>
+                        <ul className='absolute top-20 border-t border-[#f47830] -left-6 w-[250px] flex flex-col gap-6 bg-white z-50'>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách văn học</li>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách tiếng anh</li>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách kinh tế</li>
@@ -30,7 +48,7 @@ export default function Navbar() {
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách lịch sử</li>
                         </ul>
                     }
-                </div>
+                </button>
                 <Link to='/collections' className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
             <div className="flex items-center gap-8">
@@ -40,7 +58,7 @@ export default function Navbar() {
                     </svg>
                     <input className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
-                <Link to='/login' className='hover:text-[#f47830]'>Login</Link>
+                {user ? <button onClick={Logout}>Logout </button> :<Link to='/login' className='hover:text-[#f47830]'>Login</Link>}
                 <Link to='/cart'>
                     <IconButton aria-label="cart">
                         <Badge badgeContent={4} color="warning">

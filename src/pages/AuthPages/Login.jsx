@@ -8,18 +8,24 @@ import { Link } from 'react-router-dom';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 
-export default function Login() {
 
+export default function Login() {
   
+
+  const OauthLogin = () => {
+    window.location.href = 'http://localhost:5000/auth/google';
+  };
+
+
   const schema = yup
-  .object({
-    email: yup
-      .string()
-      .required("Email is required")
-      .email("email must be mail@example.com"),
-    password: yup.string().required("Password is require").min(3),
-  })
-  .required();
+    .object({
+      email: yup
+        .string()
+        .required("Email is required")
+        .email("email must be mail@example.com"),
+      password: yup.string().required("Password is require").min(3),
+    })
+    .required();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -42,12 +48,12 @@ export default function Login() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="email " className='text-[#616161] font-bold'>Email</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", {required:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", { required: true })} />
               <p className='text-red-600'>{errors.email?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="Password " className='text-[#616161] font-bold'>Mật Khẩu</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {required:true})} type="password" />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", { required: true })} type="password" />
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
 
@@ -64,10 +70,10 @@ export default function Login() {
               <FacebookOutlinedIcon fontSize='large' />
               <p>Facebook</p>
             </div>
-            <div className='flex items-center justify-center bg-[#e14b33] gap-3 p-3 w-52 hover:bg-[#b86154]'>
+            <button onClick={OauthLogin} className='flex items-center justify-center bg-[#e14b33] gap-3 p-3 w-52 hover:bg-[#b86154]'>
               <GoogleIcon fontSize='large' />
               <p>Google</p>
-            </div>
+            </button>
           </div>
           <div className='flex gap-2 items-center justify-center my-[1rem]'>Bạn quên mật khẩu <p className='text-[#4c80ee] cursor-pointer'>bấm vào đây.</p></div>
         </div>
