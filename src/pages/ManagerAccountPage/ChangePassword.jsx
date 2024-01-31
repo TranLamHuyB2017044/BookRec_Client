@@ -41,7 +41,9 @@ export default function ChangePassword() {
 
     ]
 
-
+    const Logout = () => {
+        window.location.href = 'http://localhost:5000/auth/logout';
+    }
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar />
@@ -56,7 +58,8 @@ export default function ChangePassword() {
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
                         <Link to='/changepassword' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Đổi mật khẩu</Link>
-                        <Link to='' className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
+                        <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
+
                     </ul>
                 </div>
                 <div className='mt-[5rem] basis-3/4'>

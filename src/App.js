@@ -30,7 +30,7 @@ function App() {
       }
     }
     getUser()
-  }, [ ])
+  }, [])
   const ProtectedRoute = () => {
     if (user) {
       return <Navigate to='/' replace />;
@@ -39,7 +39,7 @@ function App() {
     return <Outlet />;
   };
   const ProtectUser = () => {
-    if (!user) {
+    if (user == null) {
       return <Navigate to='/login' replace />;
     }
     return <Outlet />;
@@ -51,24 +51,17 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route element={<ProtectedRoute/>}>
+        <Route element={<ProtectedRoute />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
-        <Route element={<ProtectUser/>}>
+        <Route element={<ProtectUser />}>
+          <Route path="/account" element={<Account />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/account" element={<Account />} />
           <Route path="/yourOrders" element={<YourOrder />} />
           <Route path="/changepassword" element={<ChangePassword />} />
         </Route>
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
-        {/* <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/yourOrders" element={<YourOrder />} />
-        <Route path="/changepassword" element={<ChangePassword />} /> */}
         <Route path="/collections" element={<BooksList />} />
         <Route path="/collections/:id" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />

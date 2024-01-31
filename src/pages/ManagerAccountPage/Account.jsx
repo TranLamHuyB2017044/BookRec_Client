@@ -22,6 +22,9 @@ export default function Account() {
     ]
 
     // const book_empty = []
+    const Logout = () => {
+        window.location.href = 'http://localhost:5000/auth/logout';
+    }
 
     return (
         <div className='bg-[#f5f5f5]'>
@@ -37,7 +40,7 @@ export default function Account() {
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
                         <Link to='/changepassword' className='hover:text-[#f47830] cursor-pointer'>Đổi mật khẩu</Link>
-                        <Link to='' className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
+                        <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
                     </ul>
                 </div>
                 <div className='mt-[5rem] basis-3/4'>

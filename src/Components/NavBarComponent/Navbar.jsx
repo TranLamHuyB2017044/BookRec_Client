@@ -4,8 +4,10 @@ import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { OauthRequest } from '../../service/Request';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 export default function Navbar() {
     const [showSubNav, setShowSubNav] = useState(false)
+    const [showSubAccount, setShowSubAccount] = useState(false)
     const [user, setUser] = useState(null)
     console.log(user)
     useEffect(() => {
@@ -36,16 +38,16 @@ export default function Navbar() {
             </Link>
             <ul className='nav-bar-items flex items-center gap-8 cursor-pointer'>
                 <Link to='/' className='hover:text-[#f47830]'>Trang chủ</Link>
-                <button onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] mt-[5.6rem]'>
+                <button onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] '>
                     <li className='hover:text-[#f47830]'>Thể loại</li>
                     {showSubNav &&
-                        <ul className='absolute top-20 border-t border-[#f47830] -left-6 w-[250px] flex flex-col gap-6 bg-white z-50'>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách văn học</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách tiếng anh</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách kinh tế</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách chính trị</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách y học</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 px-4'>Sách lịch sử</li>
+                        <ul className='absolute top-[80px] border-t border-[#f47830] -left-6 w-[200px] flex flex-col gap-4 bg-white z-50'>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách văn học</li>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách tiếng anh</li>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách kinh tế</li>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách chính trị</li>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách y học</li>
+                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách lịch sử</li>
                         </ul>
                     }
                 </button>
@@ -58,7 +60,17 @@ export default function Navbar() {
                     </svg>
                     <input className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
-                {user ? <button onClick={Logout}>Logout </button> :<Link to='/login' className='hover:text-[#f47830]'>Login</Link>}
+                {user ? <div>
+                    <button className='relative cursor-pointer h-[80px]' onMouseMove={() => setShowSubAccount(true)} onMouseLeave={() => setShowSubAccount(false)}>
+                        <AccountCircleOutlinedIcon fontSize='large' />
+                        {
+                            showSubAccount && <div className='flex flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[150px] -left-[120px] top-[65px]'>
+                                <Link className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' to='/account'>Tài khoản</Link>
+                                <button className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' onClick={Logout}>Đăng xuất</button>
+                            </div>
+                        }
+                    </button>
+                </div> : <Link to='/login' className='hover:text-[#f47830]'>Login</Link>}
                 <Link to='/cart'>
                     <IconButton aria-label="cart">
                         <Badge badgeContent={4} color="warning">
