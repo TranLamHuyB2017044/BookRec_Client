@@ -62,7 +62,7 @@ function App() {
           <Route path="/yourOrders" element={<YourOrder />} />
           <Route path="/changepassword" element={<ChangePassword />} />
         </Route>
-        <Route path="/collections" element={<BooksList />} />
+        <Route path="/collections/:page=?" element={<BooksList />} />
         <Route path="/collections/:id" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

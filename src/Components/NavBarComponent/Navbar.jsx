@@ -51,7 +51,7 @@ export default function Navbar() {
                         </ul>
                     }
                 </button>
-                <Link to='/collections' className='hover:text-[#f47830]'>Kệ sách</Link>
+                <Link to={`/collections/?all`} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
             <div className="flex items-center gap-8">
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer pl-2'>

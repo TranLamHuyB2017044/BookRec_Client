@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from "js-cookie";
 
 const BaseURL = "http://localhost:5000/";
 const headers = { 
@@ -12,4 +11,9 @@ export const OauthRequest = axios.create({
     baseURL:BaseURL,
     headers: headers,
     withCredentials: true
+})
+
+export const PublicRequest = axios.create({
+    baseURL:BaseURL,
+    headers:headers,
 })

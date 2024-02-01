@@ -1,12 +1,34 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar'
 import Footer from '../../Components/FooterComponent/Footer'
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import {books_data} from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { Link } from 'react-router-dom';
+import { PublicRequest } from '../../service/Request.js';
 export default function BooksList() {
+    const [books, setBooks] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
+
+    useEffect(() => {
+        const getBooks = async () =>{
+            try {
+                const response = await PublicRequest.get(`/api/collection?page=${currentPage}`)
+                const {items, ...others} = response.data
+                setBooks(items)
+                setTotalPage(others.totalPage-2)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getBooks()
+    }, [currentPage])
+
+
+    const handleChangePage = (page) =>{
+        setCurrentPage(page)
+    }
 
     const breadcrumbs = [
         {
@@ -32,7 +54,7 @@ export default function BooksList() {
         <div className='bg-[#f5f5f5]'>
             <Navbar />
             <Breadcrumbs paths={breadcrumbs}/>
-            <div className='w-[1200px] grid grid-cols-4 m-auto my-2 py-5 '>
+            <div className='w-[1200px] grid grid-cols-4 m-auto my-2 py-5'>
                 <div className='border col-span-1 px-8 pb-8 mx-4 bg-white h-fit'>
                     <section className=' pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Thể loại</h2>
@@ -49,13 +71,13 @@ export default function BooksList() {
                         <h2 className='text-[1.8rem] font-bold'>Đánh giá</h2>
                         <ul className='flex flex-col my-6'>
                             <li className='flex gap-4 items-center  cursor-pointer'>
-                                {RenderStar(5, 'yellow')} <p>từ 5 sao</p>
+                                {RenderStar(5, '#ffc400')} <p>từ 5 sao</p>
                             </li>
                             <li className='flex gap-4 items-center cursor-pointer'>
-                                {RenderStar(4, 'yellow')}{RenderStar(1, 'gray')} <p>từ 4 sao</p>
+                                {RenderStar(4, '#ffc400')}{RenderStar(1, 'gray')} <p>từ 4 sao</p>
                             </li>
                             <li className='flex gap-4 items-center cursor-pointer'>
-                                {RenderStar(3, 'yellow')}{RenderStar(2, 'gray')} <p>từ 3 sao</p>
+                                {RenderStar(3, '#ffc400')}{RenderStar(2, 'gray')} <p>từ 3 sao</p>
                             </li>
                         </ul>
                     </section>
@@ -127,21 +149,28 @@ export default function BooksList() {
                         </ul>
                     </section>
                 </div>
-                <div className=' col-span-3  grid grid-cols-4 grid-rows-4 bg-[#f5f5f5]'>
-                  {books_data.map((book, index) => (
-                    <Link to={`/collections/${index}`} key={index} className='w-[200px] mx-2 border h-fit mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500'>
-                        <img src={book.url} alt="cover-book" />
-                        <p className='text-2xl my-3 px-4'>{book.title}</p>
-                        <div>
-                            <span className='mx-3'>{RenderStar(book.star, 'yellow')}</span>
-                            <span className='mx-3'>Đã bán {book.sold}</span>
+                <div className=' col-span-3 grid grid-cols-4 grid-rows-5 bg-[#f5f5f5]'>
+                  {books.map((book, index) => (
+                    <Link to={`/collections/${index}`} key={index} className='w-[200px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
+                        <img src={book.thumbnail_url} alt="cover-book" className='w-[200px] h-[200px] p-2 transform transition-transform duration-300 hover:scale-105'/>
+                        <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
+                        <div className='mb-2 px-3 flex items-center gap-4'>
+                            <p className=' text-xl'>{RenderStar(book.avg_rating, '#ffc400')}</p>
+                            <p className=' text-xl pt-2'>Đã bán {book.quantity_sold}</p>
                         </div>
-                        <div className='flex items-center gap-4 my-5 px-4'>
-                            <p className='text-5xl'>{book.price}&#8363;</p>
+                        <div className='flex items-center gap-4 p-3'>
+                            <p className='text-4xl'>{(book.original_price).toLocaleString()}&#8363;</p>
                             <p>-{book.discount}%</p>
                         </div>
                     </Link>
-                  ))}  
+                  ))} 
+                    <div className='max-h-[38px] col-start-2 my-8 -ml-6'>
+                        {Array.from({length: totalPage}, (_, index) => (
+                            <Link to={`/collections/?page=${index+1}`} className='px-4 py-3 rounded-3xl  border ml-4 hover:bg-[#f47830] hover:text-white ' style={index+1 === currentPage ? {background: '#f47830', color:'white'} : {background: '', color: ''}} key={index+1} onClick={() => handleChangePage(index+1)}>
+                                {index+1}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
             <GoToTop/>
