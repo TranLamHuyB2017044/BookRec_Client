@@ -2,7 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate, Outlet,
+  Navigate, Outlet
 } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import NotFound from "./pages/NotFoundPage/NotFound";
@@ -15,27 +15,31 @@ import Checkout from "./pages/CheckoutPage/Checkout";
 import Account from "./pages/ManagerAccountPage/Account";
 import YourOrder from "./pages/ManagerAccountPage/YourOrder";
 import ChangePassword from "./pages/ManagerAccountPage/ChangePassword";
-import { useEffect, useState } from 'react';
+import { useSelector } from "react-redux";
+import {useDispatch} from 'react-redux'
 import { OauthRequest } from './service/Request';
+import { SignIn } from './store/userReducer';
+import { useEffect } from 'react';
 function App() {
-  const [user, setUser] = useState(null)
-  console.log(user)
+  const user = useSelector(state => state.user.currentUser)
+  const dispatch = useDispatch()
+
   useEffect(() => {
     const getUser = async () => {
       try {
         const rs = await OauthRequest.get('/auth/google/success')
-        setUser(rs.data)
+        dispatch(SignIn(rs.data))
       } catch (error) {
         console.log(error.message)
       }
     }
     getUser()
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ ])
   const ProtectedRoute = () => {
     if (user) {
       return <Navigate to='/' replace />;
     }
-
     return <Outlet />;
   };
   const ProtectUser = () => {
@@ -44,7 +48,6 @@ function App() {
     }
     return <Outlet />;
   }
-
 
 
   return (

@@ -8,10 +8,12 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import * as yup from "yup"
+import { useDispatch } from 'react-redux';
+import { Exit } from '../../store/userReducer.js';
 
 export default function ChangePassword() {
 
-
+    const dispatch = useDispatch()
     const schema = yup
         .object({
             oldPassword: yup.string().required("Vui lòng nhập mật khẩu cũ"),
@@ -43,6 +45,9 @@ export default function ChangePassword() {
 
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
+        dispatch(Exit())
+        window.localStorage.removeItem('persist:root')
+
     }
     return (
         <div className='bg-[#f5f5f5]'>

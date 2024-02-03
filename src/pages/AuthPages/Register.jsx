@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar'
 import Footer from '../../Components/FooterComponent/Footer'
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useForm } from "react-hook-form"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { PublicRequest } from '../../service/Request';
+import myAlert from '../../Components/AlertComponent/Alert'
+import Loading from '../../Components/LoadingComponent/Loading';
+
 export default function Register() {
+  const [newUser, setNewUser] = useState({
+    fullname: '',
+    email: '',
+    phone: '',
+    password: '',
+  })
+  
+  const [loading ,setLoading] = useState(false)
+
+  const OauthLogin = () => {
+    window.location.href = 'http://localhost:5000/auth/google';
+  };
   const schema = yup
   .object({
     fullname: yup.string().required("Username is required").min(3),
@@ -20,15 +36,40 @@ export default function Register() {
     password: yup.string().required("Password is require").min(3),
   })
   .required();
+  
+  const navigate = useNavigate()
 
   const { register, handleSubmit, formState: { errors }, } = useForm({
     resolver: yupResolver(schema),
   })
-  const onRegister = (data) => console.log(data)
+
+  const onChange = (e) =>{
+    setNewUser({...newUser, [e.target.name]: e.target.value})
+  }
+
+  const onRegister = async (data) => {
+    setLoading(true)
+    try {
+      await PublicRequest.post('/api/user/register', data)
+      setTimeout(() =>{
+        setLoading(false)
+        myAlert.Alert('success', 'Đăng ký thành công')
+        navigate('/login')
+      }, 2000)
+    } catch (error) {
+      myAlert.Alert('error', error.respose.data)
+    }
+  }
+
+  const onEnterRegister = (e) =>{
+    if(e.key === 'Enter'){
+      onRegister()
+    }
+  }
   return (
     <div>
       <Navbar />
-      <div className='flex flex-col items-center justify-center mb-24'>
+      {loading === false ? <div className='flex flex-col items-center justify-center mb-24'>
         <div className='h-[200px] relative'>
           <img src="https://bizweb.dktcdn.net/100/197/269/themes/890698/assets/bg_breadcrum.jpg?1704543895805" alt="breakcum-img" />
           <h2 className='text-[#f47830] text-5xl absolute top-20 left-[470px]'>Xem sách là một cách thưởng thức nghệ thuật.</h2>
@@ -42,26 +83,26 @@ export default function Register() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="fullname " className='text-[#616161] font-bold'>Họ và tên</label>
-              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", {require:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", {require:true})} onChange={onChange}/>
               <p className='text-red-600'>{errors.fullname?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="phone " className='text-[#616161] font-bold'>Số điện thoại</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", {require:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", {require:true})} onChange={onChange}/>
               <p className='text-red-600'>{errors.phone?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="email " className='text-[#616161] font-bold'>Email</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", {require:true})} />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", {require:true})} onChange={onChange}/>
               <p className='text-red-600'>{errors.email?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="Password " className='text-[#616161] font-bold'>Mật Khẩu</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" />
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" onChange={onChange}/>
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
 
-            <button className='font-bold text-white flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center ' type='submit' onKeyDown={onRegister}>ĐĂNG KÝ</button>
+            <button className='font-bold text-white flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center ' type='submit' onKeyDown={onEnterRegister}>ĐĂNG KÝ</button>
 
           </form>
           <div className='flex items-center justify-center gap-6'>
@@ -76,11 +117,12 @@ export default function Register() {
             </div>
             <div className='flex items-center justify-center bg-[#e14b33] gap-3 p-3 w-52 hover:bg-[#b86154]'>
               <GoogleIcon fontSize='large' />
-              <p>Google</p>
+              <button onClick={OauthLogin}>Google</button>
             </div>
           </div>
         </div>
       </div>
+      : <Loading/>}
       <Footer />
     </div>
   )

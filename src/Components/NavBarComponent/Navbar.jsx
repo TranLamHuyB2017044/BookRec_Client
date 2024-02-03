@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { OauthRequest } from '../../service/Request';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { Exit } from '../../store/userReducer';
 export default function Navbar() {
     const [showSubNav, setShowSubNav] = useState(false)
     const [showSubAccount, setShowSubAccount] = useState(false)
-    const [user, setUser] = useState(null)
-    console.log(user)
-    useEffect(() => {
-        const getUser = async () => {
-            try {
-                const rs = await OauthRequest.get('/auth/google/success')
-                setUser(rs.data)
-            } catch (error) {
-                console.log(error.message)
-            }
-        }
-        getUser()
-    }, [])
+    const user = useSelector(state => state.user.currentUser)
+    const dispatch = useDispatch()
 
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
+        dispatch(Exit())
+        window.localStorage.removeItem('persist:root')
     }
     return (
         <div className='navbar-container w-full  px-5 h-[80px]  flex items-center justify-around  bg-white'>
@@ -36,12 +28,12 @@ export default function Navbar() {
                     <p className='text-4xl  text-[#f47830]'>BookRec</p>
                 </div>
             </Link>
-            <ul className='nav-bar-items flex items-center gap-8 cursor-pointer'>
-                <Link to='/' className='hover:text-[#f47830]'>Trang chủ</Link>
-                <button onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] '>
-                    <li className='hover:text-[#f47830]'>Thể loại</li>
+            <ul className='nav-bar-items flex items-center gap-8 cursor-pointer '>
+                <Link to='/' className='hover:text-[#f47830] '>Trang chủ</Link>
+                <div onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] mt-[56px]'>
+                    <li className='hover:text-[#f47830] '>Thể loại</li>
                     {showSubNav &&
-                        <ul className='absolute top-[80px] border-t border-[#f47830] -left-6 w-[200px] flex flex-col gap-4 bg-white z-50'>
+                        <ul className='absolute top-[52px] border-t border-[#f47830] -left-6 w-[200px] flex flex-col gap-4 bg-white z-50'>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách văn học</li>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách tiếng anh</li>
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách kinh tế</li>
@@ -50,7 +42,7 @@ export default function Navbar() {
                             <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách lịch sử</li>
                         </ul>
                     }
-                </button>
+                </div>
                 <Link to={`/collections/?all`} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
             <div className="flex items-center gap-8">
@@ -61,15 +53,15 @@ export default function Navbar() {
                     <input className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
                 {user ? <div>
-                    <button className='relative cursor-pointer h-[80px]' onMouseMove={() => setShowSubAccount(true)} onMouseLeave={() => setShowSubAccount(false)}>
+                    <div className='relative cursor-pointer mt-[55px] h-[80px]' onMouseMove={() => setShowSubAccount(true)} onMouseLeave={() => setShowSubAccount(false)}>
                         <AccountCircleOutlinedIcon fontSize='large' />
                         {
-                            showSubAccount && <div className='flex flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[150px] -left-[120px] top-[65px]'>
+                            showSubAccount && <div className='flex flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[150px] -left-[120px] top-[52px]'>
                                 <Link className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' to='/account'>Tài khoản</Link>
                                 <button className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' onClick={Logout}>Đăng xuất</button>
                             </div>
                         }
-                    </button>
+                    </div>
                 </div> : <Link to='/login' className='hover:text-[#f47830]'>Login</Link>}
                 <Link to='/cart'>
                     <IconButton aria-label="cart">

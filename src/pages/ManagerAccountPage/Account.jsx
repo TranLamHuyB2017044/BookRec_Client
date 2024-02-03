@@ -2,13 +2,16 @@
 import React from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
-import { books_data } from '../../data.jsx'
+// import { books_data } from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 
 import { Link } from 'react-router-dom';
 import  Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { Exit } from '../../store/userReducer.js';
 export default function Account() {
-
+    const user = useSelector(state => state.user.currentUser)
+    const dispatch = useDispatch()
     const breadcrumbs = [
         {
             link: '/',
@@ -24,6 +27,8 @@ export default function Account() {
     // const book_empty = []
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
+        dispatch(Exit())
+        window.localStorage.removeItem('persist:root')
     }
 
     return (
@@ -34,7 +39,7 @@ export default function Account() {
                 <div className='mt-[5rem] basis-1/4'>
                     <div className='flex items-center gap-1 text-4xl'>
                         <h1 className=''>Xin chào, </h1>
-                        <h1 className='text-[#f47830]'>Trần Lâm Huy !</h1>
+                        <h1 className='text-[#f47830] ml-2'> {user.fullname} !</h1>
                     </div>
                     <ul className='mt-16 flex flex-col gap-5 '>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Thông tin tài khoản</Link>
@@ -48,11 +53,11 @@ export default function Account() {
                     <div className='mt-16 flex flex-col gap-8'>
                         <div className='flex items-center gap-3'>
                             <p className='font-bold'>Họ tên: </p>
-                            <p className='opacity-80'>Trần Lâm Huy</p>
+                            <p className='opacity-80'>{user.fullname}</p>
                         </div>
                         <div className='flex items-center gap-3'>
                             <p className='font-bold'>Email: </p>
-                            <p className='opacity-80'>tranlamhuy5tn@gmail.com</p>
+                            <p className='opacity-80'>{user.email}</p>
                         </div>
                     </div>
                 </div>

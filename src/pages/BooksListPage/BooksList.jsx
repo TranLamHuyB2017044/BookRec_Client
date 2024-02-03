@@ -152,7 +152,7 @@ export default function BooksList() {
                 <div className=' col-span-3 grid grid-cols-4 grid-rows-5 bg-[#f5f5f5]'>
                   {books.map((book, index) => (
                     <Link to={`/collections/${index}`} key={index} className='w-[200px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
-                        <img src={book.thumbnail_url} alt="cover-book" className='w-[200px] h-[200px] p-2 transform transition-transform duration-300 hover:scale-105'/>
+                        <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className='w-[200px] h-[200px] p-2 transform transition-transform duration-300 hover:scale-105'/>
                         <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
                         <div className='mb-2 px-3 flex items-center gap-4'>
                             <p className=' text-xl'>{RenderStar(book.avg_rating, '#ffc400')}</p>

@@ -5,13 +5,16 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
 import 'react-slideshow-image/dist/styles.css'
 import { Provider } from 'react-redux';
-import store from './store/store';
+import { store, persistor } from './store/store'
+import { PersistGate } from 'redux-persist/integration/react';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <GlobalStyles>
-      <App />
-    </GlobalStyles>
+    <PersistGate loading={null} persistor={persistor}>
+      <GlobalStyles>
+        <App />
+      </GlobalStyles>
+    </PersistGate>
   </Provider>
 );
 

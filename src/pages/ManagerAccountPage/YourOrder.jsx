@@ -5,10 +5,12 @@ import Footer from '../../Components/FooterComponent/Footer.jsx'
 import { order_data } from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import  Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
+import { Exit } from '../../store/userReducer.js';
+import { useDispatch } from 'react-redux';
 export default function YourOrder() {
-
+    const dispatch = useDispatch()
     const breadcrumbs = [
         {
             link: '/',
@@ -25,11 +27,14 @@ export default function YourOrder() {
 
     ]
 
-    const empty_order = []
+    // const empty_order = []
 
 
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
+        dispatch(Exit())
+        window.localStorage.removeItem('persist:root')
+        // alert('this feature is enabled in the future')
     }
     return (
         <div className='bg-[#f5f5f5]'>
