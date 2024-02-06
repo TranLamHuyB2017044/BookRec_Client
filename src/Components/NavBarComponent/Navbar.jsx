@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { Exit } from '../../store/userReducer';
-export default function Navbar() {
+export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
     const [showSubAccount, setShowSubAccount] = useState(false)
     const user = useSelector(state => state.user.currentUser)
@@ -17,6 +17,9 @@ export default function Navbar() {
         dispatch(Exit())
         window.localStorage.removeItem('persist:root')
     }
+
+
+
     return (
         <div className='navbar-container w-full  px-5 h-[80px]  flex items-center justify-around  bg-white'>
             <Link to='/'>
@@ -34,16 +37,17 @@ export default function Navbar() {
                     <li className='hover:text-[#f47830] '>Thể loại</li>
                     {showSubNav &&
                         <ul className='absolute top-[52px] border-t border-[#f47830] -left-6 w-[200px] flex flex-col gap-4 bg-white z-50'>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách văn học</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách tiếng anh</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách kinh tế</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách chính trị</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách y học</li>
-                            <li className='hover:text-[#f47830] hover:bg-gray-200 py-3 text-start pl-6'>Sách lịch sử</li>
+                            <Link to={`/collections/?sach-tieng-viet`} onClick={filters} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách tiếng Việt</Link>
+                            <Link to={`/collections/?sach-tam-ly`} onClick={filters1} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách Tâm Lý </Link>
+                            <Link to={`/collections/?sach-kinh-te`} onClick={filters2} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách kinh tế</Link>
+                            <Link to={`/collections/?sach-key-nang`} onClick={filters3} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách kỹ năng</Link>
+                            <Link to={`/collections/?sach-lich-su`} onClick={filters4} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách lịch sử</Link>
+                            <Link to={`/collections/?tieu-thuyet`} onClick={filters5} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Tiểu Thuyết</Link>
+                            <Link to={`/collections/?sach-y-hoc`} onClick={filters6} className='hover:text-[#f47830] hover:bg-gray-200 -my-2 py-3 text-start pl-6'>Sách y học</Link>
                         </ul>
                     }
                 </div>
-                <Link to={`/collections/?all`} className='hover:text-[#f47830]'>Kệ sách</Link>
+                <Link to={`/collections`} onClick={resetFilter} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
             <div className="flex items-center gap-8">
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer pl-2'>
