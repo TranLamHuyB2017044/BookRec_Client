@@ -2,7 +2,7 @@ import {Fade} from 'react-slideshow-image'
 export default function Quote() {
   return (
     <div className=' h-[350px]   mt-5 bg-[#18335e] text-white'>
-      <Fade arrows={false} duration={5000}>
+      <Fade arrows={false} duration={3000}>
         <div className='each-slide  mx-auto mt-60 flex flex-col gap-16 h-[350px]'>
           <p className='text-3xl text-center italic leading-relaxed'>“Chính từ sách mà những người khôn ngoan tìm được sự an ủi khỏi những rắc rối của cuộc đời.”</p>
           <p className='font-bold text-center text-3xl'>Victor Hugo</p>

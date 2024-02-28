@@ -22,11 +22,11 @@ export default function BooksList() {
                     const filterString = filters.map(filter => `${filter.type}=${filter.value}`).join('&')
                     queryParams += `&${filterString}`
                     setSearchParams({ route: queryParams });
-                    const response = await PublicRequest.get(`/api/collection?${queryParams}`)
+                    const response = await PublicRequest.get(`/collection?${queryParams}`)
                     setBooks(response.data.data)
                     setTotalPage(response.data.pages.totalPage)
                 } else {
-                    const response = await PublicRequest.get(`/api/collection?page=${currentPage}`)
+                    const response = await PublicRequest.get(`/collection?page=${currentPage}`)
                     // console.log(response.data)
                     const { items, ...other } = response.data
                     setBooks(items)
@@ -100,6 +100,36 @@ export default function BooksList() {
         setCurrentPage(1)
     }
 
+    const  boDauTiengViet = function(chuoi) {
+        var regex = /[ăâàáảãạăắằẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]/g;
+        var charMap = {
+            'à': 'a', 'á': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a',
+            'ă': 'a', 'ắ': 'a', 'ằ': 'a', 'ẳ': 'a', 'ẵ': 'a', 'ặ': 'a',
+            'â': 'a', 'ầ': 'a', 'ấ': 'a', 'ẩ': 'a', 'ẫ': 'a', 'ậ': 'a',
+            'đ': 'd',
+            'è': 'e', 'é': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
+            'ê': 'e', 'ề': 'e', 'ế': 'e', 'ể': 'e', 'ễ': 'e', 'ệ': 'e',
+            'ì': 'i', 'í': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
+            'ò': 'o', 'ó': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o',
+            'ô': 'o', 'ồ': 'o', 'ố': 'o', 'ổ': 'o', 'ỗ': 'o', 'ộ': 'o',
+            'ơ': 'o', 'ờ': 'o', 'ớ': 'o', 'ở': 'o', 'ỡ': 'o', 'ợ': 'o',
+            'ù': 'u', 'ú': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
+            'ư': 'u', 'ừ': 'u', 'ứ': 'u', 'ử': 'u', 'ữ': 'u', 'ự': 'u',
+            'ỳ': 'y', 'ý': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y'
+        };
+        return chuoi.replace(regex, function(match) {
+            return charMap[match];
+        });
+    }
+
+    const convertStringToSlug =  (str) => {
+        const newString = boDauTiengViet(str)
+        return newString.trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w-]/g, '');
+    } 
+
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar resetFilter={resetFilter}
@@ -150,11 +180,11 @@ export default function BooksList() {
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('price', '200000,1000000')} className='cursor-pointer border rounded-xl p-1 w-fit bg-[#e0dddd]'>Trên 200.000</Link>
                             <div>
                                 <label htmlFor='price-from' className='opacity-70'>Chọn khoảng giá</label>
-                                <fro onKeyDown={handleSubmit} className='mt-5 flex gap-3'>
+                                <div onKeyDown={handleSubmit} className='mt-5 flex gap-3'>
                                     <input id='price-from' ref={inputRefFrom} type="number" className='border border-[#ccc] rounded-lg w-[100px] h-12 pl-3' />
                                     -
                                     <input id='price-to' ref={inputRefTo} type="number" className='border border-[#ccc] rounded-lg w-[100px] h-12 pl-3' />
-                                </fro>
+                                </div>
                             </div>
                         </ul>
                     </section>
@@ -256,7 +286,7 @@ export default function BooksList() {
                 </div>
                 <div className=' col-span-3 grid grid-cols-4 grid-rows-5 bg-[#f5f5f5]'>
                     {books.map((book, index) => (
-                        <Link to={`/collections/${index}`} key={index} className='w-[200px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
+                        <Link to={`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`} key={index} className='w-[200px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
                             <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className='w-[200px] h-[200px] p-2 transform transition-transform duration-300 hover:scale-105' />
                             <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
                             <div className='mb-2 px-3 flex items-center gap-4'>

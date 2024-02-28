@@ -15,27 +15,26 @@ import Checkout from "./pages/CheckoutPage/Checkout";
 import Account from "./pages/ManagerAccountPage/Account";
 import YourOrder from "./pages/ManagerAccountPage/YourOrder";
 import ChangePassword from "./pages/ManagerAccountPage/ChangePassword";
-import { useSelector } from "react-redux";
-import {useDispatch} from 'react-redux'
-import { OauthRequest } from './service/Request';
-import { SignIn } from './store/userReducer';
+import { useDispatch, useSelector } from "react-redux";
+import { PublicRequest } from './service/Request';
 import { useEffect } from 'react';
+import { addBook } from "./store/cartReducer";
 function App() {
   const user = useSelector(state => state.user.currentUser)
   const dispatch = useDispatch()
 
+
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const rs = await OauthRequest.get('/auth/google/success')
-        dispatch(SignIn(rs.data))
-      } catch (error) {
-        console.log(error.message)
-      }
-    }
-    getUser()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ ])
+    const cartApi = async () => {
+      const user_id = user?.user_id
+        if (user_id != null) {
+            const response = await PublicRequest.get(`/cart/${user_id}`);
+            dispatch(addBook(response.data));
+        }else return
+    };
+    cartApi();
+  }, [ ]);
+  
   const ProtectedRoute = () => {
     if (user) {
       return <Navigate to='/' replace />;
@@ -66,7 +65,7 @@ function App() {
           <Route path="/changepassword" element={<ChangePassword />} />
         </Route>
         <Route path="/collections/:page=?" element={<BooksList />} />
-        <Route path="/collections/:id" element={<BookDetail />} />
+        <Route path="/collections/:slug" element={<BookDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

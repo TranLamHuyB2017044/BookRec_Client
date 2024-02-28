@@ -27,7 +27,7 @@ export default function Login() {
     setLoading(true)
     setTimeout(async () => {
       try {
-        const user = await PublicRequest.post('/api/user/login', data)
+        const user = await PublicRequest.post('/user/login', data)
         dispatch(SignIn(user.data))
         MyAlert.Toast('success', 'Login successfully')
         setLoading(false)

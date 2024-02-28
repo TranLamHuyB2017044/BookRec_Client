@@ -50,7 +50,7 @@ export default function Register() {
   const onRegister = async (data) => {
     setLoading(true)
     try {
-      await PublicRequest.post('/api/user/register', data)
+      await PublicRequest.post('/user/register', data)
       setTimeout(() =>{
         setLoading(false)
         myAlert.Alert('success', 'Đăng ký thành công')

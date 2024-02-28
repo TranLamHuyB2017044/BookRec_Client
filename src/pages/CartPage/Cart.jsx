@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 import { books_data } from '../../data.jsx'
@@ -7,8 +7,9 @@ import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 
 import { Link } from 'react-router-dom';
 import  Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
+import { useSelector } from 'react-redux';
 export default function Cart() {
-
+    const cartItem = useSelector(state => state.cart.books)
     const breadcrumbs = [
         {
             link: '/',
@@ -20,6 +21,7 @@ export default function Cart() {
         }
 
     ]
+    console.log(cartItem)
 
     // const book_empty = []
 
@@ -28,7 +30,7 @@ export default function Cart() {
             <Navbar />
             <Breadcrumbs paths={breadcrumbs}/>
             <h1 className='mt-36 px-5 text-5xl ml-72'>Giỏ hàng của bạn</h1>
-            {books_data.length > 0 ? (
+            {cartItem.length > 0 ? (
                 <div className='h-screen w-[1200px]  mx-auto mt-12 mb-5 flex rounded-lg gap-4'>
                     <div className='border basis-3/4 pt-3'>
                         <div className='grid grid-cols-7 px-3 py-2'>
@@ -38,19 +40,19 @@ export default function Cart() {
                             <p className='col-span-1'>Thành tiền</p>
                         </div>
                         <div>
-                            {books_data.map((book, index) => (
+                            {cartItem.map((book, index) => (
                                 <div key={index} className='px-3 mt-2 mx-auto py-5 grid grid-cols-7 border-t w-[95%] relative'>
                                     <div className='flex col-span-4 items-center gap-4'>
-                                        <img className='w-[150px] h-[150px]' src={book.url} alt="img" />
+                                        <img className='w-[150px] h-[150px]' src={book.thumbnail_url} alt="img" />
                                         <p>{book.title}</p>
                                     </div>
-                                    <p className='col-span-1 m-auto'>{book.price}&#8363;</p>
+                                    <p className='col-span-1 m-auto'>{(book.original_price -  (book.original_price* book.discount)/100).toLocaleString()}&#8363;</p>
                                     <div className='col-span-1 flex items-center m-auto gap-2'>
                                         <p className='border px-3 py-2 rounded-lg cursor-pointer hover:bg-[#f47830] hover:text-white'>-</p>
-                                        <p className='border px-6 py-2 '>1</p>
+                                        <p className='border px-6 py-2 '>{book.quantity}</p>
                                         <p className='border px-3 py-2 rounded-lg cursor-pointer hover:bg-[#f47830] hover:text-white'>+</p>
                                     </div>
-                                    <p className='col-span-1 m-auto'>{book.price}&#8363;</p>
+                                    <p className='col-span-1 m-auto'>{(book.quantity * (book.original_price -  (book.original_price* book.discount)/100)).toLocaleString()}&#8363;</p>
                                     <p className='absolute right-5 top-3 text-5xl cursor-pointer opacity-85'>
                                         &times;
                                     </p>

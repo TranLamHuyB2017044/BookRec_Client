@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
@@ -11,7 +11,8 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const [showSubAccount, setShowSubAccount] = useState(false)
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-
+    const cartItem = useSelector(state => state.cart)
+    const quantity = useMemo(() => cartItem.quantity)
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
@@ -69,7 +70,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                 </div> : <Link to='/login' className='hover:text-[#f47830]'>Login</Link>}
                 <Link to='/cart'>
                     <IconButton aria-label="cart">
-                        <Badge badgeContent={4} color="warning">
+                        <Badge badgeContent={quantity} color="warning">
                             <ShoppingCartOutlinedIcon fontSize='large' />
                         </Badge>
                     </IconButton>

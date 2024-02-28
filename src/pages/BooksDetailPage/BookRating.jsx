@@ -64,11 +64,10 @@ export default function BookRating({ books, Star }) {
                     <div className='my-5 border-t'>
                         <h1 className='my-4 text-3xl'>Tất cả hình ảnh (19)</h1>
                         <div className='flex  items-center gap-4'>
-                            {books.map((img, index) => (
-                                <div key={index} className='w-[80px] h-[80px] border rounded-xl'>
-                                    <img className='object-cover w-[80px] h-[80px]' src={img.url} alt="all-cmt" />
-                                </div>
-                            )).slice(-8)}
+
+                            <div className='w-[80px] h-[80px] border rounded-xl'>
+                                <img className='object-cover w-[80px] h-[80px]' src={books.thumbnail_url} alt="all-cmt" />
+                            </div>
                         </div>
                     </div>
                     <div className='my-5 border-t'>
@@ -100,11 +99,10 @@ export default function BookRating({ books, Star }) {
                                 Mình là đứa không thích những con số, và khi đọc xong sách này, đương nhiên mình vẫn chưa thích, nhưng ít ra đã giúp mình có cái nhìn tổng quan và chi tiết hơn những điều trước nay mình nghĩ rằng "rất khó".
                             </p>
                             <div className='flex  items-center gap-4'>
-                                {books.map((img, index) => (
-                                    <div key={index} className='w-[80px] h-[80px] border rounded-xl'>
-                                        <img className='object-cover w-[80px] h-[80px]' src={img.url} alt="all-cmt" />
-                                    </div>
-                                )).slice(-3)}
+
+                                <div className='w-[80px] h-[80px] border rounded-xl'>
+                                    <img className='object-cover w-[80px] h-[80px]' src={books.thumbnail_url} alt="all-cmt" />
+                                </div>
                             </div>
                             <p className='mt-3 text-gray-500 ml-5'>đánh giá vào 6 tháng trước</p>
                         </div>
@@ -124,18 +122,18 @@ export default function BookRating({ books, Star }) {
                                 Sách giao rất nhanh và gói cẩn thận.
                             </p>
                             <div className='flex  items-center gap-4'>
-                                {books.map((img, index) => (
-                                    <div key={index} className='w-[80px] h-[80px] border rounded-xl'>
-                                        <img className='object-cover w-[80px] h-[80px]' src={img.url} alt="all-cmt" />
-                                    </div>
-                                )).slice(-3)}
+
+                                <div className='w-[80px] h-[80px] border rounded-xl'>
+                                    <img className='object-cover w-[80px] h-[80px]' src={books.thumbnail_url} alt="all-cmt" />
+                                </div>
+
                             </div>
                             <p className='mt-3 text-gray-500 ml-5'>đánh giá vào 6 tháng trước</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <RecommendBook books={books} Star={Star} />
+            {/* <RecommendBook books={books} Star={Star} /> */}
         </div>
     )
 }
