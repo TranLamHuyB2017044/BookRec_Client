@@ -34,7 +34,9 @@ class MyAlert {
       cancelButtonColor: "#d33",
       confirmButtonText: confirmButtonText,
     }).then((result) => {
-      return result.isConfirmed;
+      // Add an isDismissed property to the result object
+      result.isDismissed = result.dismiss === Swal.DismissReason.esc || result.dismiss === Swal.DismissReason.backdrop;
+      return result;
     });
   }
 }

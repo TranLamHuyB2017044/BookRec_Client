@@ -24,7 +24,7 @@ const CartSlice = createSlice({
         return book;
       })
     },
-    decrementBook: (state, action) => {
+    decrementQuantity: (state, action) => {
       state.books.map((book, index) => {
         if(index === action.payload){
           if(book.quantity === 1){
@@ -43,5 +43,5 @@ const CartSlice = createSlice({
   },
 });
 
-export const { addBook, removeBook, incrementQuantity,  decrementBook, LogoutCart} = CartSlice.actions;
+export const { addBook, removeBook, incrementQuantity,  decrementQuantity, LogoutCart} = CartSlice.actions;
 export default CartSlice.reducer;
