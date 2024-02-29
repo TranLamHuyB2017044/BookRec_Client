@@ -7,7 +7,7 @@ export default function InfoRight({ books, Star }) {
     const user = useSelector(state => state.user.currentUser)
     const [quantity, setQuantity] = useState(1)   
     const dispatch = useDispatch()
-    const discountPrice = useMemo(() => books.original_price -  (books.original_price* books.discount)/100, [])
+    const discountPrice = useMemo(() => books.original_price -  (books.original_price* books.discount)/100, [books.discount, books.original_price])
     const handleQuantityChange = (type) => {
         if(type === 'minus'){
             if(quantity > 1){
@@ -22,12 +22,15 @@ export default function InfoRight({ books, Star }) {
         const user_id = user.user_id
         const book_id = books.book_id
         try {
-            await PublicRequest.post('/cart', {user_id, book_id, quantity})
-            MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
-            const CartData = await PublicRequest.get(`/cart/${user_id}`);
-            dispatch(addBook(CartData.data));
+            await PublicRequest.post('/cart/add', {user_id, book_id, quantity})
+            .then(async response => {
+                console.log(response.data)
+                MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
+                const CartData = await PublicRequest.get(`/cart/${user_id}`);
+                dispatch(addBook(CartData.data));
+            })
         } catch (error) {
-            MyAlert.Alert(error.response.data)
+            MyAlert.Alert('error',error.response.data)
         }
         
     };

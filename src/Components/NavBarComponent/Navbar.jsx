@@ -6,16 +6,18 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { Exit } from '../../store/userReducer';
+import { LogoutCart } from '../../store/cartReducer';
 export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
     const [showSubAccount, setShowSubAccount] = useState(false)
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
     const cartItem = useSelector(state => state.cart)
-    const quantity = useMemo(() => cartItem.quantity)
+    const quantity = useMemo(() => cartItem.quantity, [cartItem])
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
+        dispatch(LogoutCart())
         window.localStorage.removeItem('persist:root')
     }
 

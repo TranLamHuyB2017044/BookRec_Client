@@ -47,21 +47,53 @@ export default function BestSeller() {
                 .replace(/[^\w-]/g, '');
   } 
 
+  const responsiveSettings = [
+    {
+      breakpoint: 1000,
+      settings: {
+          slidesToShow: 7,
+          slidesToScroll: 3
+      }
+    },
+    {
+      breakpoint: 900,
+      settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3
+      }
+    },
+    {
+        breakpoint: 500,
+        settings: {
+            slidesToShow: 4,
+            slidesToScroll: 3
+        }
+    },
+    {
+        breakpoint: 300,
+        settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+        }
+    }
+  ];
   return (
-    <div className='max-w-screen mt-8 bg-[#fff8f2] py-5 h-[500px]'>
+    <div className='max-w-screen mt-8 bg-[#fff8f2] py-5 max-h-[500px]'>
       <h1 className='text-5xl font-bold text-center'>Sách dành cho bạn</h1>
       <div className='flex items-center justify-center my-5'>
         <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
         <AutoStoriesIcon fontSize='large'/>
         <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
       </div>
-      <Slide slidesToShow={7} indicators={true}>
-        {bookSeller.map((slide) => (
-            <Link to={`/collections/${convertStringToSlug(slide.title)}-p${slide.book_id}`} key={slide.book_id} className='mt-16 '>
-                <img className='w-[200px]  border h-[250px] p-2 mb-4 rounded-md cursor-pointer shadow transform transition-transform duration-300 hover:scale-110 ' src={slide.thumbnail_url} alt='slider-img'/>
-            </Link>
-        )).slice(-12)}
-      </Slide>
+      <div className='max-h-full'>
+        <Slide infinite={true} slidesToScroll={3} slidesToShow={7} indicators={true} responsive={responsiveSettings}>
+          {bookSeller.map((slide) => (
+              <Link to={`/collections/${convertStringToSlug(slide.title)}-p${slide.book_id}`} key={slide.book_id} className='mt-16 '>
+                  <img className='w-[200px]  border h-[250px] p-2 mb-4 rounded-md cursor-pointer shadow transform transition-transform duration-300 hover:scale-110 ' src={slide.thumbnail_url} alt='slider-img'/>
+              </Link>
+          ))}
+        </Slide>
+      </div>
     </div>
   )
 }

@@ -82,7 +82,7 @@ export default function Cart() {
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
             <h1 className='mt-36 px-5 text-5xl ml-72'>Giỏ hàng của bạn</h1>
-            {cartItem.length > 0 ? (
+            {cartItem?.length > 0 ? (
                 <div className='h-full w-[1200px]  mx-auto mt-12 mb-5 flex rounded-lg gap-4'>
                     <div className='border basis-3/4 pt-3'>
                         <div className='grid grid-cols-7 px-3 py-2'>

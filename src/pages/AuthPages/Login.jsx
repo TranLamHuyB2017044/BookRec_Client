@@ -23,7 +23,6 @@ export default function Login() {
     window.location.href = 'http://localhost:5000/auth/google';
   };
   const onLogin = async (data) => {
-    console.log(data)
     setLoading(true)
     setTimeout(async () => {
       try {
@@ -34,6 +33,7 @@ export default function Login() {
 
       } catch (error) {
         alert(error.response.data)
+        setLoading(false)
       }
     }, 2000)
   }

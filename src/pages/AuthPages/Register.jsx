@@ -10,6 +10,8 @@ import * as yup from "yup"
 import { PublicRequest } from '../../service/Request';
 import myAlert from '../../Components/AlertComponent/Alert'
 import Loading from '../../Components/LoadingComponent/Loading';
+import { useDispatch } from 'react-redux';
+import { SignUp } from '../../store/userReducer';
 
 export default function Register() {
   const [newUser, setNewUser] = useState({
@@ -38,7 +40,7 @@ export default function Register() {
   .required();
   
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors }, } = useForm({
     resolver: yupResolver(schema),
   })
@@ -50,18 +52,20 @@ export default function Register() {
   const onRegister = async (data) => {
     setLoading(true)
     try {
-      await PublicRequest.post('/user/register', data)
+      const rs = await PublicRequest.post('/user/register', data)
       setTimeout(() =>{
         setLoading(false)
         myAlert.Alert('success', 'Đăng ký thành công')
+        dispatch(SignUp(rs.data))
         navigate('/login')
       }, 2000)
     } catch (error) {
-      myAlert.Alert('error', error.respose.data)
+      myAlert.Alert('error', error.response.data)   
+      setLoading(false)
     }
   }
 
-  const onEnterRegister = (e) =>{
+  const onEnterRegister = async (e) =>{
     if(e.key === 'Enter'){
       onRegister()
     }
@@ -82,8 +86,8 @@ export default function Register() {
               <Link to='/register' className='mx-2 hover:text-[#f47830]' >Đăng ký</Link>
             </div>
             <div className='flex flex-col my-6'>
-              <label htmlFor="fullname " className='text-[#616161] font-bold'>Họ và tên</label>
-              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", {require:true})} onChange={onChange}/>
+              <label htmlFor="fullname" className='text-[#616161] font-bold'>Họ và tên</label>
+              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='text' id="fullname" {...register("fullname", {require:true})} onChange={onChange}/>
               <p className='text-red-600'>{errors.fullname?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
@@ -98,7 +102,7 @@ export default function Register() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="Password " className='text-[#616161] font-bold'>Mật Khẩu</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="Password" {...register("password", {require:true})} type="password" onChange={onChange}/>
+              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="password" {...register("password", {require:true})} type="password" onChange={onChange}/>
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
 
