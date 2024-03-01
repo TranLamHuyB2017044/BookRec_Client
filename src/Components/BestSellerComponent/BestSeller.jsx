@@ -16,6 +16,7 @@ export default function BestSeller() {
     getData()
   }, [ ])
 
+  
   const  boDauTiengViet = function(chuoi) {
     var regex = /[ăâàáảãạăắằẳẵặâầấẩẫậđèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵ]/g;
     var charMap = {
@@ -78,22 +79,20 @@ export default function BestSeller() {
     }
   ];
   return (
-    <div className='max-w-screen mt-8 bg-[#fff8f2] py-5 max-h-[500px]'>
-      <h1 className='text-5xl font-bold text-center'>Sách dành cho bạn</h1>
+    <div className='mt-8 bg-[#fff8f2] py-5 max-h-[500px] overflow-hidden'>
+      <h2 className='text-5xl font-bold text-center'>Sách dành cho bạn</h2>
       <div className='flex items-center justify-center my-5'>
         <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
         <AutoStoriesIcon fontSize='large'/>
         <div className='bg-gray-400 h-[1px] w-[100px] mx-8'></div>
       </div>
-      <div className='max-h-full'>
-        <Slide infinite={true} slidesToScroll={3} slidesToShow={7} indicators={true} responsive={responsiveSettings}>
-          {bookSeller.map((slide) => (
-              <Link to={`/collections/${convertStringToSlug(slide.title)}-p${slide.book_id}`} key={slide.book_id} className='mt-16 '>
-                  <img className='w-[200px]  border h-[250px] p-2 mb-4 rounded-md cursor-pointer shadow transform transition-transform duration-300 hover:scale-110 ' src={slide.thumbnail_url} alt='slider-img'/>
-              </Link>
-          ))}
-        </Slide>
-      </div>
+      <Slide autoplay={true} infinite={true} slidesToScroll={3} slidesToShow={7} indicators={true} responsive={responsiveSettings}>
+        {bookSeller.map((slide) => (
+            <Link to={`/collections/${convertStringToSlug(slide.title)}-p${slide.book_id}`} key={slide.book_id} className='mt-16 '>
+                <img loading='lazy' className='w-[200px]  border h-[250px] p-2 mb-4 rounded-md cursor-pointer shadow transform transition-transform duration-300 hover:scale-110 ' src={slide.thumbnail_url} alt='slider-img'/>
+            </Link>
+        ))}
+      </Slide>
     </div>
   )
 }

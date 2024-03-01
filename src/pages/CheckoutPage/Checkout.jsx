@@ -57,13 +57,13 @@ export default function Checkout() {
             <Breadcrumbs paths={breadcrumbs} />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='grid grid-cols-3  w-[1300px] mx-auto my-5'>
-                    <div className='col-span-1'>
+                    <div className='col-span-1 mx-2'>
                         <FormCheckout register={register} errors={errors}/>
                     </div>
-                    <div className='col-span-1'>
+                    <div className='col-span-1 mx-2'>
                         <Payment/>
                     </div>
-                    <div className='col-span-1 border'>
+                    <div className='col-span-1 mx-2'>
                         <Order/>
                     </div>
                 </div>

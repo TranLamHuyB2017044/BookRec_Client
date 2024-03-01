@@ -3,14 +3,9 @@ import React from 'react'
 export default function FormCheckout({register, errors}) {
     
   return (
-    <div>
+    <div className='bg-white border rounded-md'>
         <h2 className='p-4 text-4xl'>Thông tin mua hàng</h2>
         <div className='p-8 flex flex-col  '>
-            <div className='flex flex-col'>
-                <label htmlFor="email " className='text-[#616161] font-bold'>Email</label>
-                <input className={`pl-4 w-[390px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", { require: true })} />
-                <p className='text-red-600'>{errors.email?.message}</p>
-            </div>
             <div className='flex flex-col'>
                 <label htmlFor="fullname " className='text-[#616161] font-bold'>Họ và tên</label>
                 <input className={`pl-4 w-[390px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='fullname' id="fullname" {...register("fullname", { require: true })} />
@@ -40,10 +35,6 @@ export default function FormCheckout({register, errors}) {
                 <label htmlFor="wards" className='text-[#616161] font-bold'>Phường xã</label>
                 <input className={`pl-4 w-[390px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.wards ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="wards" {...register("wards", { require: true })} type="text" />
                 <p className='text-red-600'>{errors.wards?.message}</p>
-            </div>
-            <div className='flex items-center gap-3 mt-3'>
-                <input type='checkbox' id='checkbox' className='w-[20px] h-[20px]'/>
-                <label htmlFor="checkbox" className='text-[#616161] font-bold'>Giao đến địa chỉ khác</label>
             </div>
             <div className='flex flex-col gap-3 mt-4'>
                 <label htmlFor="area" className='text-[#616161] font-bold'>Ghi chú</label>

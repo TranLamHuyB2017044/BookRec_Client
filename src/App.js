@@ -22,26 +22,24 @@ import { addBook } from "./store/cartReducer";
 function App() {
   const user = useSelector(state => state.user.currentUser)
   const dispatch = useDispatch()
-  const cartItems = useSelector(state => state.cart.books)
   const user_id = user?.user_id
-  console.log(cartItems, user_id)
 
   useEffect(() => {
     const cartApi = async () => {
       try {
-        if (cartItems != null) {
-          const response = await PublicRequest.get(`/cart/${user_id}`);
-          dispatch(addBook(response.data));
-        } else if(user_id !== undefined && cartItems == null) {
+        if (user_id !== undefined) {
           const response = await PublicRequest.post('/cart', { user_id: user_id })
-          console.log(response.data)
-        }else return
+          if (response.status === 202) {
+            const cartData = await PublicRequest.get(`/cart/${user_id}`);
+            dispatch(addBook(cartData.data));
+          }
+        } else return
       } catch (error) {
         console.log(error)
       }
     };
     cartApi();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user_id, dispatch]);
 
   const ProtectedRoute = () => {

@@ -30,7 +30,6 @@ export default function Login() {
         dispatch(SignIn(user.data))
         MyAlert.Toast('success', 'Login successfully')
         setLoading(false)
-
       } catch (error) {
         alert(error.response.data)
         setLoading(false)

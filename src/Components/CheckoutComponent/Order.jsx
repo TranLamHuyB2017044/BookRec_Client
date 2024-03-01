@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 
 export default function Order() {
   return (
-    <div>
-      <h1 className='p-4 text-3xl my-2'>Đơn hàng (2 sản phẩm)</h1>
+    <div className='bg-white h-full border rounded-md'>
+      <h1 className='p-4 text-3xl '>Đơn hàng (2 sản phẩm)</h1>
       <div className='border-t'>
         {books_data.map((book, id) => (
           <div key={id} className='flex justify-between items-center p-3'>
