@@ -3,10 +3,12 @@ import MyAlert from '../../Components/AlertComponent/Alert'
 import { useDispatch, useSelector } from 'react-redux';
 import {addBook} from '../../store/cartReducer'
 import {PublicRequest} from '../../service/Request'
+import {useNavigate} from 'react-router-dom'
 export default function InfoRight({ books, Star }) {
     const user = useSelector(state => state.user.currentUser)
     const [quantity, setQuantity] = useState(1)   
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const discountPrice = useMemo(() => books.original_price -  (books.original_price* books.discount)/100, [books.discount, books.original_price])
     const handleQuantityChange = (type) => {
         if(type === 'minus'){
@@ -19,16 +21,20 @@ export default function InfoRight({ books, Star }) {
     }
 
     const handleAddCart = async () => {
-        const user_id = user.user_id
+        const user_id = user?.user_id
         const book_id = books.book_id
         try {
-            await PublicRequest.post('/cart/add', {user_id, book_id, quantity})
-            .then(async response => {
-                console.log(response.data)
-                MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
-                const CartData = await PublicRequest.get(`/cart/${user_id}`);
-                dispatch(addBook(CartData.data));
-            })
+            if(user_id == null){
+                navigate('/login')
+            }else{
+                await PublicRequest.post('/cart/add', {user_id, book_id, quantity})
+                .then(async response => {
+                    console.log(response.data)
+                    MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
+                    const CartData = await PublicRequest.get(`/cart/${user_id}`);
+                    dispatch(addBook(CartData.data));
+                })
+            }
         } catch (error) {
             MyAlert.Alert('error',error.response.data)
         }
