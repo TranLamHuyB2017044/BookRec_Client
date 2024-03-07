@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-export default function Payment() {
-  const [Shipping, setShipping] = useState("");
-  const [Payment, setPayment] = useState("");
-  const [checked, setChecked] = useState(false);
+export default function Payment({ setShippingPrice, setShipping, setPayment }) {
+  const [checkedShipping, setCheckedShipping] = useState();
+  const [checkedPayment, setCheckedPayment] = useState();
+
   const shippingMethods = [
     {
       id: 1,
@@ -17,21 +17,27 @@ export default function Payment() {
     }
   ]
 
+
   const handleChangeShippingMethods = (id) => {
     shippingMethods.map((item) => {
       if (item.id === id) {
         setShipping(item.Method)
+        setShippingPrice(item.price)
       }
+      return item
     })
   }
+
   const PaymentMethods = [
     {
       id: 1,
       Method: 'Thanh toán khi nhận hàng',
+      logo: "https://cdn-icons-png.flaticon.com/512/5578/5578525.png"
     },
     {
       id: 2,
       Method: 'Thanh toán qua ZaloPay',
+      logo: 'https://cdn.tgdd.vn/2020/04/GameApp/image-180x180.png'
     }
   ]
 
@@ -40,8 +46,11 @@ export default function Payment() {
       if (item.id === id) {
         setPayment(item.Method)
       }
+      return item
     })
   }
+
+
   return (
     <div className='bg-white h-full border rounded-md'>
       <div className='mx-4 py-8'>
@@ -49,8 +58,8 @@ export default function Payment() {
         {shippingMethods.map((method) => (
           <div key={method.id} className='flex items-center justify-between border p-4 rounded-lg mb-2'>
             <div className='flex items-center gap-3'>
-              <input checked={checked === method.id}
-                onChange={() => setChecked(method.id)} onClick={() => handleChangeShippingMethods(method.id)} className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
+              <input checked={checkedShipping === method.id}
+                onChange={() => setCheckedShipping(method.id)} onClick={() => handleChangeShippingMethods(method.id)} className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
               <p>{method.Method}</p>
             </div>
             <p>{(method.price).toLocaleString()} &#8363;</p>
@@ -60,21 +69,17 @@ export default function Payment() {
       </div>
       <div className=' mx-4 '>
         <h1 className='text-4xl mb-4'>Thanh toán</h1>
-        <div className='border rounded-lg'>
-          <div className='flex items-center justify-between p-4'>
-            <div className='flex items-center gap-3'>
-              <input className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
-              <p>Thanh toán qua Zalo pay</p>
+        <div className='flex flex-col gap-2'>
+          {PaymentMethods.map((payment => (
+            <div key={payment.id} className='flex items-center justify-between p-4 border rounded-lg'>
+              <div className='flex items-center gap-3'>
+                <input checked={checkedPayment === payment.id} onChange={() => setCheckedPayment(payment.id)} onClick={() => handleChangePaymentMethods(payment.id)} className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
+                <p>{payment.Method}</p>
+              </div>
+              <img width='40px' height='40px' src={payment.logo} alt="payment_image" />
             </div>
-            <img width='40px' height='40px' src="https://cdn.tgdd.vn/2020/04/GameApp/image-180x180.png" alt="zalopay" />
-          </div>
-          <div className='flex items-center justify-between p-4 border-t mb-2'>
-            <div className='flex items-center gap-3'>
-              <input className=' cursor-pointer w-8 h-8' type="radio" name="" id="" />
-              <p>Thanh toán khi nhận hàng</p>
-            </div>
-            <img width='40px' height='40px' src="https://cdn-icons-png.flaticon.com/512/5578/5578525.png" alt="cashdelivery" />
-          </div>
+          )))}
+          
         </div>
       </div>
     </div>

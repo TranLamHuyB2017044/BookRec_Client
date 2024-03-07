@@ -1,19 +1,10 @@
-import React, { useCallback } from 'react'
-import { books_data } from '../../data.jsx'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-export default function Order() {
-  const OrderItem = useSelector(state => state.cart)
-  console.log(OrderItem)
-  const TotalPrice = useCallback(items => {
-    let total = 0;
-    // eslint-disable-next-line array-callback-return
-    items.map(item => {
-        total += item.quantity * (item.original_price - (item.original_price * item.discount) / 100)
-    })
-    return total
-}, [])
+export default function Order({price_shipping, onSubmit, TotalPrice, OrderItem}) {
+  
+
   return (
     <div className='bg-white h-full border rounded-md'>
       <h1 className='p-4 text-3xl '>Đơn hàng ({OrderItem.quantity} sản phẩm)</h1>
@@ -39,20 +30,20 @@ export default function Order() {
           </div>
           <div className='flex justify-between items-center'>
             <p>Phí vận chuyển</p>
-            <p>28.000&#8363;</p>
+            <p>{(price_shipping).toLocaleString()}&#8363;</p>
           </div>
       </div>
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
           <div className='flex justify-between items-center text-3xl'>
             <p>Tổng cộng</p>
-            <p className='text-blue-400'>619.300&#8363;</p>
+            <p className='text-blue-400'>{(TotalPrice(OrderItem.books)+price_shipping).toLocaleString()}&#8363;</p>
           </div>
-          <div className='flex justify-between items-center text-3xl'>
+          <div className='flex justify-between items-center text-3xl py-4'>
            <div className='cursor-pointer group flex items-center text-blue-500 hover:text-blue-700'>
               <p className='transition-transform transform group-hover:-translate-x-2  text-4xl mt-1'>{'<'}</p> 
               <Link to='/cart' className='text-2xl '>Quay về giỏ hàng</Link>
            </div>
-            <button className='py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
+            <button type='submit' onClick={onSubmit} className='py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
           </div>
       </div>
     </div>
