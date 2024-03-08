@@ -1,15 +1,27 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React from 'react'
+import React, {useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
-import { order_data } from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { Exit } from '../../store/userReducer.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { PublicRequest } from '../../service/Request.js';
 export default function YourOrder() {
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user.currentUser)
+    const [myOrders, setMyOrders] = useState([])
+    console.log(myOrders)
+    useEffect(() => {
+        const getOrders = async () => {
+            const user_id = user.user_id
+            console.log(user_id)
+            const response = await PublicRequest.get(`/order/${user_id}`)
+            setMyOrders(response.data)
+        }
+        getOrders()
+    }, [user])
     const breadcrumbs = [
         {
             link: '/',
@@ -55,15 +67,15 @@ export default function YourOrder() {
                         <p className='col-span-1'>Đơn giá</p>
                     </div>
                     {
-                        order_data.length <= 0 ? (
-                            <div>
+                        myOrders.length <= 0 ? (
+                            <div >
                                 <div className='grid grid-cols-6 px-4 py-2 mt-16 '>
                                     <p className='col-span-6'>không có đơn hàng nào</p>
                                 </div>
                             </div>
                         ) :
-                            order_data.map((order) => (
-                                <div className='border  py-3 px-8 mt-4 bg-white rounded-lg ' key={order.id}>
+                            myOrders.map((order) => (
+                                <div key={order.order_id} className='border  py-3 px-8 mt-4 bg-white rounded-lg '>
                                     <div className='grid grid-cols-6 px-4'>
                                         <div className='col-span-3'>
                                             <p className='text-gray-500'>Địa chỉ</p>
@@ -80,40 +92,46 @@ export default function YourOrder() {
                                             <p className=''>{order.address}</p>
                                         </div>
                                         <div className='col-span-2'>
-                                            <p className=''>{order.days}</p>
+                                            <p className=''>{order.order_date.substring(0, order.order_date.indexOf('T'))}</p>
                                         </div>
                                         <div className='col-span-1'>
-                                            <p className={order.status === 'Đã thanh toán' ? 'text-[dodgerblue]' : 'text-red-500'}>{order.status}</p>
+                                            <p className={order.payment_status === 'Đã thanh toán' ? 'text-[dodgerblue]' : 'text-red-500'}>{order.payment_status}</p>
                                         </div>
                                     </div>
                                     {order.items.map((item, id) => (
                                         <div key={id} className='grid grid-cols-6 px-4 py-4 mt-4  bg-white'>
                                             <div className='col-span-5 flex items-center gap-4'>
-                                                <img className='border-gray-500 border h-[90px]' src={item.url} alt="book_cover" />
+                                                <img className='border-gray-500 border h-[90px]' src={item.thumbnail_url} alt="book_cover" />
                                                 <div className='flex flex-col gap-4'>
-                                                    <p>{item.title}</p>
-                                                    <p>Số lượng x{item.unit}</p>
+                                                    <p className='max-w-[350px]'>{item.title}</p>
+                                                    <p>Số lượng x{item.quantity}</p>
                                                 </div>
                                             </div>
                                             <div className='col-span-1'>
-                                                <p className='mt-8'>{item.price}.000&#8363;</p>
+                                                <p className='mt-8'>{(item.original_price).toLocaleString()}&#8363;</p>
+                                                <p className='mt-8'>-{((item.original_price * item.discount) / 100).toLocaleString()}&#8363;</p>
+
                                             </div>
 
                                         </div>
                                     ))}
-                                    <div className='flex item-center gap-2 justify-end  pr-32 mb-4'>
-                                        <p className='text-3xl text-gray-500'>Tổng tiền: </p>
-                                        <p>20000 vnd</p>
+                                    <div className='flex gap-2 justify-end mt-2 mr-32 pr-8'>
+                                        <p className=' text-gray-500'>{order.shipping_method}:</p>
+                                        {order.shipping_method === 'Giao hàng tận nơi' ? <p>28,000&#8363;</p> : <p>15,000&#8363;</p>}
                                     </div>
-                                    <div className='flex items-center justify-end mb-2 gap-4 mr-5'>
-                                        <button className='py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button>
-                                        <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-slate-200 min-w-[120px] text-center' to='/collections'>Mua lại</Link>
+                                    <div className='flex flex-col items-end justify-end mt-4'>
+                                        <div className='flex gap-2  mr-32 mb-4 pr-8'>
+                                            <p className='text-3xl text-gray-500'>Tổng tiền: </p>
+                                            <p>{(order.total_price).toLocaleString()}&#8363;</p>
+                                        </div>
+                                        <div className='flex mb-2 gap-4 mr-8'>
+                                            <button className='py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button>
+                                            <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-slate-200 min-w-[120px] text-center' to='/collections'>Mua lại</Link>
+                                        </div>
                                     </div>
                                 </div>
                             ))
-
                     }
-
                 </div>
             </div>
             <GoToTop />

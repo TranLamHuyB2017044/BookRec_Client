@@ -6,9 +6,9 @@ export default function FormCheckout({register, errors, userInfo}) {
         <h2 className='p-4 text-4xl'>Thông tin mua hàng</h2>
         <div className='p-8 flex flex-col  '>
             <div className='flex flex-col'>
-                <label htmlFor="fullname " className='text-[#616161] font-bold'>Họ và tên</label>
-                <input className={`pl-4 w-[390px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.fullname} type='fullname' id="fullname" {...register("fullname", { require: true })} />
-                <p className='text-red-600'>{errors.fullname?.message}</p>
+                <label htmlFor="customer_name " className='text-[#616161] font-bold'>Họ và tên</label>
+                <input className={`pl-4 w-[390px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.customer_name ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.fullname} type='customer_name' id="customer_name" {...register("customer_name", { require: true })} />
+                <p className='text-red-600'>{errors.customer_name?.message}</p>
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="phone " className='text-[#616161] font-bold'>Số điện thoại</label>

@@ -1,10 +1,6 @@
 /* eslint-disable jsx-a11y/aria-role */
 import React, { useCallback, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
-// import Footer from '../../Components/FooterComponent/Footer.jsx'
-// import { books_data } from '../../data.jsx'
-// import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
-// import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -13,12 +9,15 @@ import Order from '../../Components/CheckoutComponent/Order.jsx';
 import FormCheckout from '../../Components/CheckoutComponent/FormCheckout.jsx';
 import Payment from '../../Components/CheckoutComponent/Payment.jsx';
 import { useSelector } from 'react-redux';
-
+import {PublicRequest} from '../../service/Request.js'
+import MyAlert from '../../Components/AlertComponent/Alert.js'
+import { useNavigate } from 'react-router-dom';
 export default function Checkout() {
     const userInfo = useSelector(state => state.user?.currentUser)
     const [shippingPrice, setShippingPrice] = useState(0)
     const [shipping, setShipping] = useState("");
     const [payment, setPayment] = useState("");
+    const navigate = useNavigate()
     const breadcrumbs = [
         {
             link: '/',
@@ -36,7 +35,6 @@ export default function Checkout() {
     ]
     
     const OrderItem = useSelector(state => state.cart)
-    console.log(OrderItem.books)
     const TotalPrice = useCallback(items => {
         let total = 0;
         // eslint-disable-next-line array-callback-return
@@ -44,12 +42,12 @@ export default function Checkout() {
             total += item.quantity * (item.original_price - (item.original_price * item.discount) / 100)
         })
         return total
-    }, [])
+    }, [ ])
 
 
     const schema = yup
         .object({
-            fullname: yup.string().required("Username is required").min(3),
+            customer_name: yup.string().required("customer_name is required").min(3),
             phone: yup.string().required('Phone number is required'),
             address: yup.string().required(),
         })
@@ -58,19 +56,41 @@ export default function Checkout() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     })
-    const onSubmit = (data) => {
-        const Formdata = {
-            user_id: userInfo.user_id,
-            address: data.address,
-            phone: data.phone,
-            shipping,
-            payment,
-            total_price: TotalPrice(OrderItem.books)+shippingPrice,
-            items:[{
-                
-            }]
+
+    const onSubmit = async (data) => {
+        try {
+            const itemValues = OrderItem.books.map(book => {
+                const book_id = book.book_id
+                const quantity = book.quantity
+                return {
+                    book_id,
+                    quantity
+                }
+            })
+            if(shipping === ''){
+                MyAlert.Alert('info', 'Vui lòng chọn phương thức giao hàng')
+            }else if (payment === ''){
+                MyAlert.Alert('info', 'Vui lòng chọn phương thức thanh toán')
+            }else{
+                const Formdata = {
+                    user_id: userInfo.user_id,
+                    customer_name: data.customer_name,
+                    address: data.address,
+                    phone: data.phone,
+                    shipping_method: shipping,
+                    payment_method: payment,
+                    total_price: TotalPrice(OrderItem.books) + shippingPrice,
+                    items: itemValues
+                }
+    
+                const response = await PublicRequest.post(`/order/`, Formdata)
+                console.log(response.data)
+                MyAlert.Alert(response.data.status, response.data.message)
+                navigate('/yourOrders')
+            }
+        } catch (error) {
+            MyAlert.Alert('error', error.response.data)
         }
-        console.log(Formdata)
     }
 
 
