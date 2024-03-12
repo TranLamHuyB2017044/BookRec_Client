@@ -9,9 +9,11 @@ import Order from '../../Components/CheckoutComponent/Order.jsx';
 import FormCheckout from '../../Components/CheckoutComponent/FormCheckout.jsx';
 import Payment from '../../Components/CheckoutComponent/Payment.jsx';
 import { useSelector } from 'react-redux';
-import {PublicRequest} from '../../service/Request.js'
+import {PublicRequest, ZaloPay} from '../../service/Request.js'
 import MyAlert from '../../Components/AlertComponent/Alert.js'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 export default function Checkout() {
     const userInfo = useSelector(state => state.user?.currentUser)
     const [shippingPrice, setShippingPrice] = useState(0)
@@ -82,18 +84,36 @@ export default function Checkout() {
                     total_price: TotalPrice(OrderItem.books) + shippingPrice,
                     items: itemValues
                 }
-    
-                const response = await PublicRequest.post(`/order/`, Formdata)
-                console.log(response.data)
-                MyAlert.Alert(response.data.status, response.data.message)
-                navigate('/yourOrders')
+                if(Formdata.payment_method === 'Thanh toán qua ZaloPay'){
+                    const formDataZalo = {
+                        "partnerCode": "MOMO",
+                        "partnerName" : "Test",
+                        "storeId" : "MomoTestStore",
+                        "requestType": "payWithATM",
+                        "ipnUrl": "http://www.example.com",
+                        "redirectUrl": "http://www.example.com",
+                        "orderId": "6d0a1b10-b382-11e9-8fda-91fa25841420",
+                        "amount": 30000,
+                        "lang":  "vi",
+                        "orderInfo": "pay with MoMo ATM",
+                        "requestId": "6d0a1b11-b382-11e9-8fda-91fa25841420",
+                        "extraData": "email=abc@gmail.com",
+                        "signature": "5344e1f4244173fe0ba2b4c865881aad79b86beff8154b4f74f3b92634ffa711",
+                      }
+                    const data = await axios.post('https://v2/gateway/api/create',formDataZalo, {headers: {'Content-Type': 'application/json'}})
+                    console.log(data)
+                }else{
+                    const response = await PublicRequest.post(`/order/`, Formdata)
+                    console.log(response.data)
+                    MyAlert.Alert(response.data.status, response.data.message)
+                    navigate('/yourOrders')
+                }
             }
         } catch (error) {
-            MyAlert.Alert('error', error.response.data)
+            // MyAlert.Alert('error', error.response.data)
+            MyAlert.Alert('error', error)
         }
     }
-
-
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar />

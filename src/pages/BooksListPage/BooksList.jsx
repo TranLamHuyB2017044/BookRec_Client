@@ -192,28 +192,22 @@ export default function BooksList() {
                         <h2 className='text-[1.8rem] font-bold'>Tác giả</h2>
                         <ul className='flex flex-col gap-6 my-6'>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '9173')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Paulo Coelho</p>
+                                <p className='hover:text-[#f47830]'>Paulo Coelho</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '45726')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Đặng Hoàng Giang</p>
+                                <p className='hover:text-[#f47830]'>Đặng Hoàng Giang</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '14646')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nguyễn Văn Tuấn</p>
+                                <p className='hover:text-[#f47830]'>Nguyễn Văn Tuấn</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '32762')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Rosie Nguyễn</p>
+                                <p className='hover:text-[#f47830]'>Rosie Nguyễn</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '301245')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Tim Marshall</p>
+                                <p className='hover:text-[#f47830]'>Tim Marshall</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '15049')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Vladimir Nabokov</p>
+                                <p className='hover:text-[#f47830]'>Vladimir Nabokov</p>
                             </Link>
                         </ul>
                     </section>
@@ -221,28 +215,22 @@ export default function BooksList() {
                         <h2 className='text-[1.8rem] font-bold'>Công ty phát hành</h2>
                         <ul className='flex flex-col gap-6 my-6'>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '5')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhã Nam</p>
+                                <p className='hover:text-[#f47830]'>Nhã Nam</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '14')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà xuất bản trẻ</p>
+                                <p className='hover:text-[#f47830]'>Nhà xuất bản trẻ</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '19')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>First News - Trí Việt</p>
+                                <p className='hover:text-[#f47830]'>First News - Trí Việt</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '25')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà xuất bản kim đồng</p>
+                                <p className='hover:text-[#f47830]'>Nhà xuất bản kim đồng</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '30')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Thái Hà</p>
+                                <p className='hover:text-[#f47830]'>Thái Hà</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '7')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Skybooks</p>
+                                <p className='hover:text-[#f47830]'>Skybooks</p>
                             </Link>
                         </ul>
                     </section>
@@ -250,36 +238,28 @@ export default function BooksList() {
                         <h2 className='text-[1.8rem] font-bold'>Nhà xuất bản</h2>
                         <ul className='flex flex-col gap-6 my-6'>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '2')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Thanh Niên</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thanh Niên</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '3')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Thế Giới</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thế Giới</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '6')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Dân Trí</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Dân Trí</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '7')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Văn Học</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Văn Học</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '8')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Hà Nội</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hà Nội</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '10')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Trẻ</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Trẻ</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '11')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Hội Nhà Văn</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hội Nhà Văn</p>
                             </Link>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '13')} className='flex items-center gap-4 cursor-pointer'>
-                                <input type="checkbox" name="" id="" />
-                                <p>Nhà Xuất Bản Kim Đồng</p>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Kim Đồng</p>
                             </Link>
                         </ul>
                     </section>

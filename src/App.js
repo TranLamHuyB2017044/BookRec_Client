@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { PublicRequest } from './service/Request';
 import { useEffect } from 'react';
 import { addBook } from "./store/cartReducer";
+import Search from "./pages/SearchPages/Search";
 function App() {
   const user = useSelector(state => state.user.currentUser)
   const dispatch = useDispatch()
@@ -73,6 +74,7 @@ function App() {
         </Route>
         <Route path="/collections/:page=?" element={<BooksList />} />
         <Route path="/collections/:slug" element={<BookDetail />} />
+        <Route path="/search/:title" element={<Search />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
