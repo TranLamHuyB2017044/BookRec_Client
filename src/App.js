@@ -28,6 +28,7 @@ function App() {
   useEffect(() => {
     const cartApi = async () => {
       try {
+        console.log(user_id)
         if (user_id !== undefined) {
           const response = await PublicRequest.post('/cart', { user_id: user_id })
           if (response.status === 202) {
