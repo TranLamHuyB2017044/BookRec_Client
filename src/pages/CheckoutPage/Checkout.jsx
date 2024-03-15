@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { PublicRequest, ZaloPay } from '../../service/Request.js'
 import MyAlert from '../../Components/AlertComponent/Alert.js'
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
 
 export default function Checkout() {
     const userInfo = useSelector(state => state.user?.currentUser)
@@ -20,6 +20,8 @@ export default function Checkout() {
     const [shipping, setShipping] = useState("");
     const [payment, setPayment] = useState("");
     const navigate = useNavigate()
+    const email = useSelector(state => state.user.currentUser.email)
+    console.log(email)
     const breadcrumbs = [
         {
             link: '/',
@@ -77,7 +79,8 @@ export default function Checkout() {
                 shipping_method: shipping,
                 payment_method: payment,
                 total_price: TotalPrice(OrderItem.books) + shippingPrice,
-                items: itemValues
+                items: itemValues,
+                email: email
             }
             if (shipping === '') {
                 MyAlert.Alert('info', 'Vui lòng chọn phương thức giao hàng')

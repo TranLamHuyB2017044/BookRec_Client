@@ -130,7 +130,7 @@ export default function YourOrder() {
                                         </div>
                                     </div>
                                 </div>
-                            ))
+                            )).reverse()
                     }
                 </div>
             </div>

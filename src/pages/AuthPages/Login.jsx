@@ -31,7 +31,7 @@ export default function Login() {
         MyAlert.Toast('success', 'Login successfully')
         setLoading(false)
       } catch (error) {
-        alert(error.response.data)
+        MyAlert.Alert('error', error.response.data)
         setLoading(false)
       }
     }, 2000)
