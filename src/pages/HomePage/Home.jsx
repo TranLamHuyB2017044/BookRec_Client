@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useState} from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar'
 import Slider from '../../Components/SliderComponent/Slider'
 import Introduce from '../../Components/IntroduceComponent/Introduce'
@@ -12,7 +12,6 @@ import { SignIn } from '../../store/userReducer.js'
 
 export default function Home() {
   const dispatch = useDispatch()
-
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -31,7 +30,7 @@ export default function Home() {
       <Navbar/>
       <Slider/>
       <Introduce/>
-      <BestSeller/>
+      <BestSeller />
       <Quote/>
       <Footer/>
       <GoToTop/>

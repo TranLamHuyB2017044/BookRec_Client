@@ -39,7 +39,6 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
             const getSearchTitle = async () => {
                 const rs = await PublicRequest.get(`collection/books/all?title=${searchText}`)
                 setTitleQuery(rs.data)
-                console.log(rs.data)
             }
             getSearchTitle()
         }
@@ -106,12 +105,12 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                 </div>
                 <Link to={`/collections`} onClick={resetFilter} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-8 ">
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer pl-2'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 pt-0.5 text-gray-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <input onChange={(e) => setSearchText(e.target.value)} value={searchText || ''} className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
+                    <input autoComplete='off' onChange={(e) => setSearchText(e.target.value)} value={searchText || ''} className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
                 </div>
                 {
                     titleQuery.length < 1
@@ -120,18 +119,18 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                             <p className='mt-16'>Không tìm thấy kết quả.</p>
                         </div>
                         :
-                        <div style={searchText.length === 0 ? { display: 'none' } : { display: 'flex' }} className='flex flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[350px] top-[68px] pb-2'>
+                        <div style={searchText.length === 0 ? { display: 'none' } : { display: 'flex' }} className='flex max-h-[300px] overflow-y-auto   flex-col gap-1 absolute border-[1px] z-50 bg-white border-[#f47830] w-[350px] top-[68px] pb-2'>
                             {titleQuery.map((query) => (
                                 <Link to={(`/collections/${convertStringToSlug(query.title)}-p${query.book_id}`)} key={query.book_id} className='cursor-pointer text-start  pl-6 hover:text-[#f47830] hover:bg-gray-200 py-3'>
                                     {(query.title).length > 30 ? (query.title).substring(0, 35) + '...' : query.title}</Link>
-                            )).slice(-5)
+                            ))
 
                             }
-                            {titleQuery.length > 5 ? <div className='border-t'>
+                            {/* {titleQuery.length > 5 ? <div className='border-t'>
                                 <Link to={`/search/title=${searchText}`} className='ml-20 text-center py-4 hover:text-[dodgerblue] cursor-pointer'>Hiển thị thêm {titleQuery.length - 5} kết quả khác</Link>
                             </div>
                                 : ''
-                            }
+                            } */}
                         </div>
                 }
                 {user ? <div>

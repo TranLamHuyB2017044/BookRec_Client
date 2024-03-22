@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './GlobalStyles/GlobalStyles';
 import 'react-slideshow-image/dist/styles.css'
+import '@splidejs/react-splide/css/sea-green';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store/store'
 import { PersistGate } from 'redux-persist/integration/react';

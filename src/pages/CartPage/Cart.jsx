@@ -134,7 +134,7 @@ export default function Cart() {
                     />
                     <p className='text-[2rem] text-[#888383]'>Không có sản phẩm nào trong giỏ hàng của bạn</p>
                     <Link to="/collections">
-                        <button className='py-[10px] px-8 rounded-xl text-[1.6rem] my-4 border bg-[#f47830] hover:bg-[#cb9779]'>Mua ngay</button>
+                        <button className='py-[10px] px-8 rounded-xl text-white text-[1.6rem] my-4 border bg-[#f47830] hover:bg-[#cb9779]'>Mua ngay</button>
                     </Link>
                 </div>
             )}

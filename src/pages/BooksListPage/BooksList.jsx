@@ -8,11 +8,10 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { PublicRequest } from '../../service/Request.js';
 export default function BooksList() {
     const [books, setBooks] = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
     const [totalPage, setTotalPage] = useState(1)
     const [filters, setFilters] = useState([])
     const [searchParams, setSearchParams] = useSearchParams({ route: '' })
-    // const [queryRoute, setQueryRoute] = useState('')
+    const [currentPage, setCurrentPage] = useState(() => parseInt(searchParams.get('page')) || 1)
     useEffect(() => {
         const getBooks = async () => {
             try {
@@ -38,8 +37,6 @@ export default function BooksList() {
         }
         getBooks()
     }, [currentPage, filters, setSearchParams])
-
-
     const handleChangePage = (page) => {
         setCurrentPage(page)
         window.scrollTo(0, 0)
@@ -77,7 +74,7 @@ export default function BooksList() {
             }
 
         });
-        setCurrentPage(1);
+        // setCurrentPage(1);
 
     };
     const inputRefFrom = useRef(null)
@@ -141,7 +138,7 @@ export default function BooksList() {
                 filters5={() => handleFilterClick('category', 'tieu thuyet')}
                 filters6={() => handleFilterClick('category', 'sach y hoc')}
             />
-            <Breadcrumbs paths={breadcrumbs} resetFilter={resetFilter} />
+            <Breadcrumbs paths={breadcrumbs}  />
             <div className='w-[1200px] grid grid-cols-4 m-auto my-2 py-5'>
                 <div className='border col-span-1 px-8 pb-8 mx-4 bg-white h-fit'>
                     <section className=' pt-5'>
