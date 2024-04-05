@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import  Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Exit } from '../../store/userReducer.js';
+import { LogoutCart } from '../../store/cartReducer.js';
 export default function Account() {
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
@@ -28,6 +29,7 @@ export default function Account() {
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
+        dispatch(LogoutCart())
         window.localStorage.removeItem('persist:root')
     }
 

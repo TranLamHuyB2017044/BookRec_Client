@@ -1,7 +1,19 @@
-import React from 'react'
-import RecommendBook from './RecommendBook'
+import React, { useEffect, useState } from 'react'
+// import RecommendBook from './RecommendBook'
+import { PublicRequest } from '../../service/Request'
 
-export default function BookRating({ books, Star }) {
+
+export default function BookRating({ books, Star, book_id, showRating }) {
+
+
+    useEffect(() => {
+        const getUserRatings = async () => {
+            const response = await PublicRequest.get(`/rating/${book_id}`)
+            console.log(response.data)
+        }
+        getUserRatings()
+    }, [book_id])
+
     return (
         <div>
             <div className='bg-[#ffff] max-w-[1300px] mx-auto p-10 rounded-lg border mb-4'>
@@ -72,14 +84,17 @@ export default function BookRating({ books, Star }) {
                     </div>
                     <div className='my-5 border-t'>
                         <h1 className='my-4 text-3xl'>Lọc theo</h1>
-                        <div className='flex gap-4'>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Mới nhất</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Có hình ảnh</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>5 sao</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>4 sao</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>3 sao</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>2 sao</span>
-                            <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>1 sao</span>
+                        <div className='flex justify-between items-center'>
+                            <div className='flex gap-4 items-center'>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Mới nhất</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Có hình ảnh</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>5 sao</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>4 sao</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>3 sao</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>2 sao</span>
+                                <span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>1 sao</span>
+                            </div>
+                            <button onClick={showRating} className='mr-8 py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button>
                         </div>
                     </div>
                     <div className='my-5'>

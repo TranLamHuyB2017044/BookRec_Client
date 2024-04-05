@@ -119,7 +119,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                             <p className='mt-16'>Không tìm thấy kết quả.</p>
                         </div>
                         :
-                        <div style={searchText.length === 0 ? { display: 'none' } : { display: 'flex' }} className='flex max-h-[300px] overflow-y-auto   flex-col gap-1 absolute border-[1px] z-50 bg-white border-[#f47830] w-[350px] top-[68px] pb-2'>
+                        <div style={searchText.length === 0 ? { display: 'none' } : { display: 'flex' }} className='flex max-h-[300px] overflow-y-auto   flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[350px] top-[68px] pb-2'>
                             {titleQuery.map((query) => (
                                 <Link to={(`/collections/${convertStringToSlug(query.title)}-p${query.book_id}`)} key={query.book_id} className='cursor-pointer text-start  pl-6 hover:text-[#f47830] hover:bg-gray-200 py-3'>
                                     {(query.title).length > 30 ? (query.title).substring(0, 35) + '...' : query.title}</Link>

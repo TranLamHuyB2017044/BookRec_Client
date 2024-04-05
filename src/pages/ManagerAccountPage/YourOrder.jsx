@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/aria-role */
 import React, {useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
@@ -8,15 +7,17 @@ import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { Exit } from '../../store/userReducer.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { PublicRequest } from '../../service/Request.js';
+import { LogoutCart } from '../../store/cartReducer.js';
+
 export default function YourOrder() {
+
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.currentUser)
     const [myOrders, setMyOrders] = useState([])
-    console.log(myOrders)
+
     useEffect(() => {
         const getOrders = async () => {
             const user_id = user.user_id
-            console.log(user_id)
             const response = await PublicRequest.get(`/order/${user_id}`)
             setMyOrders(response.data)
         }
@@ -37,17 +38,18 @@ export default function YourOrder() {
         },
 
     ]
-
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
+        dispatch(LogoutCart())
         window.localStorage.removeItem('persist:root')
     }
+
     return (
-        <div className='bg-[#f5f5f5]'>
+        <div className='bg-[#f5f5f5]' >
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
-            <div className='h-full w-[1400px] mx-auto my-8 flex gap-32'>
+            <div className='h-full w-[1400px] mx-auto my-8 flex gap-32' >
                 <div className='mt-[5rem] basis-1/4'>
                     <div className='flex items-center gap-1 text-4xl'>
                         <h1 className=''>Xin chào, </h1>
@@ -125,7 +127,7 @@ export default function YourOrder() {
                                             <p>{(order.total_price).toLocaleString()}&#8363;</p>
                                         </div>
                                         <div className='flex mb-2 gap-4 mr-8'>
-                                            <button className='py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button>
+                                            {/* <button onClick={handleShowRating} className='py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button> */}
                                             <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-slate-200 min-w-[120px] text-center' to='/collections'>Mua lại</Link>
                                         </div>
                                     </div>
@@ -133,9 +135,12 @@ export default function YourOrder() {
                             )).reverse()
                     }
                 </div>
+
             </div>
+
             <GoToTop />
             <Footer />
         </div>
+
     )
 }

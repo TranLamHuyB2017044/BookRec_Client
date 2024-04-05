@@ -10,6 +10,7 @@ import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import * as yup from "yup"
 import { useDispatch } from 'react-redux';
 import { Exit } from '../../store/userReducer.js';
+import { LogoutCart } from '../../store/cartReducer.js';
 
 export default function ChangePassword() {
 
@@ -46,6 +47,7 @@ export default function ChangePassword() {
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
+        dispatch(LogoutCart())
         window.localStorage.removeItem('persist:root')
 
     }
