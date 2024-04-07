@@ -7,6 +7,12 @@ const headers = {
     "Content-Type": "application/json",
 };
 
+const formDataHeaders = { 
+    Accept: "application/json",
+    "Content-Type": "multipart/form-data",
+    "Access-Control-Allow-Credentials": true
+};
+
 export const OauthRequest = axios.create({
     baseURL:BaseURLOauth,
     headers: headers,
@@ -16,5 +22,11 @@ export const OauthRequest = axios.create({
 export const PublicRequest = axios.create({
     baseURL:BaseURL,
     headers:headers,
+})
+
+
+export const FormRequest = axios.create({
+    baseURL:BaseURL,
+    headers:formDataHeaders,
 })
 

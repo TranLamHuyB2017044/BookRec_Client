@@ -86,7 +86,7 @@ export default function InfoRight({ books, Star }) {
                     <button onClick={handleAddCart} className='py-4 border w-[200px] text-[#4e84e7] border-[#4e84e7] rounded-lg hover:opacity-80'>Thêm vào giỏ hàng</button>
                 </div>
             </div>
-            <section className='mx-auto my-4  h-[378px] border rounded-xl p-10 bg-[#ffff]'>
+            <section className='mx-auto my-4  h-[340px] max-h-[340px] border rounded-xl p-10 bg-[#ffff]'>
                 <h1 className='font-bold text-3xl mb-10 '>Mô tả sản phẩm</h1>
                 <p className='text-justify'>
                     {books.short_description}

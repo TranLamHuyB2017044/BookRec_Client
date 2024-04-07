@@ -90,10 +90,19 @@ export default function Checkout() {
                 MyAlert.Alert('info', 'Chức năng thanh toán online sẽ có trong tương lai gần')
             }
             else {
-                const response = await PublicRequest.post(`/order/`, Formdata)
-                console.log(response.data)
-                MyAlert.Alert(response.data.status, response.data.message)
-                navigate('/yourOrders')
+                if(userInfo.verify === 0){
+                    MyAlert.Confirm('Xác thực Email ?', 'info', 'Vui lòng xác thực email tại mục tài khoản', 'Xác thực', 'Bỏ qua')
+                    .then(async (result) => {
+                        if (result.value) {
+                            navigate('/verify')
+                        }
+                    })
+                }else{
+                    const response = await PublicRequest.post(`/order/`, Formdata)
+                    console.log(response.data)
+                    MyAlert.Alert(response.data.status, response.data.message)
+                    navigate('/yourOrders')
+                }
 
             }
         } catch (error) {

@@ -3,23 +3,29 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-// import { books_data } from '../../data.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import InfoLeft from './InfoLeft.jsx';
 import InfoRight from './InfoRight.jsx';
 import BookRating from './BookRating.jsx';
-import { PublicRequest } from '../../service/Request.js'
+import Loading from '../../Components/LoadingComponent/Loading.jsx'
+import { PublicRequest, FormRequest } from '../../service/Request.js'
 import { useParams } from 'react-router-dom';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useForm } from "react-hook-form"
+import { useSelector } from 'react-redux'
+import myAlert from '../../Components/AlertComponent/Alert.js'
 export default function BookDetail() {
     const params = useParams()
     const [ratingImage, setRatingImage] = useState([])
     const [prevAvatar, setPeviewAvatar] = useState([])
     const [showRating, setShowRating] = useState(false)
-
+    const [loading, setLoading] = useState(false)
+    const user = useSelector(state => state.user.currentUser)
     const [nStar, setNStar] = useState(0)
+    const [content, setContent] = useState('')
+    const [errorStar, setErrorStar] = useState(false)
+    const [errorContent, setErrorContent] = useState(false)
     const getId = (slug) => {
         const lastStringInSlug = slug.lastIndexOf('-')
         if (lastStringInSlug !== -1) {
@@ -76,7 +82,7 @@ export default function BookDetail() {
         },
         {
             link: `/collections/${slugParams}`,
-            label: `${book.title}`
+            label: `${book.title?.length < 50 ? book.title : book.title?.substring(0, 47) + '...'}`
         }
     ]
 
@@ -137,14 +143,48 @@ export default function BookDetail() {
         setPeviewAvatar([])
         setRatingImage([])
         setNStar(0)
+        setContent('')
     }
 
-    const onSubmit = (data) => {
-        console.log(data)
-        // const formData = new FormData()
-        // console.log(nStar)
-        // console.log(ratingImage)
-
+    const onSubmit = async () => {
+        try {
+            if (nStar === 0) {
+                setErrorStar(true)
+                return false
+            } else if (content === '') {
+                setErrorContent(true)
+                return false
+            }
+            else {
+                setErrorContent(false)
+                setErrorStar(false)
+                setLoading(true)
+                const user_id = user.user_id
+                const formData = new FormData()
+                formData.append('user_id', user_id)
+                formData.append('content', content)
+                formData.append('book_id', parseInt(book_id))
+                formData.append('n_star', nStar)
+                if (ratingImage.length > 0) {
+                    for (let image of ratingImage) {
+                        formData.append('url', image)
+                    }
+                }
+                const createRating = await FormRequest.post('/rating', formData)
+                setTimeout(() => {
+                    if (createRating.status === 200) {
+                        myAlert.Alert('success', 'Đánh giá thành công')
+                        setShowRating(false)
+                        setLoading(false)
+                        handleResetRating()
+                    }
+                }, 1500)
+            }
+        } catch (error) {
+            myAlert.Alert('error', 'Có lỗi xảy ra, vui lòng thử lại')
+            console.log(error)
+            setLoading(false)
+        }
     }
 
     const handleChangeStar = (newStar) => {
@@ -173,82 +213,85 @@ export default function BookDetail() {
             })
         }
     }
-
     return (
         <div className='relative'>
             {showRating &&
                 <div className='bg-opacity-40 bg-[#585757] border h-[100%] w-[100%] absolute z-100' >
-                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[417px]  shadow-md rounded-md left-[550px] top-[35px]  fixed z-2'>
-                        <div className='border-b flex justify-between p-3 w-[90%] mx-auto mt-3 items-start'>
-                            <div className='flex'>
-                                <img className='w-32 h-32' src="https://salt.tikicdn.com/cache/280x280/media/catalog/product/product/e2/77/44/170fa32d7932b634a357b4585333582b.jpg" alt="cover_img" />
-                                <div>
-                                    <p>Mắt Biếc (Tái Bản 2019)</p>
-                                    {[1, 2, 3, 4, 5].map(star => (
-                                        <span className='text-5xl cursor-pointer' onClick={() => handleChangeStar(star)} key={star}>{nStar < star ? <StarBorderOutlinedIcon fontSize='lg' style={{ color: 'yellow' }} /> : <StarOutlinedIcon fontSize='lg' style={{ color: 'yellow' }} />}</span>
+                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[417px] max-h-[620px]  shadow-md rounded-md left-[550px] top-[35px]  fixed z-2'>
+                        {loading ? <Loading /> : <div className=''>
+                            <div className='border-b flex justify-between p-3 w-[90%] mx-auto mt-3 items-start max-h-[120px]'>
+                                <div className='flex gap-4'>
+                                    <img className='w-32 h-32' src={book.thumbnail_url} alt={`cover_${book.title}`} />
+                                    <div>
+                                        <p>{book.title?.length < 50 ? book.title : book.title?.substring(0, 47) + '...'}</p>
+                                        {[1, 2, 3, 4, 5].map(star => (
+                                            <span className='text-5xl cursor-pointer' onClick={() => handleChangeStar(star)} key={star}>{nStar < star ? <StarBorderOutlinedIcon fontSize='lg' style={{ color: 'yellow' }} /> : <StarOutlinedIcon fontSize='lg' style={{ color: 'yellow' }} />}</span>
 
-                                    ))}
-                                    {/* <p className=' cursor-pointer text-5xl mt-3'>{RenderStar(5, 'yellow')}</p> */}
+                                        ))}
+                                        {errorStar && <p className='text-red-600'>Vui lòng chọn số sao đánh giá</p>}
+                                    </div>
+                                </div>
+                                <button className='text-5xl -mt-2 cursor-pointer' onClick={handleResetRating}>&times;</button>
+                            </div>
+                            <div className='mx-auto px-3 h-[420px]'>
+                                <h3 className='my-4 ml-4'>Điều gì làm bạn hài lòng ?</h3>
+                                <textarea onChange={(e) => setContent(e.target.value)} className='focus:border border-blue border mx-4 px-4' name="content" id="content" cols="40" rows="5"
+                                    placeholder='Hãy chia sẽ cảm nhận, đánh giá của bạn về sản phẩm này nhé.' />
+                                {errorContent && <p className='text-red-600'>Nội dung đánh giá không được để trống</p>}
+
+                                <div>
+                                    <div>
+                                        {prevAvatar.length > 7 ? <p className='p-4 text-red-600'>Chỉ có thể chọn tối đa 8 ảnh hoặc video</p> : <label htmlFor="rating_img" className='cursor-pointer '>
+                                            <img className='w-25 h-25' src="https://static.vecteezy.com/system/resources/previews/008/422/680/non_2x/photo-gallery-album-icon-on-square-button-vector.jpg" alt="gallery-icon" />
+                                            <input onChange={handlePreviewAvatar} className='d-none' type="file" multiple={true} id='rating_img' />
+                                        </label>}
+                                    </div>
+                                    <div className='flex items-center flex-wrap gap-3 cursor-pointer'>
+                                        {prevAvatar.length > 1 && prevAvatar.length < 9 && prevAvatar.map((img, index) => (
+                                            <div className='relative' key={index}>
+                                                <button type='button' onClick={() => handleDeletePreAva(index)} className='absolute -right-4 -top-5 text-4xl '>&times;</button>
+                                                <div className='border-[0.5px] p-2' >
+                                                    {img.type === 1 ? (
+                                                        <img className={`w-[60px] h-[60px]`} src={img.url} alt={`img_rating_${index + 1}`} />
+                                                    ) : <video className={`w-[60px] h-[60px]`} controls>
+                                                        <source src={img.url} type="video/mp4" />
+                                                    </video>}
+
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {prevAvatar.length > 8 && prevAvatar.map((img, index) => (
+                                            <div className='relative' key={index}>
+                                                <button type='button' onClick={() => handleDeletePreAva(index)} className='absolute -right-4 -top-5 text-4xl '>&times;</button>
+                                                <div className='border-[0.5px] p-2' >
+                                                    {img.type === 1 ? (
+                                                        <img className={`w-[60px] h-[60px]`} src={img.url} alt={`img    _rating_${index + 1}`} />
+                                                    ) : <video className={`w-[60px] h-[60px]`} controls>
+                                                        <source src={img.url} type="video/mp4" />
+                                                    </video>}
+
+                                                </div>
+                                            </div>
+                                        )).slice(-8)}
+                                        {prevAvatar.length === 1 && <div className='relative'>
+                                            <button type='button' onClick={() => handleDeletePreAva(0)} className='absolute -right-4 -top-4 text-4xl '>&times;</button>
+                                            <div className='border-[0.5px] p-2 '>
+                                                {prevAvatar[0].type === 0 ? <video className='w-[60px] h-[60px]' controls>
+                                                    <source src={prevAvatar[0].url} type="video/mp4" />
+                                                </video> : <img className='w-[60px] h-[60px]' src={prevAvatar[0].url} alt={`img_rating`} />}
+                                            </div>
+                                        </div>}
+                                    </div>
                                 </div>
                             </div>
-                            <button className='text-5xl -mt-2 cursor-pointer' onClick={handleResetRating}>&times;</button>
-                        </div>
-                        <div className='mx-auto px-3 h-[420px]'>
-                            <h3 className='my-4 ml-4'>Điều gì làm bạn hài lòng ?</h3>
-                            <textarea  {...register('content')} className='focus:border border-blue border mx-4 px-4' name="content" id="content" cols="40" rows="5"
-                                placeholder='Hãy chia sẽ cảm nhận, đánh giá của bạn về sản phẩm này nhé.' />
-                            <div>
-                                <div>
-                                    {prevAvatar.length > 7 ? <p className='p-4 text-red-600'>Chỉ có thể chọn tối đa 8 ảnh hoặc video</p> : <label htmlFor="rating_img" className='cursor-pointer '>
-                                        <img className='w-25 h-25' src="https://static.vecteezy.com/system/resources/previews/008/422/680/non_2x/photo-gallery-album-icon-on-square-button-vector.jpg" alt="gallery-icon" />
-                                        <input {...register('url')} onChange={handlePreviewAvatar} className='d-none' type="file" multiple={true} id='rating_img' />
-                                    </label>}
-                                </div>
-                                <div className='flex items-center flex-wrap gap-3 cursor-pointer'>
-                                    {prevAvatar.length > 1 && prevAvatar.length < 9 && prevAvatar.map((img, index) => (
-                                        <div className='relative' key={index}>
-                                            <button type='button' onClick={() => handleDeletePreAva(index)} className='absolute -right-4 -top-5 text-4xl '>&times;</button>
-                                            <div className='border-[0.5px] p-2' >
-                                                {img.type === 1 ? (
-                                                    <img className={`w-[60px] h-[60px]`} src={img.url} alt={`img_rating_${index + 1}`} />
-                                                ) : <video className={`w-[60px] h-[60px]`} controls>
-                                                    <source src={img.url} type="video/mp4" />
-                                                </video>}
-
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {prevAvatar.length > 8 && prevAvatar.map((img, index) => (
-                                        <div className='relative' key={index}>
-                                            <button type='button' onClick={() => handleDeletePreAva(index)} className='absolute -right-4 -top-5 text-4xl '>&times;</button>
-                                            <div className='border-[0.5px] p-2' >
-                                                {img.type === 1 ? (
-                                                    <img className={`w-[60px] h-[60px]`} src={img.url} alt={`img    _rating_${index + 1}`} />
-                                                ) : <video className={`w-[60px] h-[60px]`} controls>
-                                                    <source src={img.url} type="video/mp4" />
-                                                </video>}
-
-                                            </div>
-                                        </div>
-                                    )).slice(-8)}
-                                    {prevAvatar.length === 1 && <div className='relative'>
-                                        <button type='button' onClick={() => handleDeletePreAva(0)} className='absolute -right-4 -top-4 text-4xl '>&times;</button>
-                                        <div className='border-[0.5px] p-2 '>
-                                            {prevAvatar[0].type === 0 ? <video className='w-[60px] h-[60px]' controls>
-                                                <source src={prevAvatar[0].url} type="video/mp4" />
-                                            </video> : <img className='w-[60px] h-[60px]' src={prevAvatar[0].url} alt={`img_rating`} />}
-                                        </div>
-                                    </div>}
-                                </div>
+                            <div className='w-[90%] mx-auto border-t p-4 flex justify-center items-center mb-2'>
+                                <button type='submit' className='active:translate-y-1 px-36 py-3 bg-[dodgerblue] hover:bg-gradient-to-r from-blue-500 to-cyan-400  rounded-md text-white '>
+                                    Gửi đánh giá
+                                </button>
                             </div>
-                        </div>
-                        <div className='w-[90%] mx-auto border-t p-4 flex justify-center items-center mb-2'>
-                            <button type='submit' className='active:translate-y-1 px-36 py-3 bg-[dodgerblue] hover:bg-gradient-to-r from-blue-500 to-cyan-400  rounded-md text-white '>
-                                Gửi đánh giá
-                            </button>
-                        </div>
+                        </div>}
                     </form>
-            </div>}
+                </div>}
             <div className='bg-[#f5f5f5]'>
                 <Navbar />
                 <Breadcrumbs paths={breadcrumbs} />

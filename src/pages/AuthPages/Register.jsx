@@ -22,6 +22,7 @@ export default function Register() {
   })
   const [loading, setLoading] = useState(false)
   const [verifying, setVerifying] = useState(false)
+
   const OauthLogin = () => {
     window.location.href = 'http://localhost:5000/auth/google';
   };

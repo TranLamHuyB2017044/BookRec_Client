@@ -1,18 +1,81 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 // import RecommendBook from './RecommendBook'
 import { PublicRequest } from '../../service/Request'
 
 
 export default function BookRating({ books, Star, book_id, showRating }) {
 
+    const [ratings, setRatings] = useState([])
 
     useEffect(() => {
         const getUserRatings = async () => {
-            const response = await PublicRequest.get(`/rating/${book_id}`)
-            console.log(response.data)
+            try {
+                const response = await PublicRequest.get(`/rating/${book_id}`)
+                setRatings(response.data)
+            } catch (error) {
+                console.log(error)
+            }
         }
         getUserRatings()
+
     }, [book_id])
+
+
+    const handleCreatedTime = (time) => {
+        const subTime = time.indexOf('T')
+        const newTime = time.substring(0, subTime)
+        const date = newTime.split('-')
+        const day = date[2]
+        const month = date[1]
+        const year = date[0]
+        const newDate = `${day}-${month}-${year}`
+        return newDate
+    }
+
+
+    function isFileImage(file) {
+        const acceptedImageTypes = ['jpg', 'jpeg', 'png', 'webp'];
+        return file && acceptedImageTypes.includes(file)
+    }
+
+    const getFileTypes = (file) => {
+        if(typeof(file) === 'string'){
+            return file.split('.').pop().toLowerCase();
+        }
+    }
+
+
+    const [userRatings, setUserRatings] = useState([])
+
+    useEffect(() => {
+        if (ratings.length > 0) {
+            const ratingItems = [...ratings]
+            const updatedRatingMedia = [];
+            ratings.forEach(rating => {
+                const media = [];
+                if (rating.urls !== null) {
+                    const urls = rating.urls.includes(',') ? rating.urls.split(',') : [rating.urls];
+                    urls.forEach(item => {
+                        console.log(item)
+                        const fileType = getFileTypes(item);
+                        const isImage = isFileImage(fileType);
+                        media.push({ url: item, type: isImage ? 1 : 0 });
+                    });
+                }
+                updatedRatingMedia.push(media);
+            });
+            const ratingMedia = updatedRatingMedia
+            const handleMedia = () => {
+                for (let i = 0; i < ratingMedia.length; i++) {
+                    ratingItems[i].urls = ratingMedia[i]
+                }
+                setUserRatings(ratingItems)
+            }
+            handleMedia()
+        }
+    }, [ratings])
+
+
 
     return (
         <div>
@@ -98,53 +161,40 @@ export default function BookRating({ books, Star, book_id, showRating }) {
                         </div>
                     </div>
                     <div className='my-5'>
-                        <div className='border-top p-10'>
-                            <div className='flex items-center gap-4'>
-                                <div className='rounded-full '>
-                                    <img className='rounded-full w-[70px] h-[70px]' src="https://static.fandomspot.com/images/08/8574/00-featured-tom-reading-newspaper-meme-template-preview.jpg" alt="user-ava" />
+                        {userRatings.length > 0 ? userRatings.map((rating, index) => (
+                            <div className='border-top p-10' key={index}>
+                                <div className='flex items-center gap-4'>
+                                    <div className='rounded-full '>
+                                        <img className='rounded-full w-[70px] h-[70px]' src="https://static.fandomspot.com/images/08/8574/00-featured-tom-reading-newspaper-meme-template-preview.jpg" alt="user-ava" />
+                                    </div>
+                                    <p className='text-3xl'>{rating.fullname}</p>
                                 </div>
-                                <p className='text-3xl'>Ngọc Yến</p>
-                            </div>
-                            <div className='flex items-center gap-4 my-4'>
-                                <p className='text-4xl'>{Star(5, 'yellow')}</p>
-                                <p className='text-2xl'>Cực kỳ hài lòng</p>
-                            </div>
-                            <p className='my-5'>
-                                Kế toán khô khan được viết bằng câu từ dí dỏm và bình dân. <br />
-                                Mình là đứa không thích những con số, và khi đọc xong sách này, đương nhiên mình vẫn chưa thích, nhưng ít ra đã giúp mình có cái nhìn tổng quan và chi tiết hơn những điều trước nay mình nghĩ rằng "rất khó".
-                            </p>
-                            <div className='flex  items-center gap-4'>
-
-                                <div className='w-[80px] h-[80px] border rounded-xl'>
-                                    <img className='object-cover w-[80px] h-[80px]' src={books.thumbnail_url} alt="all-cmt" />
+                                <div className='flex items-center gap-4 my-4'>
+                                    <p className='text-4xl'>{Star(rating.n_star, 'yellow')}</p>
+                                    {/* <p className='text-2xl'>Cực kỳ hài lòng</p> */}
                                 </div>
-                            </div>
-                            <p className='mt-3 text-gray-500 ml-5'>đánh giá vào 6 tháng trước</p>
-                        </div>
-                        <div className='border-top p-10'>
-                            <div className='flex items-center gap-4'>
-                                <div className='rounded-full '>
-                                    <img className='rounded-full w-[70px] h-[70px]' src="https://static.fandomspot.com/images/08/8574/00-featured-tom-reading-newspaper-meme-template-preview.jpg" alt="user-ava" />
+                                <p className='my-5'>
+                                    {rating.content}
+                                </p>
+                                <div className='flex  items-center gap-4'>
+                                    {rating.urls?.length > 1 ? rating?.urls.map((item, id) => (
+                                        <div key={id} className='w-[80px] h-[120px] border rounded-xl'>
+                                            {item.type === 1 ? (
+                                                <img className='cursor-pointer w-full h-full' src={item.url} alt={`img_rating_${index + 1}`} />
+                                            ) : <video  className={`cursor-pointer w-full h-full`} controls>
+                                                <source src={item.url} type="video/mp4" />
+                                            </video>}
+                                        </div>)) : ''} 
+                                    {rating.urls?.length === 1 && <div className='w-[80px] h-[120px] border rounded-xl'>
+                                        {rating.urls[0].type === 1 ? (
+                                            <img className={`cursor-pointer w-full h-full`} src={rating.urls[0].url} alt={`img_rating_${index + 1}`} />
+                                        ) : <video className={`cursor-pointer w-full h-full`}  controls>
+                                            <source src={rating.urls[0].url} type="video/mp4" />
+                                        </video>}
+                                    </div>}
                                 </div>
-                                <p className='text-3xl'>San San</p>
-                            </div>
-                            <div className='flex items-center gap-4 my-4'>
-                                <p className='text-4xl'>{Star(5, 'yellow')}</p>
-                                <p className='text-2xl'>Cực kỳ hài lòng</p>
-                            </div>
-                            <p className='my-5'>
-                                Bằng quầy bán nước chanh của một cậu nhóc tiểu học, mình đã hiểu về kế toán. Sách viết rất hài hước và dễ hiểu. . <br />
-                                Sách giao rất nhanh và gói cẩn thận.
-                            </p>
-                            <div className='flex  items-center gap-4'>
-
-                                <div className='w-[80px] h-[80px] border rounded-xl'>
-                                    <img className='object-cover w-[80px] h-[80px]' src={books.thumbnail_url} alt="all-cmt" />
-                                </div>
-
-                            </div>
-                            <p className='mt-3 text-gray-500 ml-5'>đánh giá vào 6 tháng trước</p>
-                        </div>
+                                <p className='mt-20 text-gray-500 ml-5 italic opacity-75'>Đã đánh giá vào ngày {handleCreatedTime(rating.created_at)}</p>
+                            </div>)) : ''}
                     </div>
                 </div>
             </div>

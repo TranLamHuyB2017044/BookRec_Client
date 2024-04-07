@@ -46,7 +46,7 @@ export default function Account() {
                     <ul className='mt-16 flex flex-col gap-5 '>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
-                        <Link to='/changepassword' className='hover:text-[#f47830] cursor-pointer'>Đổi mật khẩu</Link>
+                        <Link to='/verify' className='hover:text-[#f47830] cursor-pointer'>Đổi mật khẩu</Link>
                         <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
                     </ul>
                 </div>
