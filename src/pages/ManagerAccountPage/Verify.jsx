@@ -3,13 +3,10 @@ import React, { useRef, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
 import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
-import * as yup from "yup"
 import { useDispatch, useSelector } from 'react-redux';
-import { Exit, SignUp } from '../../store/userReducer.js';
+import { Exit } from '../../store/userReducer.js';
 import { LogoutCart } from '../../store/cartReducer.js';
 import { PublicRequest } from '../../service/Request.js';
 import myAlert from '../../Components/AlertComponent/Alert'
@@ -18,18 +15,9 @@ export default function Verify() {
     const [loading, setLoading] = useState(false)
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-    const schema = yup
-        .object({
-            oldPassword: yup.string().required("Vui lòng nhập mật khẩu cũ"),
-            newPassword: yup.string().required("Vui lòng nhập mật khẩu mới").min(8),
-            confirmPassword: yup.string().required("Vui lòng xác nhận lại mật khẩu mới").min(8),
-        })
-        .required();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
-    })
-    const onLogin = (data) => console.log(data)
+
+
 
     const breadcrumbs = [
         {
@@ -73,12 +61,13 @@ export default function Verify() {
             console.log(err)
         }
     }
-    const VerifyData = sendEmail()
+
 
     const verifyEmail = async () => {
+        const VerifyData = sendEmail()
         const verifyNumber = inputRef.current.value
         if (verifyNumber !== undefined) {
-            if (VerifyData === parseInt(verifyNumber)) {
+            if (VerifyData == parseInt(verifyNumber)) {
                 setLoading(true)
                 const verified = await PublicRequest.put('/user/verifyEmail', { email: user.email })
                 console.log(verified)
@@ -110,30 +99,34 @@ export default function Verify() {
                     <ul className='mt-16 flex flex-col gap-5 '>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
-                        <Link to='/verify' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Đổi mật khẩu</Link>
+                        <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Xác thực email</Link>
                         <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
 
                     </ul>
                 </div>
                 <div className='mt-[5rem] basis-3/4'>
                     <h2 className='text-4xl'>XÁC THỰC EMAIL</h2>
-                    <p className='mt-8 max-w-[45%]'>
-                        Để đảm bảo tính bảo mật bạn vui lòng xác thực email.
-                    </p>
-                    <div>
-                        <div className='mt-5 h-screen flex flex-col items-center '>
-                            <div className='flex flex-col gap-4 items-center bg-blue text-3xl text-center'>
-                                <p>Vui lòng nhập số đã được gửi qua email bạn để hoàn thành bước đăng ký. </p>
-                                <input className='pl-2 border-black border w-[200px] h-[40px]' type="number" ref={inputRef} />
-                                <div className='flex gap-4'>
-                                    <button onClick={() => sendEmail()} className='border-[dodgerblue] px-8 py-2 border text-white bg-[dodgerblue] rounded-md' type='button'>Gửi mã</button>
-                                    <button onClick={() => verifyEmail()} className='border-[#c04a4a] px-8 py-2 border text-white bg-[#e35353] rounded-md' type='button'>Kiểm tra</button>
+                    {user.verify === 0 ? <div>
+                        <p className='mt-8 max-w-[45%]'>
+                            Để đảm bảo tính bảo mật bạn vui lòng xác thực email.
+                        </p>
+                        <div>
+                            <div className='mt-5 h-screen flex flex-col items-center '>
+                                <div className='flex flex-col gap-4 items-center bg-blue text-3xl text-center'>
+                                    <p>Vui lòng nhập số đã được gửi qua email bạn để hoàn thành bước đăng ký. </p>
+                                    <input className='pl-2 border-black border w-[200px] h-[40px]' type="number" ref={inputRef} />
+                                    <div className='flex gap-4'>
+                                        <button onClick={() => sendEmail()} className='border-[dodgerblue] px-8 py-2 border text-white bg-[dodgerblue] rounded-md' type='button'>Gửi mã</button>
+                                        <button onClick={() => verifyEmail()} className='border-[#c04a4a] px-8 py-2 border text-white bg-[#e35353] rounded-md' type='button'>Kiểm tra</button>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    </div> : <p className='mt-8 max-w-[45%]'>
+                        Email của bạn đã được xác thực.
+                    </p>}
                 </div>
             </div>
             <GoToTop />

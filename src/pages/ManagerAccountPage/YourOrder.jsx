@@ -58,7 +58,7 @@ export default function YourOrder() {
                     <ul className='mt-16 flex flex-col gap-5 '>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Đơn hàng của bạn</Link>
-                        <Link to='/verify' className='hover:text-[#f47830] cursor-pointer'>Đổi mật khẩu</Link>
+                        <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer'>Xác thực email</Link>
                         <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
                     </ul>
                 </div>

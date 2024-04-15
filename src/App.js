@@ -70,7 +70,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/yourOrders" element={<YourOrder />} />
-          <Route path="/verify" element={<Verify />} />
+          <Route path="/verifyAccount" element={<Verify />} />
         </Route>
         <Route path="/collections/:page=?" element={<BooksList />} />
         <Route path="/collections/:slug" element={<BookDetail />} />
