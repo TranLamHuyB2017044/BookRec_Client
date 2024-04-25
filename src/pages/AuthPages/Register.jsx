@@ -103,11 +103,11 @@ export default function Register() {
     <div>
       <Navbar />
       {loading === false ? <div style={verifying ? { display: 'none' } : { display: 'flex' }} className='flex flex-col items-center justify-center mb-24'>
-        <div className='h-[200px] relative'>
+        <div className='h-[200px] relative s:hidden md:hidden lg:block'>
           <img src="https://bizweb.dktcdn.net/100/197/269/themes/890698/assets/bg_breadcrum.jpg?1704543895805" alt="breakcum-img" />
           <h2 className='text-[#f47830] text-5xl absolute top-20 left-[470px]'>Xem sách là một cách thưởng thức nghệ thuật.</h2>
         </div>
-        <div className='form-container w-[500px] border border-[#f47830] '>
+        <div className='form-container lg:w-[500px] s:w-[400px] border border-[#f47830] lg:mt-0 md:mt-20'>
           <form onSubmit={handleSubmit(onRegister)} className='p-8 flex flex-col items-center '>
             <div className='flex items-center justify-center p-8 cursor-pointer text-3xl'>
               <Link to='/login' className='hover:text-[#f47830] mx-2' >Đăng nhập </Link>
@@ -116,32 +116,32 @@ export default function Register() {
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="fullname" className='text-[#616161] font-bold'>Họ và tên</label>
-              <input className={`pl-2 w-[420px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='text' id="fullname" {...register("fullname", { require: true })} onChange={onChange} />
+              <input className={`pl-2 lg:w-[420px] s:w-[320px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.fullname ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='text' id="fullname" {...register("fullname", { require: true })} onChange={onChange} />
               <p className='text-red-600'>{errors.fullname?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="phone " className='text-[#616161] font-bold'>Số điện thoại</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", { require: true })} onChange={onChange} />
+              <input className={`pl-2 lg:w-[420px] s:w-[320px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='phone' id="phone" {...register("phone", { require: true })} onChange={onChange} />
               <p className='text-red-600'>{errors.phone?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="email " className='text-[#616161] font-bold'>Email</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", { require: true })} onChange={onChange} />
+              <input className={`pl-2 lg:w-[420px] s:w-[320px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.email ? 'border-[#ff0000]' : 'border-[#ccc]'}`} type='email' id="email" {...register("email", { require: true })} onChange={onChange} />
               <p className='text-red-600'>{errors.email?.message}</p>
             </div>
             <div className='flex flex-col my-6'>
               <label htmlFor="Password " className='text-[#616161] font-bold'>Mật Khẩu</label>
-              <input className={`pl-2 w-[420px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="password" {...register("password", { require: true })} type="password" onChange={onChange} />
+              <input className={`pl-2 lg:w-[420px] s:w-[320px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.password ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="password" {...register("password", { require: true })} type="password" onChange={onChange} />
               <p className='text-red-600'>{errors.password?.message}</p>
             </div>
 
-            <button className='font-bold text-white flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] w-[420px] rounded-lg justify-center items-center ' type='submit' onKeyDown={onEnterRegister}>ĐĂNG KÝ</button>
+            <button className='font-bold text-white flex flex-col mt-6 h-[42px] bg-[#f47830] hover:bg-[#c27952] s:w-[320px] lg:w-[420px] rounded-lg justify-center items-center ' type='submit' onKeyDown={onEnterRegister}>ĐĂNG KÝ</button>
 
           </form>
           <div className='flex items-center justify-center gap-6'>
-            <div className='bg-[#ccc] w-40 h-[1px]'></div>
+            <div className='bg-[#ccc] lg:w-40 s:w-20 h-[1px]'></div>
             <p className='text-[#818080]'>Hoặc đăng nhập bằng</p>
-            <div className='bg-[#ccc] w-40 h-[1px]'></div>
+            <div className='bg-[#ccc] lg:w-40 s:w-20 h-[1px]'></div>
           </div>
           <div className='text-white cursor-pointer flex item-center justify-center p-5 gap-5 mt-4 mb-5'>
             <div className='flex items-center justify-center bg-[#3b5998]  gap-3 p-3 w-52 hover:bg-[#3d4b6a]'>
@@ -161,7 +161,7 @@ export default function Register() {
           <div className='flex flex-col gap-4 items-center bg-blue text-3xl text-center'>
             <p>Vui lòng nhập số đã được gửi qua email bạn để hoàn thành bước đăng ký. </p>
             <input  className='pl-2 border-black border w-[200px] h-[40px]' type="number" ref={inputRef} />
-            <button onClick={() => verifyRegister(responseData)} className='border-[dodgerblue] px-12 py-2 border text-white bg-[dodgerblue] rounded-md' type='button'>Gửi</button>
+            <button onClick={() => verifyRegister(responseData)} className='border-[dodgerblue] px-12 py-2 border text-white bg-[dodgerblue] rounded-md' type='button'>Kiểm tra</button>
             <button onClick={handleCancel}  className='text-center text-[dodgerblue]'>Trở về ?</button>
           </div>
         </div>

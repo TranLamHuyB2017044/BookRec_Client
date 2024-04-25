@@ -41,6 +41,10 @@ export default function InfoRight({ books, Star }) {
         
     };
 
+    const handleBuyNow = () => {
+        handleAddCart()
+        navigate('/cart')
+    }
 
     return (
         <div className='w-full mx-auto'>
@@ -82,11 +86,11 @@ export default function InfoRight({ books, Star }) {
                     </div>
                 </div>
                 <div className='flex gap-8 my-10'>
-                    <button className='py-4 border w-[200px] text-white bg-red-400 rounded-lg hover:opacity-80'>Mua ngay</button>
+                    <button onClick={handleBuyNow} className='py-4 border w-[200px] text-white bg-red-400 rounded-lg hover:opacity-80'>Mua ngay</button>
                     <button onClick={handleAddCart} className='py-4 border w-[200px] text-[#4e84e7] border-[#4e84e7] rounded-lg hover:opacity-80'>Thêm vào giỏ hàng</button>
                 </div>
             </div>
-            <section className='mx-auto my-4  h-[340px] max-h-[340px] border rounded-xl p-10 bg-[#ffff]'>
+            <section className='mx-auto my-4  h-[360px] max-h-[360px] border rounded-xl p-10 bg-[#ffff]'>
                 <h1 className='font-bold text-3xl mb-10 '>Mô tả sản phẩm</h1>
                 <p className='text-justify'>
                     {books.short_description}

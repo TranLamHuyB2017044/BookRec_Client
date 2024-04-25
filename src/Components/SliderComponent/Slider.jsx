@@ -14,7 +14,7 @@ export default function Slider() {
       <Slide duration={8000}>
         {slideImages.map((slide, index) => (
             <div key={index}>
-                <img className='flex items-center justify-center bg-cover h-[500px] rounded-xl w-full' src={slide} alt='slider-img'/>
+                <img className='flex items-center justify-center bg-cover h-[500px] s:h-full rounded-xl w-full' src={slide} alt='slider-img'/>
             </div>
         ))}
       </Slide>

@@ -16,9 +16,12 @@ export const userSlice = createSlice({
     },
     SignUp: (state, action) =>{
       state.newUser = action.payload;
+    },
+    updateCurrentUser: (state, action) =>{
+      state.currentUser = action.payload;
     }
   }
 })
 
-export const { SignIn, Exit, SignUp} = userSlice.actions;
+export const { SignIn, Exit, SignUp, updateCurrentUser} = userSlice.actions;
 export default userSlice.reducer;

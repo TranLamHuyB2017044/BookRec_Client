@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from 'react-router-dom';
 import { PublicRequest } from '../../service/Request.js'
@@ -67,6 +67,18 @@ export default function BestSeller() {
           lazyLoad: 'sequential',
           perPage: 8,
           rewind: true,
+          mediaQuery: 'min',
+          breakpoints: {
+            414: {
+              perPage: 2,
+            },
+            768: {
+              perPage: 5,
+            },
+            1024:{
+              perPage: 8,
+            }
+          }
         }}
       >
         { bookSeller.map((slide) => (

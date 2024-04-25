@@ -24,6 +24,19 @@ class MyAlert {
 
     });
   }
+  Toast_mobile(icon, title) {
+    Toast.fire({
+      toast: true,
+      position: "top-center",
+      icon: icon,
+      title: title,
+      showConfirmButton: false,
+      padding: 15,
+      timer: 3000,
+      timerProgressBar: true,
+
+    });
+  }
   Confirm(title, icon, text, confirmButtonText) {
     return Swal.fire({
       title: title,

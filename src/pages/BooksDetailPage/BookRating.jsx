@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import RecommendBook from './RecommendBook'
 import { PublicRequest } from '../../service/Request'
 
@@ -44,6 +44,7 @@ export default function BookRating({ books, Star, book_id, showRating }) {
         }
     }
 
+    
 
     const [userRatings, setUserRatings] = useState([])
 
@@ -178,14 +179,14 @@ export default function BookRating({ books, Star, book_id, showRating }) {
                                 </p>
                                 <div className='flex  items-center gap-4'>
                                     {rating.urls?.length > 1 ? rating?.urls.map((item, id) => (
-                                        <div key={id} className='w-[80px] h-[120px] border rounded-xl'>
+                                        <div key={id} className='w-[100px] h-[120px] border rounded-xl'>
                                             {item.type === 1 ? (
                                                 <img className='cursor-pointer w-full h-full' src={item.url} alt={`img_rating_${index + 1}`} />
                                             ) : <video  className={`cursor-pointer w-full h-full`} controls>
                                                 <source src={item.url} type="video/mp4" />
                                             </video>}
                                         </div>)) : ''} 
-                                    {rating.urls?.length === 1 && <div className='w-[80px] h-[120px] border rounded-xl'>
+                                    {rating.urls?.length === 1 && <div className='w-[100px] h-[120px] border rounded-xl'>
                                         {rating.urls[0].type === 1 ? (
                                             <img className={`cursor-pointer w-full h-full`} src={rating.urls[0].url} alt={`img_rating_${index + 1}`} />
                                         ) : <video className={`cursor-pointer w-full h-full`}  controls>

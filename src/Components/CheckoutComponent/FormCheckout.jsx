@@ -20,10 +20,10 @@ export default function FormCheckout({register, errors, userInfo}) {
                 <input className={`pl-4 w-[390px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.address ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="address" {...register("address", { require: true })} type="text" />
                 <p className='text-red-600'>{errors.address?.message}</p>
             </div>
-            <div className='flex flex-col gap-3 mt-4'>
+            {/* <div className='flex flex-col gap-3 mt-4'>
                 <label htmlFor="area" className='text-[#616161] font-bold'>Ghi chú</label>
                 <textarea className='pl-2 pt-2 border rounded-lg' id="area" name="area"></textarea>
-            </div>
+            </div> */}
         </div>
     </div>
   )

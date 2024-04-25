@@ -6,7 +6,7 @@ import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { Exit } from '../../store/userReducer.js';
+import { Exit, updateCurrentUser } from '../../store/userReducer.js';
 import { LogoutCart } from '../../store/cartReducer.js';
 import { PublicRequest } from '../../service/Request.js';
 import myAlert from '../../Components/AlertComponent/Alert'
@@ -15,9 +15,6 @@ export default function Verify() {
     const [loading, setLoading] = useState(false)
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-
-
-
 
     const breadcrumbs = [
         {
@@ -46,6 +43,7 @@ export default function Verify() {
 
     const inputRef = useRef(0)
 
+    const [code, setCode] = useState()
     const sendEmail = async () => {
         try {
             const userInfo = {
@@ -55,37 +53,41 @@ export default function Verify() {
             const rs = await PublicRequest.post('/user/verifyEmail', userInfo)
             if (rs.status === 200) {
                 myAlert.Alert('success', 'Gửi mã xác nhận thành công, vui lòng kiểm tra tại email của bạn')
-                return rs.data.verify
+                setCode(rs.data.verify)
             }
         } catch (err) {
             console.log(err)
         }
     }
-
-
+    console.log(code)
     const verifyEmail = async () => {
-        const VerifyData = sendEmail()
         const verifyNumber = inputRef.current.value
-        if (verifyNumber !== undefined) {
-            if (VerifyData == parseInt(verifyNumber)) {
-                setLoading(true)
-                const verified = await PublicRequest.put('/user/verifyEmail', { email: user.email })
-                console.log(verified)
-                setTimeout(() => {
-                    setLoading(false)
-                    myAlert.Alert('success', 'Xác thực thành công')
-                    navigate('/checkout')
-                }, 2000)
-            } else {
-                myAlert.Alert('error', 'Mã xác nhận không đúng')
-                return false
+        try {
+            if (verifyNumber !== undefined) {
+                if (code === parseInt(verifyNumber)) {
+                    setLoading(true)
+                    const verified = await PublicRequest.put('/user/verifyEmail', { email: user.email })
+                    console.log(verified)
+                    const updatedUser = {...user}
+                    updatedUser.verify = 1
+                    setTimeout(() => {
+                        setLoading(false)
+                        myAlert.Alert('success', 'Xác thực thành công')
+                        dispatch(updateCurrentUser(updatedUser))
+                        navigate('/account')
+                    }, 2000)
+                } else {
+                    myAlert.Alert('error', 'Mã xác nhận không đúng')
+                    return false
+                }
             }
+        } catch (error) {
+            console.log(error.message)
+            setLoading(false)
         }
 
-
-
     }
-
+    console.log(user)
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar />
@@ -111,7 +113,7 @@ export default function Verify() {
                             Để đảm bảo tính bảo mật bạn vui lòng xác thực email.
                         </p>
                         <div>
-                            <div className='mt-5 h-screen flex flex-col items-center '>
+                            {loading ? <Loading /> : <div className='mt-5 h-screen flex flex-col items-center '>
                                 <div className='flex flex-col gap-4 items-center bg-blue text-3xl text-center'>
                                     <p>Vui lòng nhập số đã được gửi qua email bạn để hoàn thành bước đăng ký. </p>
                                     <input className='pl-2 border-black border w-[200px] h-[40px]' type="number" ref={inputRef} />
@@ -121,8 +123,7 @@ export default function Verify() {
                                     </div>
 
                                 </div>
-                            </div>
-
+                            </div>}
                         </div>
                     </div> : <p className='mt-8 max-w-[45%]'>
                         Email của bạn đã được xác thực.

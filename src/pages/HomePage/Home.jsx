@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect} from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar'
 import Slider from '../../Components/SliderComponent/Slider'
 import Introduce from '../../Components/IntroduceComponent/Introduce'

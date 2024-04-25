@@ -9,7 +9,7 @@ import Order from '../../Components/CheckoutComponent/Order.jsx';
 import FormCheckout from '../../Components/CheckoutComponent/FormCheckout.jsx';
 import Payment from '../../Components/CheckoutComponent/Payment.jsx';
 import { useSelector } from 'react-redux';
-import { PublicRequest, ZaloPay } from '../../service/Request.js'
+import { PublicRequest } from '../../service/Request.js'
 import MyAlert from '../../Components/AlertComponent/Alert.js'
 import { useNavigate } from 'react-router-dom';
 

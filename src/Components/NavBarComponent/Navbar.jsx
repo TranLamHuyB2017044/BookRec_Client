@@ -1,13 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import { useDispatch, useSelector } from 'react-redux';
 import { Exit } from '../../store/userReducer';
 import { LogoutCart } from '../../store/cartReducer';
 import { PublicRequest } from '../../service/Request';
+
 export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
     const [showSubAccount, setShowSubAccount] = useState(false)
@@ -17,6 +20,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const quantity = useMemo(() => cartItem.quantity, [cartItem])
     const [searchText, setSearchText] = useState('')
     const [titleQuery, setTitleQuery] = useState([])
+    const [showNavBarReponsive, setShowNavBarReponsive] = useState(false)
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
@@ -77,7 +81,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     }
 
     return (
-        <div className='navbar-container w-full  px-5 h-[80px]  flex items-center justify-around  bg-white'>
+        <div className='navbar-container w-full s:justify-between px-5 md:px-0 h-[80px]  flex items-center justify-around  bg-white '>
             <Link to='/'>
                 <div className='logo flex items-center cursor-pointer h-fit'>
                     <img
@@ -87,7 +91,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                     <p className='text-4xl  text-[#f47830]'>BookRec</p>
                 </div>
             </Link>
-            <ul className='nav-bar-items flex items-center gap-8 cursor-pointer '>
+            <ul className='nav-bar-items flex items-center gap-8 cursor-pointer s:hidden lg:flex'>
                 <Link to='/' className='hover:text-[#f47830] '>Trang chủ</Link>
                 <div onMouseMove={() => setShowSubNav(true)} onMouseLeave={() => setShowSubNav(false)} className='relative h-[80px] mt-[56px]'>
                     <li className='hover:text-[#f47830] '>Thể loại</li>
@@ -105,7 +109,24 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                 </div>
                 <Link to={`/collections`} onClick={resetFilter} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
-            <div className="flex items-center gap-8 ">
+
+            {/* repsponsive navbar */}
+            <button onClick={() => setShowNavBarReponsive(!showNavBarReponsive)} className='cursor-pointer lg:hidden relative'>
+                <FormatListBulletedIcon fontSize='large' />
+                <ul className={`absolute rounded-b-lg mt-[8px] py-5 justify-center w-[200px] bg-white z-20 transition-all ease-in-out duration-300 top-[3rem]  ${showNavBarReponsive ? 's:-right-0 border-[1px] md:-left-[0]' : 's:hidden md:flex md:-left-[52rem]'} flex flex-col items-center gap-4 cursor-pointer`}>
+                    <Link to='/collections' className='hover:text-[#f47830] '>Kệ sách</Link>
+                    <Link to='/cart' className='hover:text-[#f47830] '>Giỏ hàng</Link>
+                    {user ?
+                        <div>
+                            <Link className=' text-start  hover:text-[#f47830] hover:bg-gray-200 py-5' to='/account'>Tài khoản</Link>
+                            <div className=' text-start  hover:text-[#f47830] hover:bg-gray-200 pt-4' onClick={Logout}>Đăng xuất</div>
+                        </div>
+                        : <Link to='/login' className='hover:text-[#f47830] '>Đăng nhập</Link>}
+                </ul>
+            </button>
+            {/* end repsponsive navbar */}
+
+            <div className="flex items-center gap-8 s:hidden md:flex">
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer pl-2'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 pt-0.5 text-gray-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

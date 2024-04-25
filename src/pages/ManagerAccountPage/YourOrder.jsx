@@ -45,6 +45,7 @@ export default function YourOrder() {
         window.localStorage.removeItem('persist:root')
     }
 
+    const sortOrders = myOrders.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
     return (
         <div className='bg-[#f5f5f5]' >
             <Navbar />
@@ -76,7 +77,7 @@ export default function YourOrder() {
                                 </div>
                             </div>
                         ) :
-                            myOrders.map((order) => (
+                        sortOrders.map((order) => (
                                 <div key={order.order_id} className='border  py-3 px-8 mt-4 bg-white rounded-lg '>
                                     <div className='grid grid-cols-6 px-4'>
                                         <div className='col-span-3'>
@@ -132,7 +133,7 @@ export default function YourOrder() {
                                         </div>
                                     </div>
                                 </div>
-                            )).reverse()
+                            ))
                     }
                 </div>
 

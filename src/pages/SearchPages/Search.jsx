@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { PublicRequest } from '../../service/Request';
+// import React, { useEffect, useState } from 'react'
+// import { useParams } from 'react-router-dom';
+// import { PublicRequest } from '../../service/Request';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs';
 
 export default function Search() {

@@ -108,7 +108,7 @@ export default function BookDetail() {
         }
         return starArry
     }, [])
-    const { register, handleSubmit } = useForm({})
+    const { handleSubmit } = useForm({})
 
     useEffect(() => {
         return () => {
