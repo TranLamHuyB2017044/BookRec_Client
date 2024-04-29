@@ -139,8 +139,8 @@ export default function BooksList() {
                 filters6={() => handleFilterClick('category', 'sach y hoc')}
             />
             <Breadcrumbs paths={breadcrumbs}  />
-            <div className='w-[1200px] grid grid-cols-4 m-auto my-2 py-5'>
-                <div className='border col-span-1 px-8 pb-8 mx-4 bg-white h-fit'>
+            <div className='lg:w-[1200px] md:w-full  md:grid-cols-3 grid lg:grid-cols-4 mx-auto my-2 py-5'>
+                <div className='border col-span-1 px-8 md:w-[90%] lg:w-full  pb-8 mx-4 bg-white h-fit'>
                     <section className=' pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Thể loại</h2>
                         <ul className='flex flex-col gap-6 my-6'>
@@ -157,14 +157,14 @@ export default function BooksList() {
                     <section className='border-t pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Đánh giá</h2>
                         <ul className='flex flex-col my-6'>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('rating', '5')} className='flex gap-4 items-center  cursor-pointer'>
-                                {RenderStar(5, '#ffc400')} <p>từ 5 sao</p>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('rating', '5')} className='flex md:my-3 lg:m-0 gap-4 items-center  cursor-pointer'>
+                                {RenderStar(5, '#ffc400')} <p className='s:hidden lg:block'>từ 5 sao</p>
                             </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('rating', '4')} className='flex gap-4 items-center cursor-pointer'>
-                                {RenderStar(4, '#ffc400')}{RenderStar(1, 'gray')} <p>từ 4 sao</p>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('rating', '4')} className='flex md:my-3 gap-4 items-center cursor-pointer'>
+                                {RenderStar(4, '#ffc400')}{RenderStar(1, 'gray')} <p className='s:hidden lg:block'>từ 4 sao</p>
                             </Link>
-                            <Link to={`/collections/?rating=3`} onClick={() => handleFilterClick('rating', '3')} className='flex gap-4 items-center cursor-pointer'>
-                                {RenderStar(3, '#ffc400')}{RenderStar(2, 'gray')} <p>từ 3 sao</p>
+                            <Link to={`/collections/?rating=3`} onClick={() => handleFilterClick('rating', '3')} className='flex md:my-3 lg:m-0 gap-4 items-center cursor-pointer'>
+                                {RenderStar(3, '#ffc400')}{RenderStar(2, 'gray')} <p className='s:hidden lg:block'>từ 3 sao</p>
                             </Link>
                         </ul>
                     </section>
@@ -178,9 +178,9 @@ export default function BooksList() {
                             <div>
                                 <label htmlFor='price-from' className='opacity-70'>Chọn khoảng giá</label>
                                 <div onKeyDown={handleSubmit} className='mt-5 flex gap-3'>
-                                    <input id='price-from' ref={inputRefFrom} type="number" className='border border-[#ccc] rounded-lg w-[100px] h-12 pl-3' />
+                                    <input id='price-from' ref={inputRefFrom} type="number" className='border border-[#ccc] rounded-lg w-[100px] md:w-[80px] h-12 pl-3' />
                                     -
-                                    <input id='price-to' ref={inputRefTo} type="number" className='border border-[#ccc] rounded-lg w-[100px] h-12 pl-3' />
+                                    <input id='price-to' ref={inputRefTo} type="number" className='border border-[#ccc] rounded-lg w-[100px] md:w-[80px] h-12 pl-3' />
                                 </div>
                             </div>
                         </ul>
@@ -261,10 +261,10 @@ export default function BooksList() {
                         </ul>
                     </section>
                 </div>
-                <div className=' col-span-3 grid grid-cols-4 grid-rows-5 bg-[#f5f5f5]'>
+                <div className='lg:col-span-3 md:col-span-2 grid lg:grid-cols-4 md:grid-cols-2 grid-rows-5 bg-[#f5f5f5]'>
                     {books.map((book, index) => (
-                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className='w-[200px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
-                            <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className='w-[200px] h-[200px] p-2 transform transition-transform duration-300 hover:scale-105' />
+                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className='lg:w-[200px] md:w-[235px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
+                            <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className='w-full h-[200px] p-2 transform transition-transform duration-300 hover:scale-105' />
                             <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
                             <div className='mb-2 px-3 flex items-center gap-4'>
                                 <p className=' text-xl'>{RenderStar(`${Math.floor(book.avg_rating)}`, '#ffc400')}</p>
@@ -276,7 +276,7 @@ export default function BooksList() {
                             </div>
                         </Link>
                     ))}
-                    <div className='max-h-[38px] row-start-6 col-start-2 my-8 -ml-6'>
+                    <div className='max-h-[38px] lg:row-start-6 md:row-start-12 md:col-start-1 lg:col-start-2 my-8 -ml-6'>
                         {totalPage > 1 ? Array.from({ length: totalPage }, (_, index) => (
                             <Link to={`/collections/?page=${index + 1}`} className='px-4 py-3 rounded-3xl  border ml-4 hover:bg-[#f47830] hover:text-white ' style={index + 1 === currentPage ? { background: '#f47830', color: 'white' } : { background: '', color: '' }} key={index + 1} onClick={() => handleChangePage(index + 1)}>
                                 {index + 1}

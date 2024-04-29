@@ -96,7 +96,7 @@ export default function Verify() {
                 <div className='mt-[5rem] basis-1/4'>
                     <div className='flex items-center gap-1 text-4xl'>
                         <h1 className=''>Xin chào, </h1>
-                        <h1 className='text-[#f47830]'>Trần Lâm Huy !</h1>
+                        <h1 className='text-[#f47830]'>{user.fullname} !</h1>
                     </div>
                     <ul className='mt-16 flex flex-col gap-5 '>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer'>Thông tin tài khoản</Link>

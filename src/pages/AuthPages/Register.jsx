@@ -61,7 +61,7 @@ export default function Register() {
         await verifyRegister(rs)
       }
     } catch (error) {
-      myAlert.Alert('error', error.response.data)
+      myAlert.Alert('error', error.response.data.message)
       setLoading(false)
     }
   }
