@@ -10,7 +10,7 @@ import InfoRight from './InfoRight.jsx';
 import BookRating from './BookRating.jsx';
 import Loading from '../../Components/LoadingComponent/Loading.jsx'
 import { PublicRequest, FormRequest } from '../../service/Request.js'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useForm } from "react-hook-form"
 import { useSelector } from 'react-redux'
@@ -147,6 +147,7 @@ export default function BookDetail() {
     }
 
     const onSubmit = async () => {
+        const user_id = user?.user_id
         try {
             if (nStar === 0) {
                 setErrorStar(true)
@@ -155,11 +156,14 @@ export default function BookDetail() {
                 setErrorContent(true)
                 return false
             }
+            else if (user_id == null) {
+                myAlert.Alert('info', 'Vui lòng đăng nhập để tiếp tục')
+                return false
+            }
             else {
                 setErrorContent(false)
                 setErrorStar(false)
                 setLoading(true)
-                const user_id = user.user_id
                 const formData = new FormData()
                 formData.append('user_id', user_id)
                 formData.append('content', content)
@@ -171,20 +175,23 @@ export default function BookDetail() {
                     }
                 }
                 const createRating = await FormRequest.post('/rating', formData)
+                if (createRating.status === 200) {
+                    myAlert.Alert('success', 'Đánh giá thành công')
+                    setShowRating(false)
+                    setLoading(false)
+                    handleResetRating()
+                }
                 setTimeout(() => {
-                    if (createRating.status === 200) {
-                        myAlert.Alert('success', 'Đánh giá thành công')
-                        setShowRating(false)
-                        setLoading(false)
-                        handleResetRating()
-                    }
+                    window.location.reload()
                 }, 1500)
+
             }
         } catch (error) {
             myAlert.Alert('error', 'Có lỗi xảy ra, vui lòng thử lại')
             console.log(error)
             setLoading(false)
         }
+
     }
 
     const handleChangeStar = (newStar) => {
@@ -235,7 +242,7 @@ export default function BookDetail() {
                             </div>
                             <div className='mx-auto px-3 h-[420px]'>
                                 <h3 className='my-4 ml-4'>Điều gì làm bạn hài lòng ?</h3>
-                                <textarea onChange={(e) => setContent(e.target.value)} className='focus:border border-blue border mx-4 px-4' name="content" id="content" cols="40" rows="5"
+                                <textarea onChange={(e) => setContent(e.target.value)} className='focus:border border-blue border mx-4 px-4 pt-2' name="content" id="content" cols="40" rows="5"
                                     placeholder='Hãy chia sẽ cảm nhận, đánh giá của bạn về sản phẩm này nhé.' />
                                 {errorContent && <p className='text-red-600'>Nội dung đánh giá không được để trống</p>}
 
@@ -299,7 +306,7 @@ export default function BookDetail() {
                     <InfoLeft books={book} />
                     <InfoRight Star={RenderStar} books={book} />
                 </div>
-                <BookRating books={book} Star={RenderStar} book_id={book_id} showRating={() => setShowRating(true)} />
+                <BookRating Star={RenderStar} book_id={book_id} showRating={() => setShowRating(true)} />
                 <GoToTop />
                 <Footer />
             </div>

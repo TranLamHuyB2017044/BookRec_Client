@@ -100,7 +100,7 @@ export default function Checkout() {
                 }else{
                     const response = await PublicRequest.post(`/order/`, Formdata)
                     console.log(response.data)
-                    MyAlert.Alert(response.data.status, response.data.message)
+                    MyAlert.Alert(response.data.status, 'Đặt hàng thành công')
                     navigate('/yourOrders')
                 }
 
