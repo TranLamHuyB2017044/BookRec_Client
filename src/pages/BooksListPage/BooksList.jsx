@@ -13,6 +13,9 @@ export default function BooksList() {
     const [searchParams, setSearchParams] = useSearchParams({ route: '' })
     const [currentPage, setCurrentPage] = useState(() => parseInt(searchParams.get('page')) || 1)
     useEffect(() => {
+        document.title = 'BookRec - Collections'
+      },[])
+    useEffect(() => {
         const getBooks = async () => {
             try {
                 let queryParams = `page=${currentPage}`

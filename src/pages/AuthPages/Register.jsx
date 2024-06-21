@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar'
 import Footer from '../../Components/FooterComponent/Footer'
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
@@ -22,6 +22,12 @@ export default function Register() {
   })
   const [loading, setLoading] = useState(false)
   const [verifying, setVerifying] = useState(false)
+
+
+  
+  useEffect(() => {
+    document.title = 'BookRec - Register'
+  },[])
 
   const OauthLogin = () => {
     window.location.href = 'http://localhost:5000/auth/google';

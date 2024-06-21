@@ -11,13 +11,16 @@ import { useDispatch } from 'react-redux'
 import { PublicRequest } from '../../service/Request';
 import { SignIn } from '../../store/userReducer';
 import MyAlert from '../../Components/AlertComponent/Alert'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from '../../Components/LoadingComponent/Loading';
 export default function Login() {
   const dispatch = useDispatch()
 
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    document.title = 'BookRec - Login'
+  },[])
 
   const OauthLogin = () => {
     window.location.href = 'http://localhost:5000/auth/google';
