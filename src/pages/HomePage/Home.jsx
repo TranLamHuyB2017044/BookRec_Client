@@ -24,6 +24,10 @@ export default function Home() {
     getUser()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ ])
+
+  useEffect(() => {
+    document.title = 'BookRec'
+  },[])
   
   return (
     <div>
