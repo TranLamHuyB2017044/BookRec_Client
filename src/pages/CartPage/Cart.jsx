@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React, { useCallback} from 'react'
+import React, { useCallback, useEffect} from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 // import { books_data } from '../../data.jsx'
@@ -47,8 +47,9 @@ export default function Cart() {
             }
         })
     }
-
-
+    useEffect(() => {
+        document.title = 'BookRec - Cart'
+      },[])
     const TotalPrice = useCallback(items => {
         let total = 0;
         // eslint-disable-next-line array-callback-return

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
@@ -15,7 +15,9 @@ export default function Verify() {
     const [loading, setLoading] = useState(false)
     const user = useSelector(state => state.user.currentUser)
     const dispatch = useDispatch()
-
+    useEffect(() => {
+        document.title = 'BookRec - Verify Email'
+      },[])
     const breadcrumbs = [
         {
             link: '/',

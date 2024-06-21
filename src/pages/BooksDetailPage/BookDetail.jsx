@@ -40,7 +40,9 @@ export default function BookDetail() {
             }
         }
     }
-
+    useEffect(() => {
+        document.title = `BookRec - Collection ${params.slug}`
+      },[ ])
     const book_id = getId(params.slug)
     const [book, setBooks] = useState({})
     const boDauTiengViet = function (chuoi) {

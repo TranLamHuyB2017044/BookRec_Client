@@ -15,6 +15,11 @@ export default function YourOrder() {
     const user = useSelector(state => state.user.currentUser)
     const [myOrders, setMyOrders] = useState([])
 
+
+    useEffect(() => {
+        document.title = 'BookRec - Your Orders';
+      },[])
+
     useEffect(() => {
         const getOrders = async () => {
             const user_id = user.user_id

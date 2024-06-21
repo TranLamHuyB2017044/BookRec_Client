@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { useForm } from "react-hook-form"
@@ -21,7 +21,9 @@ export default function Checkout() {
     const [payment, setPayment] = useState("");
     const navigate = useNavigate()
     const email = useSelector(state => state.user.currentUser.email)
-    console.log(email)
+    useEffect(() => {
+        document.title = 'BookRec - Checkout'
+      },[])
     const breadcrumbs = [
         {
             link: '/',

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import myIMG from '../../assets/NotFoundTom.png'
 export default function NotFound() {
+    useEffect(() => {
+        document.title = 'BookRec - Not Found'
+      },[])
     return (
         <div className="h-screen w-screen bg-gray-100 flex items-center">
             <div className="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700">
