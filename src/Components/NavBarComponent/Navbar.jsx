@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import { IconButton } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -10,6 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Exit } from '../../store/userReducer';
 import { LogoutCart } from '../../store/cartReducer';
 import { PublicRequest } from '../../service/Request';
+import Drawer from 'react-modern-drawer'
+import 'react-modern-drawer/dist/index.css'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+
 
 export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
@@ -20,7 +28,10 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const quantity = useMemo(() => cartItem.quantity, [cartItem])
     const [searchText, setSearchText] = useState('')
     const [titleQuery, setTitleQuery] = useState([])
-    const [showNavBarReponsive, setShowNavBarReponsive] = useState(false)
+    const [showDrawer, setShowDrawer] = useState(false)
+
+
+
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
@@ -80,6 +91,10 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
             .replace(/[^\w-]/g, '');
     }
 
+
+    const onShowDrawer = () => {
+        setShowDrawer((prev) => !prev)
+    }
     return (
         <div className='navbar-container w-full s:justify-between px-5 md:px-0 h-[80px]  flex items-center justify-around  bg-white '>
             <Link to='/'>
@@ -111,18 +126,63 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
             </ul>
 
             {/* repsponsive navbar */}
-            <button onClick={() => setShowNavBarReponsive(!showNavBarReponsive)} className='cursor-pointer lg:hidden relative'>
+            <button onClick={onShowDrawer} className='cursor-pointer lg:hidden relative'>
                 <FormatListBulletedIcon fontSize='large' />
-                <ul className={`absolute rounded-b-lg mt-[8px] py-5 justify-center w-[200px] bg-white z-20 transition-all ease-in-out duration-300 top-[3rem]  ${showNavBarReponsive ? 's:-right-0 border-[1px] md:-left-[0]' : 's:hidden md:flex md:-left-[52rem]'} flex flex-col items-center gap-4 cursor-pointer`}>
-                    <Link to='/collections' className='hover:text-[#f47830] '>Kệ sách</Link>
-                    <Link to='/cart' className='hover:text-[#f47830] '>Giỏ hàng</Link>
-                    {user ?
-                        <div>
-                            <Link className=' text-start  hover:text-[#f47830] hover:bg-gray-200 py-5' to='/account'>Tài khoản</Link>
-                            <div className=' text-start  hover:text-[#f47830] hover:bg-gray-200 pt-4' onClick={Logout}>Đăng xuất</div>
+                <Drawer
+                    open={showDrawer}
+                    onClose={onShowDrawer}
+                    direction='right'
+                    size={280}
+                    style={{ borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}
+                >
+                    <ul>
+                        {user ? <div className='border-b-[1px] border-grey flex gap-8  items-center px-10 py-10'>
+                            <div className='w-[90px] h-[70px] rounded-full'>
+                                <img className='w-full h-full rounded-full' src={user.user_ava} alt="user_avatar" />
+                            </div>
+                            <div className='flex items-center  flex-wrap'>
+                                <p >Xin chào, </p>
+                                <p className='text-blue-400'>{user.fullname}</p>
+                            </div>
                         </div>
-                        : <Link to='/login' className='hover:text-[#f47830] '>Đăng nhập</Link>}
-                </ul>
+                            :
+                            <div className='border-b-[1px] border-grey logo flex items-center justify-start cursor-pointer h-fit'>
+                                <img
+                                    src="https://static.vecteezy.com/system/resources/previews/017/128/657/non_2x/little-boy-kid-reading-book-logo-icon-in-flat-design-vector.jpg"
+                                    alt="logo"
+                                    className='w-40 h-32' />
+                                <p className='text-4xl  text-[#f47830]'>BookRec</p>
+                            </div>
+                        }
+                        <div className='flex flex-col gap-6 ml-5  mt-5'>
+                            <div className='flex gap-8 hover:text-[#f47830]'>
+                                <AutoStoriesIcon fontSize='large' />
+                                <Link to='/collections' >Kệ sách</Link>
+                            </div>
+                            <div className='flex gap-8 hover:text-[#f47830] '>
+                                <ShoppingCartIcon fontSize='large' />
+                                <Link to='/cart' >Giỏ hàng</Link>
+                            </div>
+                            {user ?
+                                <div>
+                                    <div className='flex gap-8 hover:text-[#f47830]'>
+                                        <ManageAccountsIcon fontSize='large' />
+                                        <Link to='/account'>Tài khoản</Link>
+                                    </div>
+                                    <div className=' text-start  hover:text-[#f47830]  pt-4 flex gap-8' onClick={Logout}>
+                                        <LogoutIcon fontSize='large' />
+                                        Đăng xuất</div>
+                                </div>
+                                : <div className='flex gap-8 hover:text-[#f47830]'>
+                                    <LoginIcon fontSize='large' />
+                                    <Link to='/login' >Đăng nhập</Link>
+                                </div>}
+                        </div>
+
+
+
+                    </ul>
+                </Drawer>
             </button>
             {/* end repsponsive navbar */}
 
