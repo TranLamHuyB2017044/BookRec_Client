@@ -25,7 +25,9 @@ export default function BookDetail() {
     const [nStar, setNStar] = useState(0)
     const [content, setContent] = useState('')
     const [errorStar, setErrorStar] = useState(false)
-    const [errorContent, setErrorContent] = useState(false)
+    // const [errorContent, setErrorContent] = useState(false)
+    const [status, setStatus] = useState('')
+
     const getId = (slug) => {
         const lastStringInSlug = slug.lastIndexOf('-')
         if (lastStringInSlug !== -1) {
@@ -152,8 +154,12 @@ export default function BookDetail() {
             if (nStar === 0) {
                 setErrorStar(true)
                 return false
-            } else if (content === '') {
-                setErrorContent(true)
+            // } else if (content === '') {
+            //     setErrorContent(true)
+            //     return false
+            // }
+            }else if (status === ''){
+                myAlert.Alert('infor', 'Chọn tối thiểu một tùy chọn')
                 return false
             }
             else if (user_id == null) {
@@ -161,7 +167,7 @@ export default function BookDetail() {
                 return false
             }
             else {
-                setErrorContent(false)
+                // setErrorContent(false)
                 setErrorStar(false)
                 setLoading(true)
                 const formData = new FormData()
@@ -169,6 +175,7 @@ export default function BookDetail() {
                 formData.append('content', content)
                 formData.append('book_id', parseInt(book_id))
                 formData.append('n_star', nStar)
+                formData.append('user_status', status)
                 if (ratingImage.length > 0) {
                     for (let image of ratingImage) {
                         formData.append('url', image)
@@ -220,13 +227,14 @@ export default function BookDetail() {
             })
         }
     }
+
     return (
         <div className='relative'>
             {showRating &&
                 <div className='bg-opacity-40 bg-[#585757] border h-[100%] w-[100%] absolute z-100' >
-                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[417px] max-h-[620px]  shadow-md rounded-md left-[550px] top-[35px]  fixed z-2'>
+                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[417px] max-h-[680px] overflow-auto  shadow-md rounded-md left-[550px] top-[30px]  fixed z-2'>
                         {loading ? <Loading /> : <div className=''>
-                            <div className='border-b flex justify-between p-3 w-[90%] mx-auto mt-3 items-start max-h-[120px]'>
+                            <div className='border-b flex justify-between p-3 w-[90%] mx-auto mt-3 items-start max-h-[180px]'>
                                 <div className='flex gap-4'>
                                     <img className='w-32 h-32' src={book.thumbnail_url} alt={`cover_${book.title}`} />
                                     <div>
@@ -240,11 +248,16 @@ export default function BookDetail() {
                                 </div>
                                 <button className='text-5xl -mt-2 cursor-pointer' onClick={handleResetRating}>&times;</button>
                             </div>
+                            <div className='flex mt-5 flex-wrap gap-8 ml-5'>
+                                <button type='button' onClick={() => setStatus('bad')} className={status === 'bad' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Không hài lòng</button>
+                                <button type='button' onClick={() => setStatus('normal')} className={status === 'normal' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Hài lòng</button>
+                                <button type='button' onClick={() => setStatus('good')} className={status === 'good' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Rất hài lòng</button>
+                            </div>
                             <div className='mx-auto px-3 h-[420px]'>
                                 <h3 className='my-4 ml-4'>Điều gì làm bạn hài lòng ?</h3>
                                 <textarea onChange={(e) => setContent(e.target.value)} className='focus:border border-blue border mx-4 px-4 pt-2' name="content" id="content" cols="40" rows="5"
                                     placeholder='Hãy chia sẽ cảm nhận, đánh giá của bạn về sản phẩm này nhé.' />
-                                {errorContent && <p className='text-red-600'>Nội dung đánh giá không được để trống</p>}
+                                {/* <p className='text-red-600'>Nội dung đánh giá không được để trống</p>} */}
 
                                 <div>
                                     <div>

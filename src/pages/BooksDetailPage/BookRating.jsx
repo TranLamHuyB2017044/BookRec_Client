@@ -188,7 +188,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 								</div>
 								<div className='flex items-center gap-4 my-4'>
 									<p className='text-4xl'>{Star(rating.n_star, 'yellow')}</p>
-									{/* <p className='text-2xl'>Cực kỳ hài lòng</p> */}
+									<p className={'mt-2 bg-[#38969e] text-white text-3xl border px-5 py-2 rounded-lg'}>{rating.user_status === 'bad' ? 'Không hài lòng' : rating.user_status === 'normal' ? 'Hài lòng' : 'Rất hài lòng'}</p>
 								</div>
 								<p className='my-5'>
 									{rating.content}

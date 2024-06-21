@@ -15,7 +15,7 @@ function GoToTop() {
         <>
             {goToTop && 
             <div 
-            className='bg-[#f47830] rounded-xl p-[10px] fixed right-[20px] bottom-[20px] w-[60px] h-[60px] cursor-pointer z-[13]'
+            className=' bg-blue-400 rounded-xl p-[10px] fixed sm:right-[20px] s:right-[10px] sm:bottom-[20px] s:bottom-[80px] w-[60px] h-[60px] cursor-pointer z-[13]'
             onClick={() => {window.scrollTo({top: 0, left: 0, behavior: 'smooth'});}}
             >
                 <KeyboardArrowUpOutlinedIcon 

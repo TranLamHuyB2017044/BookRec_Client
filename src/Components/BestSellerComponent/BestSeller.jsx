@@ -69,11 +69,14 @@ export default function BestSeller() {
           rewind: true,
           mediaQuery: 'min',
           breakpoints: {
-            414: {
-              perPage: 2,
+            320: {
+              perPage: 1,
+            },
+            500:{
+              perPage : 2,
             },
             768: {
-              perPage: 5,
+              perPage: 4,
             },
             1024:{
               perPage: 8,

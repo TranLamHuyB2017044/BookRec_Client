@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/aria-role */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../Components/NavBarComponent/Navbar.jsx'
 import Footer from '../../Components/FooterComponent/Footer.jsx'
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
@@ -30,7 +30,7 @@ export default function Account() {
         }
 
     ]
-
+    const [previewAvatar, setPreviewAvatar] = useState();
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
@@ -69,6 +69,19 @@ export default function Account() {
         } catch (error) {
             console.log(error.message)
         }
+    }
+
+    useEffect(()=>{
+        return () =>{
+            previewAvatar && URL.revokeObjectURL(previewAvatar);
+        }
+    },[previewAvatar])
+
+    const handleOnchange = (event) => {
+        setAvatar(event.target.files);
+        const file = event.target.files[0];
+        const preAvatar = URL.createObjectURL(file);
+        setPreviewAvatar(preAvatar);
     }
 
     return (
@@ -110,8 +123,17 @@ export default function Account() {
                             <div className='form-group mt-5 flex gap-16 items-center'>
                                 <p className='min-w-[200px]'>Ảnh đại diện</p>
                                 <div>
-                                    <div className='w-[130px] h-[130px]'><img className='rounded-lg w-full h-full' src={user.user_ava} alt="user_avatar" /></div>
-                                    <input className='hidden' onChange={(e) => setAvatar(e.target.files)} type="file" id='avatar' />
+                                    <div className='flex gap-16'>
+                                        <div>
+                                            <div className='w-[130px] h-[130px]'><img className='rounded-lg w-full h-full' src={user.user_ava} alt="user_avatar" /></div>
+                                            <p className='mt-5'>Hình ảnh hiện tại</p>
+                                        </div>
+                                        {previewAvatar && <div>
+                                            <div className='w-[130px] h-[130px]'><img className='rounded-lg w-full h-full' src={previewAvatar} alt="user_avatar" /></div>
+                                            <p className='mt-5'>Hình ảnh thay đổi</p>
+                                        </div>}
+                                    </div>
+                                    <input className='hidden' onChange={handleOnchange} type="file" id='avatar' />
                                     <label htmlFor="avatar" className='text-[25px] flex justify-center  text-white bg-blue-600 hover:bg-blue-800 rounded-lg w-fit p-2 mt-3 cursor-pointer'>
                                         <FileUploadOutlinedIcon fontSize='inherit' />
                                     </label>
