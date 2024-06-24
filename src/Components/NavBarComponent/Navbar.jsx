@@ -17,7 +17,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
@@ -29,7 +29,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const [searchText, setSearchText] = useState('')
     const [titleQuery, setTitleQuery] = useState([])
     const [showDrawer, setShowDrawer] = useState(false)
-
+    const [searchImage, setSearchImage] = useState(false);
 
 
     const Logout = () => {
@@ -95,6 +95,9 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const onShowDrawer = () => {
         setShowDrawer((prev) => !prev)
     }
+
+    
+
     return (
         <div className='navbar-container w-full s:justify-between px-5 md:px-0 h-[80px]  flex items-center justify-around  bg-white '>
             <Link to='/'>
@@ -186,12 +189,15 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
             </button>
             {/* end repsponsive navbar */}
 
-            <div className="flex items-center gap-8 s:hidden md:flex">
-                <div className='flex items-center h-16 border rounded-xl cursor-pointer pl-2'>
+            <div className="flex items-center gap-8 s:hidden md:flex ">
+                <div className='flex items-center h-16 border rounded-xl cursor-pointer px-2'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 pt-0.5 text-gray-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <input autoComplete='off' onChange={(e) => setSearchText(e.target.value)} value={searchText || ''} className="ml-2 outline-none bg-transparent w-[200px]" type="text" name="search" id="search" placeholder="Search..." />
+                    <button onClick={() => setSearchImage(true)}>
+                        <ImageSearchIcon fontSize='large' color='orange' />
+                    </button>
                 </div>
                 {
                     titleQuery.length < 1
@@ -213,6 +219,22 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                                 : ''
                             } */}
                         </div>
+                }
+                {
+                    searchImage && <div className=' flex justify-center items-center  rounded-lg absolute  w-[350px] h-[250px] right-[120px] top-[20px] bg-white z-50'>
+                        <div className='flex justify-center items-center border-dashed border-black py-5 px-2  border-[1px] bg-gray-300 w-[300px] h-[180px]'>
+                            <button className='absolute top-0 right-5 text-[3rem]' onClick={() => setSearchImage(false)}>&times;</button>
+                            <div className='flex justify-center items-center gap-4'>
+                                <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 12.5001L3.75159 10.9675C4.66286 10.1702 6.03628 10.2159 6.89249 11.0721L11.1822 15.3618C11.8694 16.0491 12.9512 16.1428 13.7464 15.5839L14.0446 15.3744C15.1888 14.5702 16.7369 14.6634 17.7765 15.599L21 18.5001" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M15 5.5H18.5M18.5 5.5H22M18.5 5.5V9M18.5 5.5V2" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> <path d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 10.8717 2 9.87835 2.02008 9M12 2C7.28595 2 4.92893 2 3.46447 3.46447C3.03965 3.88929 2.73806 4.38921 2.52396 5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+                                <div >
+                                    <label htmlFor="image-search">
+                                        <p className='cursor-pointer underline text-blue-600'>tải tệp lên</p>
+                                    </label>
+                                    <input type="file" width={0} id='image-search' className='hidden' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
                 {user ? <div>
                     <div className='relative cursor-pointer mt-[55px] h-[80px]' onMouseMove={() => setShowSubAccount(true)} onMouseLeave={() => setShowSubAccount(false)}>

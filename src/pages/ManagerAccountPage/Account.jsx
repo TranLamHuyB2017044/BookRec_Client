@@ -31,6 +31,11 @@ export default function Account() {
 
     ]
     const [previewAvatar, setPreviewAvatar] = useState();
+
+    useEffect(() => {
+        document.title = 'BookRec - Manager My Account'
+      },[])
+
     const Logout = () => {
         window.location.href = 'http://localhost:5000/auth/logout';
         dispatch(Exit())
