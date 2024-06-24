@@ -10,7 +10,7 @@ import InfoRight from './InfoRight.jsx';
 import BookRating from './BookRating.jsx';
 import Loading from '../../Components/LoadingComponent/Loading.jsx'
 import { PublicRequest, FormRequest } from '../../service/Request.js'
-import { useNavigate, useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useForm } from "react-hook-form"
 import { useSelector } from 'react-redux'

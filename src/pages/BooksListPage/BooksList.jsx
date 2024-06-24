@@ -130,6 +130,11 @@ export default function BooksList() {
                     .replace(/[^\w-]/g, '');
     } 
 
+
+    const mobileCard = `s:w-[95%] s:mx-2 `
+    const mobileBookImage = `s:h-[150px]`
+    const mobilePageNavigationUI = `s:flex s:flex-wrap  s:max-w-full s:justify-center s:items-center s:max-h-fit s:col-span-2`
+    const tabletPageNavigationUI = ` md:col-span-3`
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar resetFilter={resetFilter}
@@ -143,7 +148,7 @@ export default function BooksList() {
             />
             <Breadcrumbs paths={breadcrumbs}  />
             <div className='lg:w-[1200px] md:w-full  md:grid-cols-3 grid lg:grid-cols-4 mx-auto my-2 py-5'>
-                <div className='border col-span-1 px-8 md:w-[90%] lg:w-full  pb-8 mx-4 bg-white h-fit'>
+                <div className='border col-span-1 px-8 md:w-[90%] lg:w-full  pb-8 mx-4 bg-white h-fit s:hidden lg:block'>
                     <section className=' pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Thể loại</h2>
                         <ul className='flex flex-col gap-6 my-6'>
@@ -264,24 +269,24 @@ export default function BooksList() {
                         </ul>
                     </section>
                 </div>
-                <div className='lg:col-span-3 md:col-span-2 grid lg:grid-cols-4 md:grid-cols-2 grid-rows-5 bg-[#f5f5f5]'>
+                <div className={`lg:col-span-3 md:col-span-3 grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3   s:grid-cols-2 grid-rows-5 bg-[#f5f5f5] `}>
                     {books.map((book, index) => (
-                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className='lg:w-[200px] md:w-[235px] mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 '>
-                            <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className='w-full h-[200px] p-2 transform transition-transform duration-300 hover:scale-105' />
+                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className={`${mobileCard} lg:w-[200px] md:w-[235px]  mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 `}>
+                            <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className={`${mobileBookImage} w-full sm:h-[200px] p-2 transform transition-transform duration-300 hover:scale-105`} />
                             <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
-                            <div className='mb-2 px-3 flex items-center gap-4'>
+                            <div className='s:flex-col s:items-start s:gap-0 mb-2 px-3 sm:flex-row flex sm:items-center sm:gap-4'>
                                 <p className=' text-xl'>{RenderStar(`${Math.floor(book.avg_rating)}`, '#ffc400')}</p>
                                 <p className=' text-xl pt-2'>Đã bán {book.quantity_sold}</p>
                             </div>
-                            <div className='flex items-center gap-4 p-3'>
+                            <div className='sm:flex-row flex sm:items-center sm:gap-4 p-3 s:gap-0 s:flex-col-reverse s:items-start'>
                                 <p className='text-4xl'>{(book.original_price).toLocaleString()}&#8363;</p>
                                 <p>-{book.discount}%</p>
                             </div>
                         </Link>
                     ))}
-                    <div className='max-h-[38px] lg:row-start-6 md:row-start-12 md:col-start-1 lg:col-start-2 my-8 -ml-6'>
+                    <div className={`${mobilePageNavigationUI} ${tabletPageNavigationUI} lg:block lg:max-h-[38px] lg:row-start-6 md:row-start-12 md:col-start-1 lg:col-start-2 my-8 -ml-6`}>
                         {totalPage > 1 ? Array.from({ length: totalPage }, (_, index) => (
-                            <Link to={`/collections/?page=${index + 1}`} className='px-4 py-3 rounded-3xl  border ml-4 hover:bg-[#f47830] hover:text-white ' style={index + 1 === currentPage ? { background: '#f47830', color: 'white' } : { background: '', color: '' }} key={index + 1} onClick={() => handleChangePage(index + 1)}>
+                            <Link to={`/collections/?page=${index + 1}`} className='s:mt-5 px-4 py-3 rounded-3xl  border ml-4 hover:bg-[#f47830] hover:text-white ' style={index + 1 === currentPage ? { background: '#f47830', color: 'white' } : { background: '', color: '' }} key={index + 1} onClick={() => handleChangePage(index + 1)}>
                                 {index + 1}
                             </Link>
                         )) : ''}
