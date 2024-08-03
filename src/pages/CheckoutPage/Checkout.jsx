@@ -23,7 +23,7 @@ export default function Checkout() {
     const email = useSelector(state => state.user.currentUser.email)
     useEffect(() => {
         document.title = 'BookRec - Checkout'
-      },[])
+    }, [])
     const breadcrumbs = [
         {
             link: '/',
@@ -41,11 +41,24 @@ export default function Checkout() {
     ]
 
     const OrderItem = useSelector(state => state.cart)
+
+    useEffect(() => {
+        document.title = 'BookRec - Cart'
+    }, [])
+
+    const discountPrice = useCallback((book) => {
+        let price = 0
+        if (book.promotion_percent != null) {
+            const discount = ((book.original_price * book.promotion_percent) / 100)
+            price = book.original_price - discount
+        }
+        return price
+    }, [])
     const TotalPrice = useCallback(items => {
         let total = 0;
         // eslint-disable-next-line array-callback-return
         items.map(item => {
-            total += item.quantity * (item.original_price - (item.original_price * item.discount) / 100)
+            total += item.quantity * discountPrice(item)
         })
         return total
     }, [])
@@ -92,14 +105,14 @@ export default function Checkout() {
                 MyAlert.Alert('info', 'Chức năng thanh toán online sẽ có trong tương lai gần')
             }
             else {
-                if(userInfo.verify === 0){
+                if (userInfo.verify === 0) {
                     MyAlert.Confirm('Xác thực Email ?', 'info', 'Vui lòng xác thực email tại mục tài khoản', 'Xác thực', 'Bỏ qua')
-                    .then(async (result) => {
-                        if (result.value) {
-                            navigate('/verify')
-                        }
-                    })
-                }else{
+                        .then(async (result) => {
+                            if (result.value) {
+                                navigate('/verify')
+                            }
+                        })
+                } else {
                     const response = await PublicRequest.post(`/order/`, Formdata)
                     console.log(response.data)
                     MyAlert.Alert(response.data.status, 'Đặt hàng thành công')
@@ -137,6 +150,7 @@ export default function Checkout() {
                             onSubmit={() => onSubmit}
                             TotalPrice={TotalPrice}
                             OrderItem={OrderItem}
+                            discountPrice={discountPrice(OrderItem.books)}
                         />
                     </div>
                 </div>

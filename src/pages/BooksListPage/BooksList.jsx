@@ -269,7 +269,7 @@ export default function BooksList() {
                         </ul>
                     </section>
                 </div>
-                <div className={`lg:col-span-3 md:col-span-3 grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3   s:grid-cols-2 grid-rows-5 bg-[#f5f5f5] `}>
+                <div className={`lg:col-span-3 md:col-span-3 grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 s:grid-cols-2 grid-rows-5 bg-[#f5f5f5]`}>
                     {books.map((book, index) => (
                         <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className={`${mobileCard} lg:w-[200px] md:w-[235px]  mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 `}>
                             <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className={`${mobileBookImage} w-full sm:h-[200px] p-2 transform transition-transform duration-300 hover:scale-105`} />
@@ -280,7 +280,7 @@ export default function BooksList() {
                             </div>
                             <div className='sm:flex-row flex sm:items-center sm:gap-4 p-3 s:gap-0 s:flex-col-reverse s:items-start'>
                                 <p className='text-4xl'>{(book.original_price).toLocaleString()}&#8363;</p>
-                                <p>-{book.discount}%</p>
+                                <p>{book.promotion_percent !== null ? `- ${book.promotion_percent}%` : ''}</p>
                             </div>
                         </Link>
                     ))}

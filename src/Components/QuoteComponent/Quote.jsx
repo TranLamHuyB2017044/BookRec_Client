@@ -1,4 +1,6 @@
 import {Fade} from 'react-slideshow-image'
+
+
 export default function Quote() {
   return (
     <div className=' h-[350px] md:h-[300px] s:h-[150px]  mt-5 bg-[#18335e] text-white'>

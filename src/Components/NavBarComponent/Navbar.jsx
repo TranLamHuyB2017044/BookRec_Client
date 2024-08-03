@@ -18,6 +18,11 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+
 
 export default function Navbar({ resetFilter, filters, filters1, filters2, filters3, filters4, filters5, filters6 }) {
     const [showSubNav, setShowSubNav] = useState(false)
@@ -30,6 +35,15 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const [titleQuery, setTitleQuery] = useState([])
     const [showDrawer, setShowDrawer] = useState(false)
     const [searchImage, setSearchImage] = useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
 
 
     const Logout = () => {
@@ -96,10 +110,11 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
         setShowDrawer((prev) => !prev)
     }
 
-    
+
 
     return (
         <div className='navbar-container w-full s:justify-between px-5 md:px-0 h-[80px]  flex items-center justify-around  bg-white '>
+            {/* Navbar left */}
             <Link to='/'>
                 <div className='logo flex items-center cursor-pointer h-fit'>
                     <img
@@ -128,6 +143,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                 <Link to={`/collections`} onClick={resetFilter} className='hover:text-[#f47830]'>Kệ sách</Link>
             </ul>
 
+            {/* Navbar center */}
             {/* repsponsive navbar */}
             <button onClick={onShowDrawer} className='cursor-pointer lg:hidden relative'>
                 <FormatListBulletedIcon fontSize='large' />
@@ -189,7 +205,13 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
             </button>
             {/* end repsponsive navbar */}
 
+
+            {/*Navbar right */}
+
             <div className="flex items-center gap-8 s:hidden md:flex ">
+                
+
+                {/*Input search  */}
                 <div className='flex items-center h-16 border rounded-xl cursor-pointer px-2'>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 pt-0.5 text-gray-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -236,6 +258,36 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                         </div>
                     </div>
                 }
+                {/* Notification */}
+                {/* <div>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        <IconButton aria-label="notifycation">
+                            <Badge badgeContent={2} color="warning">
+                                <NotificationsNoneOutlinedIcon  sx={{ fontSize: 25 }} />
+                            </Badge>
+                        </IconButton>
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        color='white'
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem sx={{fontSize: 18}} onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem sx={{fontSize: 18}} onClick={handleClose}>My account</MenuItem>
+                        <MenuItem sx={{fontSize: 18}} onClick={handleClose}>Logout</MenuItem>
+                    </Menu>
+                </div> */}
                 {user ? <div>
                     <div className='relative cursor-pointer mt-[55px] h-[80px]' onMouseMove={() => setShowSubAccount(true)} onMouseLeave={() => setShowSubAccount(false)}>
                         <AccountCircleOutlinedIcon fontSize='large' />

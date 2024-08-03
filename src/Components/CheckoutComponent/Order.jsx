@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Order({price_shipping, onSubmit, TotalPrice, OrderItem}) {
-  
+export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem }) {
+
+  const discountPrice = useCallback((book) => {
+    let price = 0
+    if (book.promotion_percent != null) {
+      const discount = ((book.original_price * book.promotion_percent) / 100)
+      price = book.original_price - discount
+    }
+    return price
+  }, [])
 
   return (
     <div className='bg-white h-full border rounded-md'>
@@ -14,36 +22,36 @@ export default function Order({price_shipping, onSubmit, TotalPrice, OrderItem})
               <img className='w-[90px] h-[100px]' src={book.thumbnail_url} alt={`cover_book_${book.cover_id}`} />
               <div>
                 <p className='max-w-[220px]'>{book.title}</p>
-                <p className='text-xl'>Khuyến mãi: {book.discount}%, -{((book.original_price * book.discount)/100).toLocaleString()}&#8363; </p>
+                <p className='text-xl'>Khuyến mãi: {book.promotion_percent !== null ? `- ${(book.promotion_percent).toLocaleString()}%` : '0%'} &#8363; </p>
                 <p className='text-xl'>Số lượng: x {book.quantity}</p>
               </div>
             </div>
-            <p className='opacity-75 px-2'>{(book.original_price - (book.original_price * book.discount) / 100).toLocaleString()}&#8363;</p>
+            <p className='opacity-75 px-2'>{book.promotion_percent !== null ? (discountPrice(book)).toLocaleString() : (book.original_price).toLocaleString()  }&#8363;</p>
           </div>
         ))}
       </div>
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-4 w-[90%] mx-auto'>
-          <div className='flex justify-between items-center'>
-            <p>Tạm tính</p>
-            <p>{TotalPrice(OrderItem.books).toLocaleString()}&#8363;</p>
-          </div>
-          <div className='flex justify-between items-center'>
-            <p>Phí vận chuyển</p>
-            <p>{(price_shipping).toLocaleString()}&#8363;</p>
-          </div>
+        <div className='flex justify-between items-center'>
+          <p>Tạm tính</p>
+          <p>{TotalPrice(OrderItem.books).toLocaleString()}&#8363;</p>
+        </div>
+        <div className='flex justify-between items-center'>
+          <p>Phí vận chuyển</p>
+          <p>{(price_shipping).toLocaleString()}&#8363;</p>
+        </div>
       </div>
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
-          <div className='flex justify-between items-center text-3xl'>
-            <p>Tổng cộng</p>
-            <p className='text-blue-400'>{(TotalPrice(OrderItem.books)+price_shipping).toLocaleString()}&#8363;</p>
+        <div className='flex justify-between items-center text-3xl'>
+          <p>Tổng cộng</p>
+          <p className='text-blue-400'>{(TotalPrice(OrderItem.books) + price_shipping).toLocaleString()}&#8363;</p>
+        </div>
+        <div className='flex justify-between items-center text-3xl py-4'>
+          <div className='cursor-pointer group flex items-center text-blue-500 hover:text-blue-700'>
+            <p className='transition-transform transform group-hover:-translate-x-2  text-4xl mt-1'>{'<'}</p>
+            <Link to='/cart' className='text-2xl '>Quay về giỏ hàng</Link>
           </div>
-          <div className='flex justify-between items-center text-3xl py-4'>
-           <div className='cursor-pointer group flex items-center text-blue-500 hover:text-blue-700'>
-              <p className='transition-transform transform group-hover:-translate-x-2  text-4xl mt-1'>{'<'}</p> 
-              <Link to='/cart' className='text-2xl '>Quay về giỏ hàng</Link>
-           </div>
-            <button type='submit' onClick={onSubmit} className='py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
-          </div>
+          <button type='submit' onClick={onSubmit} className='py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
+        </div>
       </div>
     </div>
   )

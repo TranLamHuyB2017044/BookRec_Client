@@ -1,44 +1,51 @@
 import React, { useMemo, useState } from 'react'
 import MyAlert from '../../Components/AlertComponent/Alert'
 import { useDispatch, useSelector } from 'react-redux';
-import {addBook} from '../../store/cartReducer'
-import {PublicRequest} from '../../service/Request'
-import {useNavigate} from 'react-router-dom'
+import { addBook } from '../../store/cartReducer'
+import { PublicRequest } from '../../service/Request'
+import { useNavigate } from 'react-router-dom'
 export default function InfoRight({ books, Star }) {
     const user = useSelector(state => state.user.currentUser)
-    const [quantity, setQuantity] = useState(1)   
+    const [quantity, setQuantity] = useState(1)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const discountPrice = useMemo(() => books.original_price -  (books.original_price* books.discount)/100, [books.discount, books.original_price])
+    const discountPrice = useMemo(() => {
+        let price = 0
+        if (books.promotion_percent != null) {
+            const discount = ((books.original_price * books.promotion_percent) / 100)
+            console.log(discount)
+            price = books.original_price - discount
+        }
+        return price
+    }, [books.original_price, books.promotion_percent])
     const handleQuantityChange = (type) => {
-        if(type === 'minus'){
-            if(quantity > 1){
+        if (type === 'minus') {
+            if (quantity > 1) {
                 setQuantity(quantity - 1)
             }
-        }else{
+        } else {
             setQuantity(quantity + 1)
         }
     }
-
     const handleAddCart = async () => {
         const user_id = user?.user_id
         const book_id = books.book_id
         try {
-            if(user_id == null){
+            if (user_id == null) {
                 navigate('/login')
-            }else{
-                await PublicRequest.post('/cart/add', {user_id, book_id, quantity})
-                .then(async response => {
-                    console.log(response.data)
-                    MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
-                    const CartData = await PublicRequest.get(`/cart/${user_id}`);
-                    dispatch(addBook(CartData.data));
-                })
+            } else {
+                await PublicRequest.post('/cart/add', { user_id, book_id, quantity })
+                    .then(async response => {
+                        console.log(response.data)
+                        MyAlert.Alert('success', 'Thêm vào giỏ hàng thành công')
+                        const CartData = await PublicRequest.get(`/cart/${user_id}`);
+                        dispatch(addBook(CartData.data));
+                    })
             }
         } catch (error) {
-            MyAlert.Alert('error',error.response.data)
+            MyAlert.Alert('error', error.response.data)
         }
-        
+
     };
 
     const handleBuyNow = () => {
@@ -71,12 +78,14 @@ export default function InfoRight({ books, Star }) {
                     </div>
                 </div>
                 <div className='flex gap-8 items-center'>
-                    <span className='text-red-500 text-5xl mt-5'>{books.discount === 0 ? (books.original_price).toLocaleString() : discountPrice?.toLocaleString()}&#8363;</span>
-                    <div className='flex items-center mt-5 gap-3'>
+                    <span className='text-red-500 text-5xl mt-5'>{books.promotion_percent !== null ? (discountPrice)?.toLocaleString() : (books.original_price)?.toLocaleString()}&#8363;</span>
+                    {books.promotion_percent !== null && <div className='flex items-center mt-5 gap-3'>
                         <p>Giá cũ: </p>
                         <del>{(books.original_price)?.toLocaleString()}&#8363;</del>
-                    </div>
+                        <p>{books.promotion_percent !== null ? `- ${books.promotion_percent}%` : ''}</p>
+                    </div>}
                 </div>
+
                 <div className='flex items-center gap-6 my-10'>
                     <p>Số lượng:</p>
                     <div className='flex items-center gap-2  text-4xl '>

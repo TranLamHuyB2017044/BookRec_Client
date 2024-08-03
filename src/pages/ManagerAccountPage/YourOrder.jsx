@@ -28,6 +28,9 @@ export default function YourOrder() {
         }
         getOrders()
     }, [user])
+
+
+
     const breadcrumbs = [
         {
             link: '/',
@@ -51,6 +54,7 @@ export default function YourOrder() {
     }
 
     const sortOrders = myOrders.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+    console.log(sortOrders)
     return (
         <div className='bg-[#f5f5f5]' >
             <Navbar />
@@ -117,7 +121,8 @@ export default function YourOrder() {
                                             </div>
                                             <div className='col-span-1'>
                                                 <p className='mt-8'>{(item.original_price).toLocaleString()}&#8363;</p>
-                                                <p className='mt-8'>-{((item.original_price * item.discount) / 100).toLocaleString()}&#8363;</p>
+                                                <p className='mt-8'>{item.promotion_percent ?  `- ${item.promotion_percent}%` : ''}</p>
+                                                <p className='mt-8'>{item.promotion_percent ? ` - ${((item.original_price * item.promotion_percent) / 100).toLocaleString()}` : ''}</p>
 
                                             </div>
 
