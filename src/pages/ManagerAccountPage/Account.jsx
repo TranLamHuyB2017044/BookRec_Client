@@ -93,20 +93,21 @@ export default function Account() {
         <div className='bg-[#f5f5f5]'>
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
-            <div className='h-screen w-[1400px] mx-auto my-8 flex gap-32'>
+            <div className='lg:h-screen lg:w-[1400px] s:h-fit mx-auto my-8 flex md:flex-row s:flex-col s:w-full gap-32 '>
                 <div className='mt-[5rem] basis-1/4'>
                     <div className='flex items-center gap-1 text-4xl'>
                         <h1 className=''>Xin chào, </h1>
                         <h1 className='text-[#f47830] ml-2'> {user.fullname} !</h1>
                     </div>
-                    <ul className='mt-16 flex flex-col gap-5 '>
+                    <ul className='mt-16 flex md:flex-col sm:flex-row sm:gap-10 sm:overflow-x-auto gap-5'>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
                         <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer'>Xác thức email</Link>
+                        <Link to='/contact' className='hover:text-[#f47830] cursor-pointer '>Trung tâm hỗ trợ</Link>
                         <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
                     </ul>
                 </div>
-                {showEditProfile === false ? <div className='mt-[5rem] basis-3/4'>
+                {showEditProfile === false ? <div className='mt-[5rem] s:mt-0 basis-3/4'>
                     <h2 className='text-4xl'>THÔNG TIN TÀI KHOẢN</h2>
                     <div className='mt-16 flex flex-col gap-8'>
                         <div className='flex items-center gap-3'>
@@ -149,8 +150,8 @@ export default function Account() {
                                 <input defaultValue={user.fullname} onChange={(e) => setFullName(e.target.value)} className='w-[300px] h-[40px] border-[1px] px-4 rounded-lg border-[#ccc] focus:outline-none  focus:ring-2 focus:ring-inset focus:ring-[#f47830]' type="text" id='fullname' />
                             </div>
 
-                            <div className='form-group mt-2 flex '>
-                                <p className='min-w-[200px]'></p>
+                            <div className='form-group mt-2 flex'>
+                                <p className='md:min-w-[200px] s:w-0'></p>
                                 <div className='flex gap-8'>
                                     <button type='submit' onClick={handleUpdateUser} className='active:translate-y-1 hover:bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2 mt-5 rounded-md 
                                     border border-white bg-[dodgerblue] text-white flex w-[120px] gap-2 justify-center'>Lưu lại</button>

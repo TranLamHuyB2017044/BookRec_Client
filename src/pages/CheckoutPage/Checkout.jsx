@@ -129,25 +129,25 @@ export default function Checkout() {
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='grid grid-cols-3  w-[1300px] mx-auto my-5'>
-                    <div className='col-span-1 mx-2'>
+                <div className="grid lg:grid-cols-3 sm:grid-cols-1 gap-4 lg:w-[1300px] w-full mx-auto my-5">
+                    <div className="col-span-1 mx-2">
                         <FormCheckout
                             register={register}
                             errors={errors}
                             userInfo={userInfo}
                         />
                     </div>
-                    <div className='col-span-1 mx-2'>
+                    <div className="col-span-1 mx-2">
                         <Payment
                             setShippingPrice={setShippingPrice}
                             setShipping={setShipping}
                             setPayment={setPayment}
                         />
                     </div>
-                    <div className='col-span-1 mx-2'>
+                    <div className="col-span-1 mx-2">
                         <Order
                             price_shipping={shippingPrice}
-                            onSubmit={() => onSubmit}
+                            onSubmit={onSubmit}
                             TotalPrice={TotalPrice}
                             OrderItem={OrderItem}
                             discountPrice={discountPrice(OrderItem.books)}
@@ -155,6 +155,7 @@ export default function Checkout() {
                     </div>
                 </div>
             </form>
+
         </div>
     )
 }

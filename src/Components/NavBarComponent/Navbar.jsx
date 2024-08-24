@@ -35,15 +35,6 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
     const [titleQuery, setTitleQuery] = useState([])
     const [showDrawer, setShowDrawer] = useState(false)
     const [searchImage, setSearchImage] = useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
 
 
     const Logout = () => {
@@ -294,6 +285,7 @@ export default function Navbar({ resetFilter, filters, filters1, filters2, filte
                         {
                             showSubAccount && <div className='flex flex-col gap-1 absolute border-t z-50 bg-white border-[#f47830] w-[150px] -left-[120px] top-[52px]'>
                                 <Link className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' to='/account'>Tài khoản</Link>
+                                <Link className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' to='/contact'>Hỗ trợ</Link>
                                 <button className=' text-start pl-6 hover:text-[#f47830] hover:bg-gray-200 py-2' onClick={Logout}>Đăng xuất</button>
                             </div>
                         }

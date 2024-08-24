@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { addBook } from "./store/cartReducer";
 import Search from "./pages/SearchPages/Search";
 import Verify from "./pages/ManagerAccountPage/Verify";
+import Contact from "./pages/ManagerAccountPage/Contact";
 function App() {
   const user = useSelector(state => state.user.currentUser)
   const dispatch = useDispatch()
@@ -71,6 +72,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/yourOrders" element={<YourOrder />} />
           <Route path="/verifyAccount" element={<Verify />} />
+          <Route path="/contact" element={<Contact />} />
         </Route>
         <Route path="/collections/:page=?" element={<BooksList />} />
         <Route path="/collections/:slug" element={<BookDetail />} />

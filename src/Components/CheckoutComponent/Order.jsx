@@ -45,12 +45,12 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
           <p>Tổng cộng</p>
           <p className='text-blue-400'>{(TotalPrice(OrderItem.books) + price_shipping).toLocaleString()}&#8363;</p>
         </div>
-        <div className='flex justify-between items-center text-3xl py-4'>
+        <div className='flex s:flex-col md:flex-row  justify-between items-center text-3xl py-4'>
           <div className='cursor-pointer group flex items-center text-blue-500 hover:text-blue-700'>
             <p className='transition-transform transform group-hover:-translate-x-2  text-4xl mt-1'>{'<'}</p>
             <Link to='/cart' className='text-2xl '>Quay về giỏ hàng</Link>
           </div>
-          <button type='submit' onClick={onSubmit} className='py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
+          <button type='submit' onClick={onSubmit} className='s:mt-5 md:mt-0 py-4 px-12 bg-blue-400 rounded-2xl text-white hover:bg-blue-500'>Đặt hàng</button>
         </div>
       </div>
     </div>

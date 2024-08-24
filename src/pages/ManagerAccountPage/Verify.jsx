@@ -17,7 +17,7 @@ export default function Verify() {
     const dispatch = useDispatch()
     useEffect(() => {
         document.title = 'BookRec - Verify Email'
-      },[])
+    }, [])
     const breadcrumbs = [
         {
             link: '/',
@@ -28,8 +28,8 @@ export default function Verify() {
             label: 'Quản lý tài khoản'
         },
         {
-            link: '/changepassword',
-            label: 'Đổi mật khẩu'
+            link: '/verifyAccount',
+            label: 'Xác thực email'
         },
 
     ]
@@ -61,7 +61,6 @@ export default function Verify() {
             console.log(err)
         }
     }
-    console.log(code)
     const verifyEmail = async () => {
         const verifyNumber = inputRef.current.value
         try {
@@ -70,7 +69,7 @@ export default function Verify() {
                     setLoading(true)
                     const verified = await PublicRequest.put('/user/verifyEmail', { email: user.email })
                     console.log(verified)
-                    const updatedUser = {...user}
+                    const updatedUser = { ...user }
                     updatedUser.verify = 1
                     setTimeout(() => {
                         setLoading(false)
@@ -94,18 +93,18 @@ export default function Verify() {
         <div className='bg-[#f5f5f5]'>
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
-            <div className='h-screen w-[1400px] mx-auto my-8 flex gap-32'>
-                <div className='mt-[5rem] basis-1/4'>
-                    <div className='flex items-center gap-1 text-4xl'>
-                        <h1 className=''>Xin chào, </h1>
-                        <h1 className='text-[#f47830]'>{user.fullname} !</h1>
+            <div className='lg:h-screen lg:w-[1400px] s:h-fit mx-auto my-8 flex md:flex-row s:flex-col s:w-full gap-32 '>
+                <div className="mt-[5rem] flex flex-col items-start">
+                    <div className="flex items-center gap-1 text-4xl">
+                        <h1>Xin chào, </h1>
+                        <h1 className="text-[#f47830]">{user.fullname}!</h1>
                     </div>
-                    <ul className='mt-16 flex flex-col gap-5 '>
-                        <Link to='/account' className='hover:text-[#f47830] cursor-pointer'>Thông tin tài khoản</Link>
-                        <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
-                        <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Xác thực email</Link>
-                        <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
-
+                    <ul className="mt-16 flex md:flex-col sm:flex-row sm:gap-10 sm:overflow-x-auto gap-5">
+                        <Link to="/account" className="hover:text-[#f47830] cursor-pointer">Thông tin tài khoản</Link>
+                        <Link to="/yourOrders" className="hover:text-[#f47830] cursor-pointer ">Đơn hàng của bạn</Link>
+                        <Link to="/verifyAccount" className="hover:text-[#f47830] cursor-pointer text-[#f47830]">Xác thực email</Link>
+                        <Link to="/contact" className="hover:text-[#f47830] cursor-pointer">Trung tâm hỗ trợ</Link>
+                        <Link onClick={Logout} className="hover:text-[#f47830] cursor-pointer">Đăng xuất</Link>
                     </ul>
                 </div>
                 <div className='mt-[5rem] basis-3/4'>

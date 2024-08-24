@@ -7,17 +7,17 @@ export default function FormCheckout({register, errors, userInfo}) {
         <div className='p-8 flex flex-col  '>
             <div className='flex flex-col'>
                 <label htmlFor="customer_name " className='text-[#616161] font-bold'>Họ và tên</label>
-                <input className={`pl-4 w-[390px] h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.customer_name ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.fullname} type='customer_name' id="customer_name" {...register("customer_name", { require: true })} />
+                <input className={`pl-4  h-[42px] border outline-[#ccc] my-3 rounded-lg focus:outline-none ${errors.customer_name ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.fullname} type='customer_name' id="customer_name" {...register("customer_name", { require: true })} />
                 <p className='text-red-600'>{errors.customer_name?.message}</p>
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="phone " className='text-[#616161] font-bold'>Số điện thoại</label>
-                <input className={`pl-4 w-[390px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.phone} type='phone' id="phone" {...register("phone", { require: true })} />
+                <input className={`pl-4  h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.phone ? 'border-[#ff0000]' : 'border-[#ccc]'}`} defaultValue={userInfo.phone} type='phone' id="phone" {...register("phone", { require: true })} />
                 <p className='text-red-600'>{errors.phone?.message}</p>
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="address" className='text-[#616161] font-bold'>Địa chỉ</label>
-                <input className={`pl-4 w-[390px] h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.address ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="address" {...register("address", { require: true })} type="text" />
+                <input className={`pl-4  h-[42px] border border-[#ccc] my-3 rounded-lg focus:outline-none ${errors.address ? 'border-[#ff0000]' : 'border-[#ccc]'}`} id="address" {...register("address", { require: true })} type="text" />
                 <p className='text-red-600'>{errors.address?.message}</p>
             </div>
             {/* <div className='flex flex-col gap-3 mt-4'>

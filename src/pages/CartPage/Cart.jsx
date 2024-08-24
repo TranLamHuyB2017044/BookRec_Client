@@ -99,7 +99,7 @@ export default function Cart() {
             <Breadcrumbs paths={breadcrumbs} />
             <h1 className='mt-36 px-5 text-5xl md:ml-72'>Giỏ hàng của bạn</h1>
             {cartItem?.length > 0 ? (
-                <div className='h-full lg:w-[1200px] s:w-[380px] md:w-[750px] mx-auto mt-12 mb-5 md:flex-row flex rounded-lg gap-4 s:flex-col'>
+                <div className='h-full lg:w-[1200px] s:w-full md:w-[750px] mx-auto mt-12 mb-5 md:flex-row flex rounded-lg gap-4 s:flex-col'>
                     <div className='border basis-3/4 pt-3'>
                         <div className='grid grid-cols-7 px-3 py-2 '>
                             <p className='lg:col-span-4 md:col-span-3 s:col-span-7'>Thông tin sản phẩm</p>
