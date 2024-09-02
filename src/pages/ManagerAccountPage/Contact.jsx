@@ -58,7 +58,7 @@ export default function Contact() {
                 </div>
                 <div className='md:mt-[5rem] s:mt-5 basis-3/4 px-8'>
                     <h2 className='text-4xl'>LIÊN HỆ</h2>
-                    <div className='flex md:items-center justify-start s:items-start s:gap-16 md:gap-48 mt-24 s:flex-col md-flex-row '>
+                    <div className='flex justify-start items-start s:gap-16 md:gap-48 mt-24 s:flex-col md:flex-row'>
                         <div className=''>
                             <p>Địa chỉ:</p>
                             <p className='text-gray-400'>11B Hòa Bình, Cần Thơ, 94000, Việt Nam</p>

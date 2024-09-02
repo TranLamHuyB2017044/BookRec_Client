@@ -172,7 +172,7 @@ export default function BooksList() {
                 {pageNumbers.map((page, index) => (
                     page === '...' ? (
                         <span
-                            key={index}
+                            key={index*10}
                             className="pagination-ellipsis px-4 py-3 flex items-center justify-center">
                             ...
                         </span>

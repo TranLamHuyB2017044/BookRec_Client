@@ -1,6 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { Modal } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem }) {
 
   const discountPrice = useCallback((book) => {
@@ -11,6 +13,19 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
     }
     return price
   }, [])
+
+
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => {
+    setOpenModal(false)
+
+  };
+  const handleSaveAndCloseModal = () => {
+    setOpenModal(false)
+
+  };
+
 
   return (
     <div className='bg-white h-full border rounded-md'>
@@ -40,6 +55,45 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
           <p>{(price_shipping).toLocaleString()}&#8363;</p>
         </div>
       </div>
+      <div className='border-t px-4 pt-4 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
+        <div className='flex justify-between items-center '>
+          <p className='text-2xl '>Khuyến mãi</p>
+          <button onClick={handleOpenModal} className='text-blue-500 text-md'>Chọn</button>
+        </div>
+
+      </div>
+      <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+            >
+              <div className='absolute top-[50%] left-[50%] w-[500px] h-[500px] bg-white px-4 rounded-md transform -translate-x-[50%] -translate-y-[50%] flex flex-col '>
+                <div className='relative flex items-center gap-2  justify-center h-[50px] border-b py-14 basis-1/6'>
+                  <div className='absolute left-36 ml-2 top-11 text-[dodgerblue]'>
+                    <SearchIcon fontSize='large' />
+                  </div>
+                  <input className='rounded-md border-[1px] border-gray-400 py-1 h-[33px] pl-12 w-[300px] outline-[dodgerblue]' type="text" placeholder='Tìm kiếm theo mã voucher' />
+                </div>
+                <div className='overflow-y-auto mt-5 basis-4/6'>
+                  <div className='flex border h-[100px] w-full'>
+                    <div className='basis-1/4 bg-[#f47830] flex justify-center items-center text-6xl'>
+                      <LocalMallOutlinedIcon fontSize='inherit' className='text-white'/>
+                    </div>
+                    <div className='basis-3/4 border-l px-4 flex justify-between items-center'>
+                      <div className='flex flex-col pl-4 justify-start gap-2'>
+                        <p className='font-bold text-3xl -mt-2'>asdasdalsjdas</p>
+                        <p>giam 10%, cho đơn tối thiểu 0đ</p>
+                        <p className='opacity-80'>hết hạn 13-5-2024</p>
+                      </div>
+                      <input className='h-[20px] w-[20px]' type="radio" name="checked" id="checked" />
+                    </div>
+                  </div>
+                </div>
+                <section className='flex justify-end items-center gap-4 border-t py-10 basis-1/6'>
+                  <button onClick={handleCloseModal} className='px-10 py-2 bg-gray-500 hover:bg-gray-400 text-white rounded-md'>Hủy</button>
+                  <button onClick={handleSaveAndCloseModal} className='bg-[dodgerblue] hover:bg-[#80bdfa] py-2 px-10 text-white rounded-md'>Lưu</button>
+                </section>
+              </div>
+            </Modal>
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
         <div className='flex justify-between items-center text-3xl'>
           <p>Tổng cộng</p>
