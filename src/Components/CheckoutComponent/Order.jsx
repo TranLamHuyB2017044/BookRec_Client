@@ -1,10 +1,13 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Modal } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { PublicRequest } from '../../service/Request'
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import { useSelector } from 'react-redux'
 export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem }) {
-
+  const user = useSelector(state => state.user.currentUser)
+  const [userCoupons, setUserCoupons] = useState([])
   const discountPrice = useCallback((book) => {
     let price = 0
     if (book.promotion_percent != null) {
@@ -26,6 +29,14 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
 
   };
 
+  useEffect(() => {
+    const getUserCoupons = async () => {
+      const user_id = user.user_id;
+      const response = await PublicRequest.get(`/coupon/userCoupons?user_id=${user_id}`)
+      setUserCoupons(response.data)
+    }
+    getUserCoupons()
+  }, [])
 
   return (
     <div className='bg-white h-full border rounded-md'>
@@ -41,7 +52,7 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
                 <p className='text-xl'>Số lượng: x {book.quantity}</p>
               </div>
             </div>
-            <p className='opacity-75 px-2'>{book.promotion_percent !== null ? (discountPrice(book)).toLocaleString() : (book.original_price).toLocaleString()  }&#8363;</p>
+            <p className='opacity-75 px-2'>{book.promotion_percent !== null ? (discountPrice(book)).toLocaleString() : (book.original_price).toLocaleString()}&#8363;</p>
           </div>
         ))}
       </div>
@@ -63,37 +74,39 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
 
       </div>
       <Modal
-              open={openModal}
-              onClose={handleCloseModal}
-            >
-              <div className='absolute top-[50%] left-[50%] w-[500px] h-[500px] bg-white px-4 rounded-md transform -translate-x-[50%] -translate-y-[50%] flex flex-col '>
-                <div className='relative flex items-center gap-2  justify-center h-[50px] border-b py-14 basis-1/6'>
-                  <div className='absolute left-36 ml-2 top-11 text-[dodgerblue]'>
-                    <SearchIcon fontSize='large' />
-                  </div>
-                  <input className='rounded-md border-[1px] border-gray-400 py-1 h-[33px] pl-12 w-[300px] outline-[dodgerblue]' type="text" placeholder='Tìm kiếm theo mã voucher' />
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <div className='absolute top-[50%] left-[50%] w-[500px] h-[500px] bg-white px-4 rounded-md transform -translate-x-[50%] -translate-y-[50%] flex flex-col '>
+          <div className='relative flex items-center gap-2  justify-center h-[50px] border-b py-14 basis-1/6'>
+            <div className='absolute left-36 ml-2 top-11 text-[dodgerblue]'>
+              <SearchIcon fontSize='large' />
+            </div>
+            <input className='rounded-md border-[1px] border-gray-400 py-1 h-[33px] pl-12 w-[300px] outline-[dodgerblue]' type="text" placeholder='Tìm kiếm theo mã voucher' />
+          </div>
+          <div className='basis-4/6'>
+            {userCoupons.map((coupon) => (
+              <div key={coupon.coupon_id} className='flex border h-[100px] w-full my-2'>
+                <div className='basis-1/4 bg-[#f47830] flex justify-center items-center text-6xl'>
+                  <LocalMallOutlinedIcon fontSize='inherit' className='text-white' />
                 </div>
-                <div className='overflow-y-auto mt-5 basis-4/6'>
-                  <div className='flex border h-[100px] w-full'>
-                    <div className='basis-1/4 bg-[#f47830] flex justify-center items-center text-6xl'>
-                      <LocalMallOutlinedIcon fontSize='inherit' className='text-white'/>
-                    </div>
-                    <div className='basis-3/4 border-l px-4 flex justify-between items-center'>
-                      <div className='flex flex-col pl-4 justify-start gap-2'>
-                        <p className='font-bold text-3xl -mt-2'>asdasdalsjdas</p>
-                        <p>giam 10%, cho đơn tối thiểu 0đ</p>
-                        <p className='opacity-80'>hết hạn 13-5-2024</p>
-                      </div>
-                      <input className='h-[20px] w-[20px]' type="radio" name="checked" id="checked" />
-                    </div>
+                <div className='basis-3/4 border-l px-4 flex justify-between items-center'>
+                  <div className='flex flex-col pl-4 justify-start gap-2'>
+                    <p className='font-bold text-2xl mt-2'>{coupon.coupon_name} - {coupon.coupon_type === 'Miễn phí vận chuyển' && coupon.coupon_type}</p>
+                    <p>{`Giảm ${coupon.coupon_percent}%, cho đơn tối thiểu ${(coupon.applying_condition).toLocaleString()}`}&#8363;</p>
+                    <p className='opacity-80'>{`Hết hạn ${coupon.end_date.split('T')[0]}`}</p>
                   </div>
+                  <input className='h-[20px] w-[20px]' type="radio" name="checked" id="checked" />
                 </div>
-                <section className='flex justify-end items-center gap-4 border-t py-10 basis-1/6'>
-                  <button onClick={handleCloseModal} className='px-10 py-2 bg-gray-500 hover:bg-gray-400 text-white rounded-md'>Hủy</button>
-                  <button onClick={handleSaveAndCloseModal} className='bg-[dodgerblue] hover:bg-[#80bdfa] py-2 px-10 text-white rounded-md'>Lưu</button>
-                </section>
               </div>
-            </Modal>
+            ))}
+          </div>
+          <section className='flex justify-end items-center gap-4 border-t py-10 basis-1/6'>
+            <button onClick={handleCloseModal} className='px-10 py-2 bg-gray-500 hover:bg-gray-400 text-white rounded-md'>Hủy</button>
+            <button onClick={handleSaveAndCloseModal} className='bg-[dodgerblue] hover:bg-[#80bdfa] py-2 px-10 text-white rounded-md'>Lưu</button>
+          </section>
+        </div>
+      </Modal>
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
         <div className='flex justify-between items-center text-3xl'>
           <p>Tổng cộng</p>
