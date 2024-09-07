@@ -54,12 +54,11 @@ export default function YourOrder() {
     }
 
     const sortOrders = myOrders.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
-    console.log(sortOrders)
     return (
         <div className='bg-[#f5f5f5]' >
             <Navbar />
             <Breadcrumbs paths={breadcrumbs} />
-            <div className='lg:h-screen lg:w-[1400px] s:h-fit mx-auto my-8 flex md:flex-row s:flex-col s:w-full gap-32 ' >
+            <div className=' lg:w-[1400px]  mx-auto my-8 flex md:flex-row s:flex-col s:w-full gap-32 ' >
                 <div className="mt-[5rem] flex flex-col items-start">
                     <div className="flex items-center gap-1 text-4xl">
                         <h1>Xin chào, </h1>

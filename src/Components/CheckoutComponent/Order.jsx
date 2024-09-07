@@ -5,9 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { PublicRequest } from '../../service/Request'
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { useSelector } from 'react-redux'
-export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem }) {
+export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem, selectedCoupon, setSelectedCoupon, TotalOrderPrice }) {
   const user = useSelector(state => state.user.currentUser)
   const [userCoupons, setUserCoupons] = useState([])
+
+
   const discountPrice = useCallback((book) => {
     let price = 0
     if (book.promotion_percent != null) {
@@ -37,6 +39,10 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
     }
     getUserCoupons()
   }, [])
+
+
+
+
 
   return (
     <div className='bg-white h-full border rounded-md'>
@@ -69,9 +75,18 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
       <div className='border-t px-4 pt-4 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
         <div className='flex justify-between items-center '>
           <p className='text-2xl '>Khuyến mãi</p>
-          <button onClick={handleOpenModal} className='text-blue-500 text-md'>Chọn</button>
+          <button type='button' onClick={handleOpenModal} className='text-blue-500 text-md'>Chọn</button>
         </div>
-
+        {selectedCoupon != null &&
+          <div className='flex justify-between items-center'>
+            <div className='flex flex-col gap-4'>
+              <p className='text-2xl'>Đã chọn mã giảm giá <strong className='text-[dodgerblue]'>{selectedCoupon.coupon_name}</strong></p>
+              <p className='text-2xl'> {selectedCoupon.coupon_type === 'Miễn phí vận chuyển' ? `${selectedCoupon.coupon_type}` : `Giảm ${selectedCoupon.coupon_percent} % Tổng hóa đơn`}</p>
+              <p className='text-2xl'>Cho đơn hàng từ {selectedCoupon.applying_condition} &#8363;</p>
+            </div>
+            <p>{selectedCoupon.coupon_type === 'Miễn phí vận chuyển' ? `- ${price_shipping}` : `- ${Math.floor(TotalPrice(OrderItem.books) * (selectedCoupon.coupon_percent / 100)).toLocaleString()} `} &#8363;</p>
+          </div>
+        }
       </div>
       <Modal
         open={openModal}
@@ -92,11 +107,11 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
                 </div>
                 <div className='basis-3/4 border-l px-4 flex justify-between items-center'>
                   <div className='flex flex-col pl-4 justify-start gap-2'>
-                    <p className='font-bold text-2xl mt-2'>{coupon.coupon_name} - {coupon.coupon_type === 'Miễn phí vận chuyển' && coupon.coupon_type}</p>
+                    <p className='font-bold text-2xl mt-2'>{coupon.coupon_name}  {coupon.coupon_type === 'Miễn phí vận chuyển' && ` - ${coupon.coupon_type}`}</p>
                     <p>{`Giảm ${coupon.coupon_percent}%, cho đơn tối thiểu ${(coupon.applying_condition).toLocaleString()}`}&#8363;</p>
                     <p className='opacity-80'>{`Hết hạn ${coupon.end_date.split('T')[0]}`}</p>
                   </div>
-                  <input className='h-[20px] w-[20px]' type="radio" name="checked" id="checked" />
+                  <input onChange={() => setSelectedCoupon(coupon)} className='h-[20px] w-[20px]' type="radio" name="checked" id="checked" />
                 </div>
               </div>
             ))}
@@ -110,7 +125,7 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem 
       <div className='border-t px-4 pt-16 mt-4 flex flex-col gap-5 w-[90%] mx-auto'>
         <div className='flex justify-between items-center text-3xl'>
           <p>Tổng cộng</p>
-          <p className='text-blue-400'>{(TotalPrice(OrderItem.books) + price_shipping).toLocaleString()}&#8363;</p>
+          <p className='text-blue-400'>{(TotalOrderPrice())?.toLocaleString()}&#8363;</p>
         </div>
         <div className='flex s:flex-col md:flex-row  justify-between items-center text-3xl py-4'>
           <div className='cursor-pointer group flex items-center text-blue-500 hover:text-blue-700'>

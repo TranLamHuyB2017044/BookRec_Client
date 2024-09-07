@@ -19,6 +19,8 @@ export default function Checkout() {
     const [shippingPrice, setShippingPrice] = useState(0)
     const [shipping, setShipping] = useState("");
     const [payment, setPayment] = useState("");
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
+
     const navigate = useNavigate()
     const email = useSelector(state => state.user.currentUser.email)
     useEffect(() => {
@@ -76,6 +78,19 @@ export default function Checkout() {
         resolver: yupResolver(schema),
     })
 
+
+    const TotalOrderPrice = () => {
+        if (selectedCoupon != null) {
+            if (selectedCoupon.coupon_type === 'Miễn phí vận chuyển') {
+                return TotalPrice(OrderItem.books)
+            } else {
+                return Math.floor(TotalPrice(OrderItem.books) - (TotalPrice(OrderItem.books) * (selectedCoupon.coupon_percent / 100))) + shippingPrice
+            }
+        }
+        return TotalPrice(OrderItem.books) + shippingPrice
+    }
+
+
     const onSubmit = async (data) => {
         try {
             const itemValues = OrderItem.books.map(book => {
@@ -93,7 +108,7 @@ export default function Checkout() {
                 phone: data.phone,
                 shipping_method: shipping,
                 payment_method: payment,
-                total_price: TotalPrice(OrderItem.books) + shippingPrice,
+                total_price: TotalOrderPrice(),
                 items: itemValues,
                 email: email
             }
@@ -151,6 +166,9 @@ export default function Checkout() {
                             TotalPrice={TotalPrice}
                             OrderItem={OrderItem}
                             discountPrice={discountPrice(OrderItem.books)}
+                            selectedCoupon={selectedCoupon}
+                            setSelectedCoupon={setSelectedCoupon}
+                            TotalOrderPrice={TotalOrderPrice}
                         />
                     </div>
                 </div>
