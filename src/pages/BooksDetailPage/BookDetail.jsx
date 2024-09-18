@@ -234,7 +234,7 @@ export default function BookDetail() {
         <div className='relative'>
             {showRating &&
                 <div className='bg-opacity-40 bg-[#585757] border h-[100%] w-[100%] absolute z-100' >
-                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[417px] max-h-[680px] overflow-auto  shadow-md rounded-md left-[550px] top-[30px]  fixed z-2'>
+                    <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-[430px] max-h-[680px] overflow-auto  shadow-md rounded-md left-[550px] top-[30px]  fixed z-2'>
                         {loading ? <Loading /> : <div className=''>
                             <div className='border-b flex justify-between p-3 w-[90%] mx-auto mt-3 items-start max-h-[180px]'>
                                 <div className='flex gap-4'>
@@ -250,10 +250,12 @@ export default function BookDetail() {
                                 </div>
                                 <button className='text-5xl -mt-2 cursor-pointer' onClick={handleResetRating}>&times;</button>
                             </div>
-                            <div className='flex mt-5 flex-wrap gap-8 ml-5'>
-                                <button type='button' onClick={() => setStatus('bad')} className={status === 'bad' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Không hài lòng</button>
-                                <button type='button' onClick={() => setStatus('normal')} className={status === 'normal' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Hài lòng</button>
-                                <button type='button' onClick={() => setStatus('good')} className={status === 'good' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Rất hài lòng</button>
+                            <div className='flex mt-5 flex-wrap gap-6 ml-5'>
+                                <button type='button' onClick={() => setStatus('Không hài lòng')} className={status === 'Không hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Không hài lòng</button>
+                                <button type='button' onClick={() => setStatus('Bình thường')} className={status === 'Bình thường' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Bình thường</button>
+                                <button type='button' onClick={() => setStatus('Tạm được')} className={status === 'Tạm được' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Tạm được</button>
+                                <button type='button' onClick={() => setStatus('Hài lòng')} className={status === 'Hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Hài lòng</button>
+                                <button type='button' onClick={() => setStatus('Rất hài lòng')} className={status === 'Rất hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Rất hài lòng</button>
                             </div>
                             <div className='mx-auto px-3 h-[420px]'>
                                 <h3 className='my-4 ml-4'>Điều gì làm bạn hài lòng ?</h3>

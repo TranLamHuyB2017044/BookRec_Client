@@ -61,17 +61,30 @@ export default function InfoLeft({ books }) {
                         </video>)
                     }
                 </div>
-                <div className='flex justify-between my-4 mx-auto'>
+                <div className='flex justify-start gap-8 my-4 mx-auto'>
                     {media?.map((item) => (
-                        <div key={item.id} className='border-[1px] border-[#f47830] rounded-sm p-1 gap-2 cursor-pointer'>
-                            {item.type === 1 ? (
-                                <img loading='lazy' onClick={() => handleChangeImage(item?.url, 1)} className='cursor-pointer p-2 w-[100px] h-[100px] ' src={item?.url} alt={`cover_img_${item.id + 1}`} />
-                            ) : <video onClick={() => handleChangeImage(item?.url, 0)} className={`cursor-pointer p-2 w-[100px] h-[100px]`}>
-                                <source src={item?.url} type="video/mp4" />
-                            </video>}
+                        item?.url ? (
+                            <div key={item.id} className='border-[1px] border-[#f47830] rounded-sm p-1 gap-2 cursor-pointer'>
+                                {item.type === 1 ? (
+                                    <img
+                                        loading='lazy'
+                                        onClick={() => handleChangeImage(item?.url, 1)}
+                                        className='cursor-pointer p-2 w-[100px] h-[100px]'
+                                        src={item.url}
+                                        alt={`cover_img_${item.id + 1}`}
+                                    />
+                                ) : (
+                                    <video
+                                        onClick={() => handleChangeImage(item?.url, 0)}
+                                        className='cursor-pointer p-2 w-[100px] h-[100px]'
+                                    >
+                                        <source src={item.url} type="video/mp4" />
+                                    </video>
+                                )}
+                            </div>
+                        ) : null
+                    ))}
 
-                        </div>))
-                    }
                 </div>
             </div>
             <section className='mx-auto mb-4  border rounded-xl p-10 bg-[#ffff]'>

@@ -101,7 +101,7 @@ export default function InfoRight({ books, Star }) {
             </div>
             <section className='mx-auto my-4  h-[360px] max-h-[360px] border rounded-xl p-10 bg-[#ffff]'>
                 <h1 className='font-bold text-3xl mb-10 '>Mô tả sản phẩm</h1>
-                <p className='text-justify'>
+                <p className='text-justify text-ellipsis'>
                     {books.short_description}
                 </p>
             </section>
