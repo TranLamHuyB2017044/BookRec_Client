@@ -79,12 +79,12 @@ export default function Order({ price_shipping, onSubmit, TotalPrice, OrderItem,
         </div>
         {selectedCoupon != null &&
           <div className='flex justify-between items-center'>
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 basis-3/4'>
               <p className='text-2xl'>Đã chọn mã giảm giá <strong className='text-[dodgerblue]'>{selectedCoupon.coupon_name}</strong></p>
               <p className='text-2xl'> {selectedCoupon.coupon_type === 'Miễn phí vận chuyển' ? `${selectedCoupon.coupon_type}` : `Giảm ${selectedCoupon.coupon_percent} % Tổng hóa đơn`}</p>
               <p className='text-2xl'>Cho đơn hàng từ {selectedCoupon.applying_condition} &#8363;</p>
             </div>
-            <p>{selectedCoupon.coupon_type === 'Miễn phí vận chuyển' ? `- ${price_shipping}` : `- ${Math.floor(TotalPrice(OrderItem.books) * (selectedCoupon.coupon_percent / 100)).toLocaleString()} `} &#8363;</p>
+            <p className='basis-1/4'>{selectedCoupon.coupon_type === 'Miễn phí vận chuyển' ? `- ${price_shipping}` : `- ${Math.floor(TotalPrice(OrderItem.books) * (selectedCoupon.coupon_percent / 100)).toLocaleString()} `} &#8363;</p>
           </div>
         }
       </div>

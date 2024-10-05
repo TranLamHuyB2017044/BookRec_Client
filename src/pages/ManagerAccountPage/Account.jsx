@@ -102,7 +102,7 @@ export default function Account() {
                     <ul className='mt-16 flex md:flex-col sm:flex-row sm:gap-10 sm:overflow-x-auto gap-5'>
                         <Link to='/account' className='hover:text-[#f47830] cursor-pointer text-[#f47830]'>Thông tin tài khoản</Link>
                         <Link to='/yourOrders' className='hover:text-[#f47830] cursor-pointer'>Đơn hàng của bạn</Link>
-                        <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer'>Xác thức email</Link>
+                        <Link to='/verifyAccount' className='hover:text-[#f47830] cursor-pointer'>Xác thực email</Link>
                         <Link to='/contact' className='hover:text-[#f47830] cursor-pointer '>Trung tâm hỗ trợ</Link>
                         <Link onClick={Logout} className='hover:text-[#f47830] cursor-pointer'>Đăng xuất</Link>
                     </ul>

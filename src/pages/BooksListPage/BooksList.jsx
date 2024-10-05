@@ -5,6 +5,8 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import GoToTop from '../../Components/GoToTopComponent/GoToTop.jsx';
 import Breadcrumbs from '../../Components/BreadcrumbsComponent/Breadcrumbs.jsx';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { PublicRequest } from '../../service/Request.js';
 export default function BooksList() {
     const [books, setBooks] = useState([])
@@ -172,7 +174,7 @@ export default function BooksList() {
                 {pageNumbers.map((page, index) => (
                     page === '...' ? (
                         <span
-                            key={index*10}
+                            key={index * 10}
                             className="pagination-ellipsis px-4 py-3 flex items-center justify-center">
                             ...
                         </span>
@@ -191,7 +193,11 @@ export default function BooksList() {
         );
     };
 
+    const [isOpen, setIsOpen] = useState(false);
 
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
     return (
         <div className='bg-[#f5f5f5]'>
             <Navbar resetFilter={resetFilter}
@@ -204,20 +210,96 @@ export default function BooksList() {
                 filters6={() => handleFilterClick('category', 'sach y hoc')}
             />
             <Breadcrumbs paths={breadcrumbs} />
-            <div className='lg:w-[1200px] md:w-full  md:grid-cols-3 grid lg:grid-cols-4 mx-auto my-2 py-5'>
-                <div className='border col-span-1 px-8 md:w-[90%] lg:w-full  pb-8 mx-4 bg-white h-fit s:hidden lg:block'>
-                    <section className=' pt-5'>
-                        <h2 className='text-[1.8rem] font-bold'>Thể loại</h2>
-                        <ul className='flex flex-col gap-6 my-6'>
-                            <Link to={`/collections/?${route}`} className='cursor-pointer hover:text-[#f47830]' onClick={() => handleFilterClick('category', 'Sách tiếng việt')}>Sách tiếng Việt</Link>
-                            <Link to={`/collections/?${route}`} className='cursor-pointer hover:text-[#f47830]' onClick={() => handleFilterClick('category', 'Sách Tâm Lý Tuổi Teen')}>Sách Tâm Lý Tuổi Teen</Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('category', 'sach tai chinh- tien te')} className=' cursor-pointer hover:text-[#f47830]'>Sách tài chính - tiền tệ</Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('category', 'sach ky nang lam viec')} className=' cursor-pointer hover:text-[#f47830]'>Sách kỹ năng làm việc</Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('category', 'lich su viet nam')} className=' cursor-pointer hover:text-[#f47830]'>Lịch Sử Việt Nam</Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('category', 'tieu thuyet')} className=' cursor-pointer hover:text-[#f47830]'>Tiểu Thuyết</Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('category', 'sach y hoc')} className=' cursor-pointer hover:text-[#f47830]'>Sách Y Học</Link>
-                            <Link to={`/collections`} onClick={resetFilter} className=' cursor-pointer hover:text-[#f47830]'>Tất cả</Link>
-                        </ul>
+            <div className='lg:w-[1300px] md:w-full  md:grid-cols-3 grid lg:grid-cols-4 mx-auto my-2 py-5'>
+                <div className='border col-span-1 px-8 md:w-[90%] pb-8 mx-4 bg-white h-fit s:hidden lg:block'>
+                    <section className='pt-5'>
+                        <button
+                            className='cursor-pointer mb-2 flex items-center gap-4' // Điều chỉnh khoảng cách và căn giữa
+                            onClick={toggleDropdown}
+                        >
+                            <p className='text-[1.8rem] font-bold'>Thể loại</p>
+                            <p className='text-[1.8rem] font-bold'>
+                                {isOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
+                            </p>
+                        </button>
+                        <div
+                            className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[400px]' : 'max-h-0'}`} 
+                        >
+                            <ul className='flex flex-col gap-4 my-4 rounded-lg'>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'Sách tiếng Việt')}
+                                    >
+                                        Sách tiếng Việt
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'Sách Tâm Lý Tuổi Teen')}
+                                    >
+                                        Sách Tâm Lý Tuổi Teen
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'sach tai chinh- tien te')}
+                                    >
+                                        Sách tài chính - tiền tệ
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'sach ky nang lam viec')}
+                                    >
+                                        Sách kỹ năng làm việc
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'lich su viet nam')}
+                                    >
+                                        Lịch Sử Việt Nam
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'tieu thuyet')}
+                                    >
+                                        Tiểu Thuyết
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections/?${route}`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={() => handleFilterClick('category', 'sach y hoc')}
+                                    >
+                                        Sách Y Học
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={`/collections`}
+                                        className='block cursor-pointer hover:text-[#f47830] transition-colors'
+                                        onClick={resetFilter}
+                                    >
+                                        Tất cả
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </section>
                     <section className='border-t pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Đánh giá</h2>
@@ -327,8 +409,8 @@ export default function BooksList() {
                     </section>
                 </div>
                 <div className={`lg:col-span-3 md:col-span-3 grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 s:grid-cols-2 grid-rows-5 bg-[#f5f5f5]`}>
-                    { books.map((book, index) => (
-                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className={`${mobileCard} lg:w-[200px] md:w-[235px]  mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 `}>
+                    {books.map((book, index) => (
+                        <Link to={(`/collections/${convertStringToSlug(book.title)}-p${book.book_id}`)} key={index} className={`${mobileCard} lg:w-[230px] md:w-[235px]  mx-2 border h-[380px] mb-4 rounded-md cursor-pointer shadow  hover:shadow-gray-500 `}>
                             <img src={book.thumbnail_url} loading='lazy' alt="cover-book" className={`${mobileBookImage} w-full sm:h-[200px] p-2 transform transition-transform duration-300 hover:scale-105`} />
                             <p className='text-2xl my-3 pl-3 pr-2 min-h-[80px] max-h-[80px] overflow-hidden'>{book.title}</p>
                             <div className='s:flex-col s:items-start s:gap-0 mb-2 px-3 sm:flex-row flex sm:items-center sm:gap-4'>
