@@ -135,8 +135,8 @@ export default function BooksList() {
 
     const mobileCard = `s:w-[95%] s:mx-2 `
     const mobileBookImage = `s:h-[150px]`
-    const mobilePageNavigationUI = `s:flex s:flex-wrap  s:max-w-full s:justify-center s:items-center s:max-h-fit s:col-span-2`
-    const tabletPageNavigationUI = ` md:col-span-3`
+    // const mobilePageNavigationUI = `s:flex s:flex-wrap  s:max-w-full s:justify-center s:items-center s:max-h-fit s:col-span-2`
+    // const tabletPageNavigationUI = ` md:col-span-3`
 
 
     const Pagination = ({ totalPage, currentPage, handleChangePage }) => {
@@ -193,10 +193,25 @@ export default function BooksList() {
         );
     };
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isBookOpen, setIsBookOpen] = useState(false);
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+    const toggleBookDropdown = () => {
+        setIsBookOpen(!isBookOpen);
+    };
+    const [isAuthorOpen, setIsAuthorOpen] = useState(false);
+
+    const toggleAuthorDropdown = () => {
+        setIsAuthorOpen(!isAuthorOpen);
+    };
+    const [isPublisherOpen, setIsPublisherOpen] = useState(false);
+
+    const togglePublisherDropdown = () => {
+        setIsPublisherOpen(!isPublisherOpen);
+    };
+    const [isManufactureOpen, setIsManufactureOpen] = useState(false);
+
+    const toggleManufactureDropdown = () => {
+        setIsManufactureOpen(!isManufactureOpen);
     };
     return (
         <div className='bg-[#f5f5f5]'>
@@ -211,19 +226,19 @@ export default function BooksList() {
             />
             <Breadcrumbs paths={breadcrumbs} />
             <div className='lg:w-[1300px] md:w-full  md:grid-cols-3 grid lg:grid-cols-4 mx-auto my-2 py-5'>
-                <div className='border col-span-1 px-8 md:w-[90%] pb-8 mx-4 bg-white h-fit s:hidden lg:block'>
+                <div className='border col-span-1 px-8 md:w-[85%] pb-8 bg-white h-fit s:hidden lg:block'>
                     <section className='pt-5'>
                         <button
-                            className='cursor-pointer mb-2 flex items-center gap-4' // Điều chỉnh khoảng cách và căn giữa
-                            onClick={toggleDropdown}
+                            className='cursor-pointer mb-2 flex items-center gap-4'
+                            onClick={toggleBookDropdown}
                         >
                             <p className='text-[1.8rem] font-bold'>Thể loại</p>
                             <p className='text-[1.8rem] font-bold'>
-                                {isOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
+                                {isBookOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
                             </p>
                         </button>
                         <div
-                            className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[400px]' : 'max-h-0'}`} 
+                            className={`overflow-hidden transition-all duration-500 ease-in-out ${isBookOpen ? 'max-h-[400px]' : 'max-h-0'}`}
                         >
                             <ul className='flex flex-col gap-4 my-4 rounded-lg'>
                                 <li>
@@ -302,6 +317,117 @@ export default function BooksList() {
                         </div>
                     </section>
                     <section className='border-t pt-5'>
+                        <button
+                            className='cursor-pointer mb-2 flex items-center gap-4'
+                            onClick={toggleAuthorDropdown}
+                        >
+                            <p className='text-[1.8rem] font-bold'>Tác giả</p>
+                            <p className='text-[1.8rem] font-bold'>
+                                {isAuthorOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
+                            </p>
+                        </button>
+                        <ul className={`flex flex-col gap-6 my-2 overflow-hidden transition-all duration-500 ease-in-out ${isAuthorOpen ? 'max-h-[400px]' : 'max-h-0'}`}>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '9173')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Paulo Coelho</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '45726')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Đặng Hoàng Giang</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '10431')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nguyễn Nhật Ánh</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '32762')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Rosie Nguyễn</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '301245')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Tim Marshall</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '15049')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Vladimir Nabokov</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '7380767')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Lê Bảo Ngọc</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '505125')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Tống Mặc</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '157759')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Jen Sincero</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '113661')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Richard Guare</p>
+                            </Link>
+                        </ul>
+                    </section>
+                    <section className='border-t pt-5'>
+                        <button
+                            className='cursor-pointer mb-2 flex items-center gap-4'
+                            onClick={togglePublisherDropdown}
+                        >
+                            <p className='text-[1.8rem] font-bold'>Công ty phát hành</p>
+                            <p className='text-[1.8rem] font-bold'>
+                                {isPublisherOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
+                            </p>
+                        </button>
+                        <ul className={`flex flex-col gap-6 my-2 overflow-hidden transition-all duration-500 ease-in-out ${isPublisherOpen ? 'max-h-[400px]' : 'max-h-0'}`}>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '5')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhã Nam</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '14')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà xuất bản trẻ</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '19')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>First News - Trí Việt</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '25')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà xuất bản kim đồng</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '30')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Thái Hà</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '7')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Skybooks</p>
+                            </Link>
+                        </ul>
+                    </section>
+                    <section className='border-t pt-5'>
+                        <button
+                            className='cursor-pointer mb-2 flex items-center gap-4'
+                            onClick={toggleManufactureDropdown}
+                        >
+                            <p className='text-[1.8rem] font-bold'>Nhà xuất bản</p>
+                            <p className='text-[1.8rem] font-bold'>
+                                {isManufactureOpen ? <KeyboardArrowUpIcon fontSize='inherit' /> : <KeyboardArrowDownIcon fontSize='inherit' />}
+                            </p>
+                        </button>
+                        <ul className={`flex flex-col gap-6 my-2 overflow-hidden transition-all duration-500 ease-in-out ${isManufactureOpen ? 'max-h-[400px]' : 'max-h-0'}`}>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '2')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thanh Niên</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '3')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thế Giới</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '6')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Dân Trí</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '7')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Văn Học</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '8')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hà Nội</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '10')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Trẻ</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '11')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hội Nhà Văn</p>
+                            </Link>
+                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '13')} className='flex items-center gap-4 cursor-pointer'>
+                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Kim Đồng</p>
+                            </Link>
+                        </ul>
+                    </section>
+                    <section className='border-t pt-5'>
                         <h2 className='text-[1.8rem] font-bold'>Đánh giá</h2>
                         <ul className='flex flex-col my-6'>
                             <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('rating', '5')} className='flex md:my-3 lg:m-0 gap-4 items-center  cursor-pointer'>
@@ -332,81 +458,7 @@ export default function BooksList() {
                             </div>
                         </ul>
                     </section>
-                    <section className='border-t pt-5'>
-                        <h2 className='text-[1.8rem] font-bold'>Tác giả</h2>
-                        <ul className='flex flex-col gap-6 my-6'>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '9173')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Paulo Coelho</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '45726')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Đặng Hoàng Giang</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '14646')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nguyễn Văn Tuấn</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '32762')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Rosie Nguyễn</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '301245')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Tim Marshall</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('author', '15049')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Vladimir Nabokov</p>
-                            </Link>
-                        </ul>
-                    </section>
-                    <section className='border-t pt-5'>
-                        <h2 className='text-[1.8rem] font-bold'>Công ty phát hành</h2>
-                        <ul className='flex flex-col gap-6 my-6'>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '5')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhã Nam</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '14')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà xuất bản trẻ</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '19')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>First News - Trí Việt</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '25')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà xuất bản kim đồng</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '30')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Thái Hà</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('publisher', '7')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Skybooks</p>
-                            </Link>
-                        </ul>
-                    </section>
-                    <section className='border-t pt-5'>
-                        <h2 className='text-[1.8rem] font-bold'>Nhà xuất bản</h2>
-                        <ul className='flex flex-col gap-6 my-6'>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '2')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thanh Niên</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '3')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Thế Giới</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '6')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Dân Trí</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '7')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Văn Học</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '8')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hà Nội</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '10')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Trẻ</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '11')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Hội Nhà Văn</p>
-                            </Link>
-                            <Link to={`/collections/?${route}`} onClick={() => handleFilterClick('manufacturer', '13')} className='flex items-center gap-4 cursor-pointer'>
-                                <p className='hover:text-[#f47830]'>Nhà Xuất Bản Kim Đồng</p>
-                            </Link>
-                        </ul>
-                    </section>
+
                 </div>
                 <div className={`lg:col-span-3 md:col-span-3 grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 s:grid-cols-2 grid-rows-5 bg-[#f5f5f5]`}>
                     {books.map((book, index) => (
