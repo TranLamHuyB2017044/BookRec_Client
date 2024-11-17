@@ -52,13 +52,12 @@ export default function Cart() {
     }, [])
 
     const discountPrice = useCallback((book) => {
-        let price = 0
 
         if (book.promotion_percent != null) {
             const discount = ((book.original_price * book.promotion_percent) / 100)
-            price = book.original_price - discount
+            return book.original_price - discount
         }
-        return price
+        else return book.original_price
     })
     console.log(cartItem)
     const TotalPrice = useCallback(items => {
@@ -69,9 +68,13 @@ export default function Cart() {
             if (item.promotion_percent != null) {
                 
                 total += item.quantity * discountPrice(item)
+            }else{
+                total += item.quantity * item.original_price
             }
+            
         })
         return total
+
     }, [])
 
 

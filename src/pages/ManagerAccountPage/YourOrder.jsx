@@ -54,6 +54,25 @@ export default function YourOrder() {
     }
 
     const sortOrders = myOrders.sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+
+    const getPaymentStatusClass = (status) => {
+        switch (status) {
+            case 'Đã tạo đơn hàng':
+                return 'text-gray-500';
+            case 'Đang chuẩn bị hàng':
+                return 'text-orange-500';
+            case 'Đơn hàng đang được giao':
+                return 'text-yellow-500';
+            case 'Đã thanh toán':
+                return 'text-dodgerblue';
+            case 'Đã giao':
+                return 'text-green-500';
+            default:
+                return 'text-black';
+        }
+    };
+    
+
     return (
         <div className='bg-[#f5f5f5]' >
             <Navbar />
@@ -108,7 +127,8 @@ export default function YourOrder() {
                                             <p className=''>{order.order_date.substring(0, order.order_date.indexOf('T'))}</p>
                                         </div>
                                         <div className='col-span-1'>
-                                            <p className={order.payment_status === 'Đã thanh toán' ? 'text-[dodgerblue]' : 'text-red-500'}>{order.payment_status}</p>
+                                        <p className={getPaymentStatusClass(order.payment_status)}>{order.payment_status}</p>
+
                                         </div>
                                     </div>
                                     {order.items.map((item, id) => (
@@ -140,6 +160,8 @@ export default function YourOrder() {
                                         </div>
                                         <div className='flex mb-2 gap-4 mr-8'>
                                             {/* <button onClick={handleShowRating} className='py-[8px] px-4 bg-red-500 hover:bg-red-600 border text-white rounded-md min-w-[120px] text-center' >Đánh giá</button> */}
+                                            {order.payment_status === 'Đã tạo đơn hàng' && <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-[#f37070] min-w-[120px] bg-[red] text-white text-center text-center' to='/collections'>Hủy đơn hàng</Link>}
+                                            <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-[#88bef4] min-w-[120px] bg-[dodgerblue] text-white text-center' to='/collections'>Đánh giá</Link>
                                             <Link className='py-[8px] px-4 border border-gray-950 rounded-md hover:bg-slate-200 min-w-[120px] text-center' to='/collections'>Mua lại</Link>
                                         </div>
                                     </div>

@@ -34,11 +34,11 @@ export default function Payment({ setShippingPrice, setShipping, setPayment }) {
       Method: 'Thanh toán khi nhận hàng',
       logo: "https://cdn-icons-png.flaticon.com/512/5578/5578525.png"
     },
-    {
-      id: 2,
-      Method: 'Thanh toán qua ZaloPay',
-      logo: 'https://cdn.tgdd.vn/2020/04/GameApp/image-180x180.png'
-    }
+    // {
+    //   id: 2,
+    //   Method: 'Thanh toán qua ZaloPay',
+    //   logo: 'https://cdn.tgdd.vn/2020/04/GameApp/image-180x180.png'
+    // }
   ]
 
   const handleChangePaymentMethods = (id) => {
