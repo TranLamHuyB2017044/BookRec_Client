@@ -4,6 +4,7 @@ import { PublicRequest } from '../../service/Request'
 import LightGallery from 'lightgallery/react';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
+import myAlert from '../../Components/AlertComponent/Alert.js'
 
 
 export default function BookRating({ Star, book_id, showRating }) {
@@ -53,7 +54,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 
 
 	const [userRatings, setUserRatings] = useState([])
-
+	console.log(userRatings)
 	useEffect(() => {
 		if (ratings.length > 0) {
 			const ratingItems = [...ratings]
@@ -81,8 +82,6 @@ export default function BookRating({ Star, book_id, showRating }) {
 		}
 	}, [ratings])
 
-	console.log(userRatings)
-
 
 	useEffect(() => {
 		const getStatics = async () => {
@@ -97,7 +96,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 
 
 	const [allUserMedia, setAllUserMedia] = useState([])
-	
+
 	useEffect(() => {
 		if (allMedia.length > 0) {
 			const newMediaUpdate = []
@@ -112,6 +111,21 @@ export default function BookRating({ Star, book_id, showRating }) {
 			setAllUserMedia(newMediaUpdate)
 		}
 	}, [allMedia])
+
+	const [selectedStar, setSelectedStar] = useState(null);
+
+	const handleFilterRatingPerStar = async (n_star) => {
+		setSelectedStar(n_star)
+		try {
+			const rs = await PublicRequest.get(`/rating/filter/${book_id}?n_star=${n_star}`)
+			if (rs.status === 200) {
+				setRatings(rs.data)
+			}
+		} catch (error) {
+			myAlert.Alert('error', error.message)
+		}
+	}
+
 	return (
 		<div>
 			<div className='bg-[#ffff] max-w-[1300px] mx-auto p-10 rounded-lg border mb-4'>
@@ -164,20 +178,21 @@ export default function BookRating({ Star, book_id, showRating }) {
 						</div>
 
 					</div>
-					{/* <div className='my-5 border-t'>
+					<div className='my-5 border-t'>
 						<h1 className='my-4 text-3xl'>Lọc theo</h1>
-						<div className='flex justify-between items-center'>
-							<div className='flex gap-4 items-center'>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Mới nhất</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>Có hình ảnh</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>5 sao</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>4 sao</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>3 sao</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>2 sao</span>
-								<span className='border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300'>1 sao</span>
-							</div>
+						<div className='flex gap-8 items-center'>
+							{[5, 4, 3, 2, 1].map((nStar) => (
+								<button key={nStar} onClick={() => handleFilterRatingPerStar(nStar)}>
+									<span
+										className={`border rounded-3xl py-2 px-4 cursor-pointer hover:bg-slate-300 ${selectedStar === nStar ? 'bg-slate-400 text-white' : ''
+											}`}
+									>
+										{nStar} sao
+									</span>
+								</button>
+							))}
 						</div>
-					</div> */}
+					</div>
 					<div className='my-5'>
 						{userRatings.length > 0 ? userRatings.map((rating, index) => (
 							<div className='border-top p-10' key={index}>
@@ -189,7 +204,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 								</div>
 								<div className='flex items-center gap-4 my-4'>
 									<p className='text-4xl'>{Star(rating.n_star, 'yellow')}</p>
-									{rating.user_status &&<p className={'mt-2 bg-[#38969e] text-white text-3xl border px-5 py-2 rounded-lg'}>{rating.user_status}</p>}
+									{rating.user_status && <p className={'mt-2 bg-[#38969e] text-white text-3xl border px-5 py-2 rounded-lg'}>{rating.user_status}</p>}
 								</div>
 								<p className='my-5'>
 									{rating.content}

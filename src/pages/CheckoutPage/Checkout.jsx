@@ -124,7 +124,7 @@ export default function Checkout() {
                     MyAlert.Confirm('Xác thực Email ?', 'info', 'Vui lòng xác thực email tại mục tài khoản', 'Xác thực', 'Bỏ qua')
                         .then(async (result) => {
                             if (result.value) {
-                                navigate('/verify')
+                                navigate('/verifyAccount')
                             }
                         })
                 } else {

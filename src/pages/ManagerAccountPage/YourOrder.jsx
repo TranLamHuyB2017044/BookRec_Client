@@ -65,7 +65,7 @@ export default function YourOrder() {
             case 'Đơn hàng đang được giao':
                 return 'text-yellow-500';
             case 'Đã thanh toán':
-                return 'text-dodgerblue';
+                return 'text-[dodgerblue]';
             case 'Đã giao':
                 return 'text-green-500';
             case 'Đã hủy':

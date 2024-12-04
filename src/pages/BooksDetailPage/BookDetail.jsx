@@ -10,7 +10,7 @@ import InfoRight from './InfoRight.jsx';
 import BookRating from './BookRating.jsx';
 import Loading from '../../Components/LoadingComponent/Loading.jsx'
 import { PublicRequest, FormRequest } from '../../service/Request.js'
-import {useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useForm } from "react-hook-form"
 import { useSelector } from 'react-redux'
@@ -42,7 +42,7 @@ export default function BookDetail() {
     }
     useEffect(() => {
         document.title = `BookRec - Collection ${params.slug}`
-      },[ ])
+    }, [])
     const book_id = getId(params.slug)
     const [book, setBooks] = useState({})
     const boDauTiengViet = function (chuoi) {
@@ -89,8 +89,6 @@ export default function BookDetail() {
             label: `${book.title?.length < 50 ? book.title : book.title?.substring(0, 47) + '...'}`
         }
     ]
-
-
 
 
     useEffect(() => {
@@ -156,12 +154,12 @@ export default function BookDetail() {
             if (nStar === 0) {
                 setErrorStar(true)
                 return false
-            // } else if (content === '') {
-            //     setErrorContent(true)
-            //     return false
-            // }
-            }else if (status === ''){
-                myAlert.Alert('infor', 'Chọn tối thiểu một tùy chọn')
+                // } else if (content === '') {
+                //     setErrorContent(true)
+                //     return false
+                // }
+            } else if (status === '') {
+                myAlert.Alert('info', 'Chọn tối thiểu một tùy chọn')
                 return false
             }
             else if (user_id == null) {
@@ -251,10 +249,10 @@ export default function BookDetail() {
                                 <button className='text-5xl -mt-2 cursor-pointer' onClick={handleResetRating}>&times;</button>
                             </div>
                             <div className='flex mt-5 flex-wrap gap-6 ml-5'>
-                                <button type='button' onClick={() => setStatus('Rất không hài lòng')} className={status === 'Rất không hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Rất không hài lòng</button>
-                                <button type='button' onClick={() => setStatus('Không hài lòng')} className={status === 'Không hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Không hài lòng</button>
-                                <button type='button' onClick={() => setStatus('Bình thường')} className={status === 'Bình thường' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Bình thường</button>
-                                <button type='button' onClick={() => setStatus('Hài lòng')} className={status === 'Hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' :`px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Hài lòng</button>
+                                <button type='button' onClick={() => setStatus('Rất không hài lòng')} className={status === 'Rất không hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Rất không hài lòng</button>
+                                <button type='button' onClick={() => setStatus('Không hài lòng')} className={status === 'Không hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Không hài lòng</button>
+                                <button type='button' onClick={() => setStatus('Bình thường')} className={status === 'Bình thường' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Bình thường</button>
+                                <button type='button' onClick={() => setStatus('Hài lòng')} className={status === 'Hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Hài lòng</button>
                                 <button type='button' onClick={() => setStatus('Cực kì hài lòng')} className={status === 'Cực kì hài lòng' ? 'bg-[dodgerblue] text-white px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-white hover:text-black' : `px-8 py-2 border border-[dodgerblue] rounded-lg hover:bg-[dodgerblue] hover:text-white`}>Cực kì hài lòng</button>
                             </div>
                             <div className='mx-auto px-3 h-[420px]'>

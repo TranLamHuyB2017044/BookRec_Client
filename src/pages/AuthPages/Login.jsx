@@ -93,11 +93,7 @@ export default function Login() {
               <div className='bg-[#ccc] lg:w-40 s:w-20 h-[1px]'></div>
             </div>
             <div className='text-white cursor-pointer flex item-center justify-center p-5 gap-5 mt-4'>
-              <div className='flex items-center justify-center bg-[#3b5998]  gap-3 p-3 w-52 hover:bg-[#3d4b6a]'>
-                <FacebookOutlinedIcon fontSize='large' />
-                <p>Facebook</p>
-              </div>
-              <button onClick={OauthLogin} className='flex items-center justify-center bg-[#e14b33] gap-3 p-3 w-52 hover:bg-[#b86154]'>
+              <button onClick={OauthLogin} className='flex items-center justify-center bg-[#e14b33] gap-3 p-3 w-full hover:bg-[#b86154] rounded-lg'>
                 <GoogleIcon fontSize='large' />
                 <p>Google</p>
               </button>
