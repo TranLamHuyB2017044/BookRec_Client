@@ -7,7 +7,8 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import myAlert from '../../Components/AlertComponent/Alert.js'
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Button, TextField } from '@mui/material';
 
 export default function BookRating({ Star, book_id, showRating }) {
 	const [ratings, setRatings] = useState([])
@@ -16,7 +17,8 @@ export default function BookRating({ Star, book_id, showRating }) {
 	const [ratingPerStar, setRatingPerStar] = useState([])
 	const [num_rating, setNumRating] = useState()
 	const user = useSelector(state => state.user.currentUser)
-	const isAdmin = user.admin_role;
+	const [isReplyOpen, setIsReplyOpen] = useState(null)
+	const isAdmin = user != null ? user.admin_role : false;
 	useEffect(() => {
 		const getUserRatings = async () => {
 			try {
@@ -57,7 +59,6 @@ export default function BookRating({ Star, book_id, showRating }) {
 
 
 	const [userRatings, setUserRatings] = useState([])
-	console.log(userRatings)
 	useEffect(() => {
 		if (ratings.length > 0) {
 			const ratingItems = [...ratings]
@@ -133,44 +134,53 @@ export default function BookRating({ Star, book_id, showRating }) {
 
 		try {
 			myAlert.Confirm('Ẩn bình luận', 'question', 'Xác nhận ẩn bình luận này', 'Có', 'Không')
-            .then(async (result) => {
-                if (result.value) {
-                    const { value: password } = await Swal.fire({
-                        title: "Vui lòng nhập password của bạn để xác nhận ẩn bình luận" ,
-                        input: "password",
-                        inputLabel: "Password",
-                        inputPlaceholder: "Enter your password",
-                        inputAttributes: {
-                            maxlength: "10",
-                            autocapitalize: "off",
-                            autocorrect: "off"
-                        }
-                    });
-    
-                    if (password) {
-                        const response = await PublicRequest.post('/user/login/admin', { email: user.email, password: password });
-                        if (response.status === 200) {
-                            await PublicRequest.put(`/rating/reply/${rating_id}`);
-                            myAlert.Alert('success', 'Ẩn bình luận thành công');
-                            setTimeout(() =>{
-								window.location.reload();
-							}, 2000)
-                        } else {
-                            Swal.fire(`Sai mật khẩu`);
-                        }
-                    }
-    
-                }
-            })
-            .catch(error => {
-                const errorMessage = error.response?.data || "An error occurred.";
-                myAlert.Alert("error", errorMessage);
-            });
+				.then(async (result) => {
+					if (result.value) {
+						const { value: password } = await Swal.fire({
+							title: "Vui lòng nhập password của bạn để xác nhận ẩn bình luận",
+							input: "password",
+							inputLabel: "Password",
+							inputPlaceholder: "Enter your password",
+							inputAttributes: {
+								maxlength: "10",
+								autocapitalize: "off",
+								autocorrect: "off"
+							}
+						});
+
+						if (password) {
+							const response = await PublicRequest.post('/user/login/admin', { email: user.email, password: password });
+							if (response.status === 200) {
+								await PublicRequest.put(`/rating/reply/${rating_id}`);
+								myAlert.Alert('success', 'Ẩn bình luận thành công');
+								setTimeout(() => {
+									window.location.reload();
+								}, 2000)
+							} else {
+								Swal.fire(`Sai mật khẩu`);
+							}
+						}
+
+					}
+				})
+				.catch(error => {
+					const errorMessage = error.response?.data || "An error occurred.";
+					myAlert.Alert("error", errorMessage);
+				});
 		} catch (error) {
-			
+
 		}
 	}
 
+	const toggleReply = (id) => {
+		setIsReplyOpen(isReplyOpen === id ? null : id);
+	};
+
+	const [replyValue, setReplyValue] = useState("");
+
+	const handleSubmit = () => {
+		console.log("Value:", replyValue);
+	};
 
 	return (
 		<div>
@@ -249,7 +259,10 @@ export default function BookRating({ Star, book_id, showRating }) {
 										</div>
 										<p className='text-3xl'>{rating.fullname}</p>
 									</div>
-									{isAdmin === 1 && <button onClick={() => handleHiddenRating(rating.rating_id)}  className='mr-8 h-[40px] py-[8px] px-4 bg-gray-500 hover:bg-gray-600 border text-white rounded-md min-w-[120px] text-center' >Ẩn đánh giá</button>}
+									{isAdmin === 1 && <div className='px-4'>
+										{!rating.reply_content && <button onClick={() => toggleReply(rating.rating_id)} className='mr-8 h-[40px] py-[8px] px-4 bg-blue-500 hover:bg-blue-600 border text-white rounded-md min-w-[120px] text-center' >Phản hồi đánh giá</button>}
+										<button onClick={() => handleHiddenRating(rating.rating_id)} className='mr-8 h-[40px] py-[8px] px-4 bg-gray-500 hover:bg-gray-600 border text-white rounded-md min-w-[120px] text-center' >Ẩn đánh giá</button>
+									</div>}
 								</div>
 								<div className='flex items-center gap-4 my-4'>
 									<p className='text-4xl'>{Star(rating.n_star, 'yellow')}</p>
@@ -288,6 +301,48 @@ export default function BookRating({ Star, book_id, showRating }) {
 									</LightGallery>}
 								</div>
 								<p className='mt-20 text-gray-500 ml-5 italic opacity-75'>Đã đánh giá vào ngày {handleCreatedTime(rating.created_at)}</p>
+								{
+									isReplyOpen === rating.rating_id && <div className='bg-[#f5f5fa] px-8 py-4 rounded-xl mt-5 w-fit flex items-center gap-4'>
+										<TextField
+											name={`reply-${rating.rating_id}`}
+											id={`reply-${rating.rating_id}`}
+											variant="outlined"
+											label="Nhập nội dung phản hồi"
+											fullWidth
+											sx={{
+												fontSize: '18px',
+												'.MuiInputBase-input': { padding: '12px 16px' },
+												'.MuiOutlinedInput-root': { fontSize: '16px' },
+											}}
+											value={replyValue}
+											onChange={(e) => setReplyValue(e.target.value)}
+										/>
+										<Button
+											variant="outlined"
+											color="primary"
+											sx={{
+												fontSize: '16px',
+												padding: '8px 24px',
+												textTransform: 'none',
+											}}
+											onClick={handleSubmit}
+										>
+											Gửi
+										</Button>
+
+									</div>
+								}
+								{rating.reply_content &&
+									<div className='bg-[#f5f5fa] px-8 py-4 rounded-xl mt-5'>
+										<div className='flex gap-8 items-center'>
+
+											<div className='rounded-full '>
+												<img className='rounded-full w-[50px] h-[50px]' src='https://static.vecteezy.com/system/resources/previews/017/128/657/non_2x/little-boy-kid-reading-book-logo-icon-in-flat-design-vector.jpg' alt="user-ava" />
+											</div>
+											<div className='flex items-center gap-2'><p>BookRec Trading <CheckCircleIcon className='text-blue-500' fontSize='medium' /> |</p><p className='text-gray-500 italic opacity-75'>Đã phản hồi vào ngày {handleCreatedTime(rating.reply_time)}</p></div>
+										</div>
+										<p>{rating.reply_content}</p>
+									</div>}
 							</div>)) : ''}
 					</div>
 				</div>
