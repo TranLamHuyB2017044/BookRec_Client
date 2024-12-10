@@ -5,6 +5,8 @@ import LightGallery from 'lightgallery/react';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
 import myAlert from '../../Components/AlertComponent/Alert.js'
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 
 export default function BookRating({ Star, book_id, showRating }) {
@@ -13,7 +15,8 @@ export default function BookRating({ Star, book_id, showRating }) {
 	const [allMedia, setAllMedia] = useState([])
 	const [ratingPerStar, setRatingPerStar] = useState([])
 	const [num_rating, setNumRating] = useState()
-
+	const user = useSelector(state => state.user.currentUser)
+	const isAdmin = user.admin_role;
 	useEffect(() => {
 		const getUserRatings = async () => {
 			try {
@@ -126,6 +129,49 @@ export default function BookRating({ Star, book_id, showRating }) {
 		}
 	}
 
+	const handleHiddenRating = async (rating_id) => {
+
+		try {
+			myAlert.Confirm('Ẩn bình luận', 'question', 'Xác nhận ẩn bình luận này', 'Có', 'Không')
+            .then(async (result) => {
+                if (result.value) {
+                    const { value: password } = await Swal.fire({
+                        title: "Vui lòng nhập password của bạn để xác nhận ẩn bình luận" ,
+                        input: "password",
+                        inputLabel: "Password",
+                        inputPlaceholder: "Enter your password",
+                        inputAttributes: {
+                            maxlength: "10",
+                            autocapitalize: "off",
+                            autocorrect: "off"
+                        }
+                    });
+    
+                    if (password) {
+                        const response = await PublicRequest.post('/user/login/admin', { email: user.email, password: password });
+                        if (response.status === 200) {
+                            await PublicRequest.put(`/rating/reply/${rating_id}`);
+                            myAlert.Alert('success', 'Ẩn bình luận thành công');
+                            setTimeout(() =>{
+								window.location.reload();
+							}, 2000)
+                        } else {
+                            Swal.fire(`Sai mật khẩu`);
+                        }
+                    }
+    
+                }
+            })
+            .catch(error => {
+                const errorMessage = error.response?.data || "An error occurred.";
+                myAlert.Alert("error", errorMessage);
+            });
+		} catch (error) {
+			
+		}
+	}
+
+
 	return (
 		<div>
 			<div className='bg-[#ffff] max-w-[1300px] mx-auto p-10 rounded-lg border mb-4'>
@@ -196,15 +242,18 @@ export default function BookRating({ Star, book_id, showRating }) {
 					<div className='my-5'>
 						{userRatings.length > 0 ? userRatings.map((rating, index) => (
 							<div className='border-top p-10' key={index}>
-								<div className='flex items-center gap-4'>
-									<div className='rounded-full '>
-										<img className='rounded-full w-[70px] h-[70px]' src={rating.user_ava} alt="user-ava" />
+								<div className='flex  justify-between'>
+									<div className='flex items-center gap-4'>
+										<div className='rounded-full '>
+											<img className='rounded-full w-[70px] h-[70px]' src={rating.user_ava} alt="user-ava" />
+										</div>
+										<p className='text-3xl'>{rating.fullname}</p>
 									</div>
-									<p className='text-3xl'>{rating.fullname}</p>
+									{isAdmin === 1 && <button onClick={() => handleHiddenRating(rating.rating_id)}  className='mr-8 h-[40px] py-[8px] px-4 bg-gray-500 hover:bg-gray-600 border text-white rounded-md min-w-[120px] text-center' >Ẩn đánh giá</button>}
 								</div>
 								<div className='flex items-center gap-4 my-4'>
 									<p className='text-4xl'>{Star(rating.n_star, 'yellow')}</p>
-									{rating.user_status && <p className={'mt-2 bg-[#38969e] text-white text-3xl border px-5 py-2 rounded-lg'}>{rating.user_status}</p>}
+									{/* {rating.user_status && <p className={'mt-2 bg-[#38969e] text-white text-3xl border px-5 py-2 rounded-lg'}>{rating.user_status}</p>} */}
 								</div>
 								<p className='my-5'>
 									{rating.content}
