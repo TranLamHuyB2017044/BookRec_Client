@@ -19,6 +19,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 	const user = useSelector(state => state.user.currentUser)
 	const [isReplyOpen, setIsReplyOpen] = useState(null)
 	const isAdmin = user != null ? user.admin_role : false;
+	const [loading, setLoading] = useState(false)
 	useEffect(() => {
 		const getUserRatings = async () => {
 			try {
@@ -178,8 +179,32 @@ export default function BookRating({ Star, book_id, showRating }) {
 
 	const [replyValue, setReplyValue] = useState("");
 
-	const handleSubmit = () => {
-		console.log("Value:", replyValue);
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true)
+		const data = {
+			rating_id: isReplyOpen,
+			content: replyValue,
+		}
+		try {
+			if (data.content === '') {
+				myAlert.Alert("info", "Vui lòng nhập nội dung phản hồi trước khi gửi")
+				setLoading(false)
+				return;
+			}
+			const rs = await PublicRequest.post('/reply/', data)
+			if (rs.status === 200) {
+				setLoading(false)
+				myAlert.Alert('success', 'Phản hồi thành công !')
+				setTimeout(() => {
+					window.location.reload();
+				}, 2000)
+			}
+		} catch (error) {
+			setLoading(false)
+			myAlert.Alert('error', 'Phản hồi không thành công vui lòng thử lại')
+
+		}
 	};
 
 	return (
@@ -211,7 +236,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 						<div className='flex justify-between items-center'>
 							<div className='flex  items-center gap-4'>
 								{allUserMedia?.map((item, index) => (
-									<LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} key={index} >
+									<LightGallery data-src={item.url || ''} speed={500} plugins={[lgThumbnail, lgZoom]} key={index} >
 										{
 											item.type === 1 ?
 												(
@@ -273,7 +298,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 								</p>
 								<div className='flex  items-center gap-4'>
 									{rating.urls?.length > 1 ? rating?.urls.map((item, id) => (
-										<LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} width='10%' height='100%' key={id} >
+										<LightGallery data-src={item.url || ''} speed={500} plugins={[lgThumbnail, lgZoom]} width='10%' height='100%' key={id} >
 											{item.type === 1 ? (
 												<div data-src={item.url}>
 													<img className='cursor-pointer w-[100px] h-[100px] rounded-2xl' src={item.url} alt={`img_rating_${index + 1}`} />
@@ -286,7 +311,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 												</div>
 											}
 										</LightGallery>)) : ''}
-									{rating.urls?.length === 1 && <LightGallery speed={500} plugins={[lgThumbnail, lgZoom]} width='10%' height='100%' >
+									{rating.urls?.length === 1 && <LightGallery data-src={rating.urls[0].url || ''} speed={500} plugins={[lgThumbnail, lgZoom]} width='10%' height='100%' >
 										{rating.urls[0].type === 1 ? (
 											<div data-src={rating.urls[0].url}>
 												<img className='cursor-pointer w-[100px] h-[100px] rounded-2xl' src={rating.urls[0].url} alt={`img_rating_${index + 1}`} />
@@ -302,7 +327,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 								</div>
 								<p className='mt-20 text-gray-500 ml-5 italic opacity-75'>Đã đánh giá vào ngày {handleCreatedTime(rating.created_at)}</p>
 								{
-									isReplyOpen === rating.rating_id && <div className='bg-[#f5f5fa] px-8 py-4 rounded-xl mt-5 w-fit flex items-center gap-4'>
+									isReplyOpen === rating.rating_id && <form onSubmit={handleSubmit} className='bg-[#f5f5fa] px-8 py-4 rounded-xl mt-5 w-fit flex items-center gap-4'>
 										<TextField
 											name={`reply-${rating.rating_id}`}
 											id={`reply-${rating.rating_id}`}
@@ -325,12 +350,13 @@ export default function BookRating({ Star, book_id, showRating }) {
 												padding: '8px 24px',
 												textTransform: 'none',
 											}}
-											onClick={handleSubmit}
+											type='submit'
+											disabled = {loading}
 										>
 											Gửi
 										</Button>
 
-									</div>
+									</form>
 								}
 								{rating.reply_content &&
 									<div className='bg-[#f5f5fa] px-8 py-4 rounded-xl mt-5'>
@@ -339,7 +365,7 @@ export default function BookRating({ Star, book_id, showRating }) {
 											<div className='rounded-full '>
 												<img className='rounded-full w-[50px] h-[50px]' src='https://static.vecteezy.com/system/resources/previews/017/128/657/non_2x/little-boy-kid-reading-book-logo-icon-in-flat-design-vector.jpg' alt="user-ava" />
 											</div>
-											<div className='flex items-center gap-2'><p>BookRec Trading <CheckCircleIcon className='text-blue-500' fontSize='medium' /> |</p><p className='text-gray-500 italic opacity-75'>Đã phản hồi vào ngày {handleCreatedTime(rating.reply_time)}</p></div>
+											<div className='flex items-center gap-2'><p>BookRec Care <CheckCircleIcon className='text-blue-500' fontSize='medium' /> |</p><p className='text-gray-500 italic opacity-75'>Đã phản hồi vào ngày {handleCreatedTime(rating.reply_time)}</p></div>
 										</div>
 										<p>{rating.reply_content}</p>
 									</div>}
